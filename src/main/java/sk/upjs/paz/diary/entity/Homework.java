@@ -2,7 +2,7 @@ package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDate;
 
-public class HomeWork extends StudyObject {
+public class Homework extends StudyObject {
 	private LocalDate deadline;
 	private String description;
 
@@ -20,6 +20,11 @@ public class HomeWork extends StudyObject {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "Homework [deadline=" + deadline + ", description=" + description + "]\n";
 	}
 
 }

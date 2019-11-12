@@ -1,17 +1,18 @@
 package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Exam extends StudyObject {
-	private LocalDate date;
+	private LocalDateTime dateTime;
 	private String location;
 
-	public LocalDate getDate() {
-		return date;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getLocation() {
@@ -20,6 +21,11 @@ public class Exam extends StudyObject {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	@Override
+	public String toString() {
+		return "Exam [date=" + dateTime + ", location=" + location + "]\n";
 	}
 
 }

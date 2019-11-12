@@ -1,9 +1,31 @@
 package sk.upjs.paz.diary.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Subject extends StudyObject {
 	private String name;
 	private String site;
 	private String email;
+
+	private Set<Lesson> lessons = new HashSet<>();
+	private Set<Homework> homeworks = new HashSet<>();
+	private Set<Exam> exams = new HashSet<>();
+
+	public void addLesson(Lesson... lessons) {
+		for (Lesson lesson : lessons)
+			this.lessons.add(lesson);
+	}
+
+	public void addHomework(Homework... homeworks) {
+		for (Homework homework : homeworks)
+			this.homeworks.add(homework);
+	}
+
+	public void addExam(Exam... exams) {
+		for (Exam exam : exams)
+			this.exams.add(exam);
+	}
 
 	public String getName() {
 		return name;
@@ -52,6 +74,11 @@ public class Subject extends StudyObject {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }
