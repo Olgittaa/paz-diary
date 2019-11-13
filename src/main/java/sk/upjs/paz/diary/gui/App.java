@@ -10,15 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class App extends Application {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
 	public static void main(String[] args) {
-		launch(args);
-		// DaoFactory.getMySqlDao().getAllExams();
-		// DaoFactory.getMySqlDao().getAllHomework();
+		//launch(args);
+		System.out.println(DaoFactory.getSubjectDao().getAllSubjects());
 	}
 
 	@Override

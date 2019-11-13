@@ -49,18 +49,6 @@ CREATE TABLE IF NOT EXISTS `exam`
    `id_subject` BIGINT NOT NULL
 );
 ALTER TABLE exam ADD CONSTRAINT fk_exam_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject);
-SELECT *
-FROM
-   `exam`;
-SELECT *
-FROM
-   `homework`;
-SELECT *
-FROM
-   `lesson`;
-SELECT *
-FROM
-   `subject`;
 
 -- Fill subject table
 INSERT INTO `diary`.`subject` (`id_subject`, `name`, `site`, `email`) VALUES ('1', 'paz1a', 'https://paz1a.ics.upjs.sk/', 'juraj.sebej@gmail.com');
@@ -74,9 +62,26 @@ INSERT INTO `diary`.`exam` (`id_exam`, `date`, `location`, `id_subject`) VALUES 
 
 -- Fill homework table
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('1', '2020-11-8', 'description', '2');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('2', '2019-5-14', '1');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('3', '2019-5-6', '4');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('4', '2019-12-12', 'some description', '3');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('2', '2020-01-01', 'second one', '2');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('3', '2019-5-14', '1');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('4', '2019-5-6', '4');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('5', '2019-12-12', 'some description', '3');
 
 -- Fill lesson table
 #column date in lesson table is wrong
+
+
+SELECT *
+FROM
+   `exam`;
+SELECT *
+FROM
+   `homework`;
+SELECT *
+FROM
+   `lesson`;
+SELECT *
+FROM
+   `subject`;
+   
+select * from subject s left join homework h on s.id_subject=h.id_subject left join exam e on s.id_subject=e.id_subject;

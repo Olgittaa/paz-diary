@@ -22,10 +22,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sk.upjs.paz.diary.businessLogic.DaoFactory;
-import sk.upjs.paz.diary.businessLogic.IMySqlDAO;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
+import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 public class MainWindowController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
@@ -36,7 +36,7 @@ public class MainWindowController {
 	@FXML
 	private ImageView scheduleImageView;
 
-	@FXML
+	@FXML // TODO заменить вопросительный знак
 	private TableView<?> examsTableView;
 
 	@FXML
@@ -57,7 +57,7 @@ public class MainWindowController {
 	@FXML
 	private Button addSubjectButton;
 
-	private IMySqlDAO dao = DaoFactory.getMySqlDao();
+	private ISubjectDAO dao = DaoFactory.getSubjectDao();
 
 	private SubjectFXModel subjectFXModel = new SubjectFXModel();
 	private Subject currentSubject = new Subject();
@@ -95,7 +95,7 @@ public class MainWindowController {
 	}
 
 	/**
-	 * Initializes window using fxml file
+	 * Initializes window using fxml file and manually connects controller
 	 * 
 	 * @param fxmlFileName - name of a fxml file which will be loaded
 	 * @param windowTitle  - windowTitle title of a window(stage)

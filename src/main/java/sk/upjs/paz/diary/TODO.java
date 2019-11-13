@@ -3,17 +3,16 @@ package sk.upjs.paz.diary;
 public final class TODO {
 
 	// ==================
-	// Bugs 			=
+	// Bugs =
 	// ==================
 
 	/*
-	 * 1.Чендж Листенер в эдд сабджекте не работает 
-	 * 2.
+	 * 1.Чендж Листенер в эдд сабджекте не работает 2.
 	 * 
 	 */
 
 	// ==================
-	// Todo 			=
+	// Todo =
 	// ==================
 
 	/*
@@ -23,4 +22,8 @@ public final class TODO {
 
 	private TODO() {
 	}
+
+	// ResultSetExtructor - nacitava celu tabulky a vracia list cohosi
+	// RawMapper - nacitava po jednemu riadku s tabulky a vracia jeden riadok
+
 }

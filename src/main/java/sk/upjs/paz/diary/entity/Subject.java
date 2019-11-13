@@ -1,30 +1,44 @@
 package sk.upjs.paz.diary.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Subject extends StudyObject {
 	private String name;
 	private String site;
 	private String email;
 
-	private Set<Lesson> lessons = new HashSet<>();
-	private Set<Homework> homeworks = new HashSet<>();
-	private Set<Exam> exams = new HashSet<>();
+	private List<Lesson> lessons;
+	private List<Homework> homeworks;
+	private List<Exam> exams;
 
-	public void addLesson(Lesson... lessons) {
-		for (Lesson lesson : lessons)
-			this.lessons.add(lesson);
+	public Subject() {
+		name = new String();
+		site = new String();
+		email = new String();
+
+		lessons = new LinkedList<>();
+		homeworks = new LinkedList<>();
+		exams = new LinkedList<>();
 	}
 
-	public void addHomework(Homework... homeworks) {
-		for (Homework homework : homeworks)
-			this.homeworks.add(homework);
+	public Subject(String name, String site, String email) {
+		this();
+		this.name = name;
+		this.site = site;
+		this.email = email;
 	}
 
-	public void addExam(Exam... exams) {
-		for (Exam exam : exams)
-			this.exams.add(exam);
+	public void setLessons(List<Lesson> lessons) {
+		this.lessons = lessons;
+	}
+
+	public void setHomework(List<Homework> homeworks) {
+		this.homeworks = homeworks;
+	}
+
+	public void setExams(List<Exam> exams) {
+		this.exams = exams;
 	}
 
 	public String getName() {
@@ -78,7 +92,7 @@ public class Subject extends StudyObject {
 
 	@Override
 	public String toString() {
-		return name;
+		return name + "(\n" + "lessons:" + lessons + "\n" + "homework:" + homeworks + "\n" + "exams:" + exams + ")\n";
 	}
 
 }
