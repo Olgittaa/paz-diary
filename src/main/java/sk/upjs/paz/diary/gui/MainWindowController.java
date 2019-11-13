@@ -1,12 +1,10 @@
 package sk.upjs.paz.diary.gui;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +12,6 @@ import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -22,10 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.SubjectFXModel;
-import sk.upjs.paz.diary.storage.DaoFactory;
-import sk.upjs.paz.diary.storage.ISubjectDAO;
+import sk.upjs.paz.diary.entity.Exam;
 
 public class MainWindowController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
@@ -36,11 +30,8 @@ public class MainWindowController {
 	@FXML
 	private ImageView scheduleImageView;
 
-	@FXML // TODO заменить вопросительный знак
-	private TableView<?> examsTableView;
-
 	@FXML
-	private ListView<Subject> subjectListView;
+	private TableView<Exam> examsTableView;
 
 	@FXML
 	private FlowPane homeWorkFlowPane;
@@ -52,19 +43,8 @@ public class MainWindowController {
 	private Button addExamButton;
 
 	@FXML
-	private Button removeSubjectButton;
-
-	@FXML
-	private Button addSubjectButton;
-
-	private ISubjectDAO dao = DaoFactory.getSubjectDao();
-
-	private SubjectFXModel subjectFXModel = new SubjectFXModel();
-	private Subject currentSubject = new Subject();
-
-	@FXML
 	void initialize() {
-		subjectListView.setItems(FXCollections.observableArrayList(dao.getAllSubjects()));
+
 	}
 
 	@FXML
@@ -117,34 +97,6 @@ public class MainWindowController {
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
 		}
-	}
-
-	@FXML
-	void addSubjectButtonClick(ActionEvent event) {
-		loadWindow("editSubject.fxml", "Editing subject", new EditSubjectController(currentSubject));
-		refreshListView(subjectFXModel.getSubject());
-	}
-
-	/**
-	 * 
-	 * @param newSubject - added/edited subject
-	 */
-	private void refreshListView(Subject newSubject) {
-		List<Subject> currentSubjects = dao.getAllSubjects();
-
-		for (Subject subject : currentSubjects) {
-			if (subject.equals(newSubject)) {
-				subject = newSubject;
-				currentSubjects.add(subject);
-				break;
-			}
-		}
-		subjectListView.setItems(FXCollections.observableArrayList(currentSubjects));
-	}
-
-	@FXML
-	void removeSubjectButtonClick(ActionEvent event) {
-
 	}
 
 	@FXML // TODO think about the method name
