@@ -1,6 +1,5 @@
 package sk.upjs.paz.diary.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Exam extends StudyObject {

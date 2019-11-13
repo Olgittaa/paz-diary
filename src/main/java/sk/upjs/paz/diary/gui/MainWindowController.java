@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.businessLogic.DaoFactory;
 import sk.upjs.paz.diary.businessLogic.IMySqlDAO;
+import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 
@@ -37,10 +38,7 @@ public class MainWindowController {
 	private ImageView scheduleImageView;
 
 	@FXML
-	private TableView<?> examsTableView;
-
-	@FXML
-	private ListView<Subject> subjectListView;
+	private TableView<Exam> examsTableView;
 
 	@FXML
 	private FlowPane homeWorkFlowPane;
@@ -51,20 +49,10 @@ public class MainWindowController {
 	@FXML
 	private Button addExamButton;
 
-	@FXML
-	private Button removeSubjectButton;
-
-	@FXML
-	private Button addSubjectButton;
-
-	private IMySqlDAO dao = DaoFactory.getMySqlDao();
-
-	private SubjectFXModel subjectFXModel = new SubjectFXModel();
-	private Subject currentSubject = new Subject();
 
 	@FXML
 	void initialize() {
-		subjectListView.setItems(FXCollections.observableArrayList(dao.getAllSubjects()));
+
 	}
 
 	@FXML
@@ -119,33 +107,7 @@ public class MainWindowController {
 		}
 	}
 
-	@FXML
-	void addSubjectButtonClick(ActionEvent event) {
-		loadWindow("editSubject.fxml", "Editing subject", new EditSubjectController(currentSubject));
-		refreshListView(subjectFXModel.getSubject());
-	}
 
-	/**
-	 * 
-	 * @param newSubject - added/edited subject
-	 */
-	private void refreshListView(Subject newSubject) {
-		List<Subject> currentSubjects = dao.getAllSubjects();
-
-		for (Subject subject : currentSubjects) {
-			if (subject.equals(newSubject)) {
-				subject = newSubject;
-				currentSubjects.add(subject);
-				break;
-			}
-		}
-		subjectListView.setItems(FXCollections.observableArrayList(currentSubjects));
-	}
-
-	@FXML
-	void removeSubjectButtonClick(ActionEvent event) {
-
-	}
 
 	@FXML // TODO think about the method name
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
