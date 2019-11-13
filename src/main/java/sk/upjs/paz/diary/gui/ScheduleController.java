@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
@@ -27,19 +28,19 @@ public class ScheduleController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleController.class);
 
 	@FXML
-	private ListView<?> mondayListView;
+	private ListView<Lesson> mondayListView;
 
 	@FXML
-	private ListView<?> wednesdayListView;
+	private ListView<Lesson> wednesdayListView;
 
 	@FXML
-	private ListView<?> tuesdayListView;
+	private ListView<Lesson> tuesdayListView;
 
 	@FXML
-	private ListView<?> thursdayListView;
+	private ListView<Lesson> thursdayListView;
 
 	@FXML
-	private ListView<?> fridayListView;
+	private ListView<Lesson> fridayListView;
 
 	@FXML
 	private Label monthLabel;
@@ -60,7 +61,21 @@ public class ScheduleController {
 
 	@FXML
 	void addSubjectButtonClick(ActionEvent event) {
-		loadWindow("editSubject.fxml", "Editing subject", new EditSubjectController(currentSubject));
+		String fxmlFileName = "editSubject.fxml";
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
+			fxmlLoader.setController(new EditSubjectController(currentSubject));
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage modalStage = new Stage();
+			modalStage.setTitle("Edit subject");
+			modalStage.setScene(scene);
+			modalStage.initModality(Modality.APPLICATION_MODAL);
+			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
+		} catch (IOException e) {
+			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
+		}
+			
 		refreshListView(subjectFXModel.getSubject());
 	}
 
@@ -90,40 +105,4 @@ public class ScheduleController {
 	void initialize() {
 		subjectListView.setItems(FXCollections.observableArrayList(dao.getAllSubjects()));
 	}
-
-	/**
-	 * Initializes window using fxml file
-	 * 
-	 * @param xmlFileName - name of a fxml file which will be loaded
-	 * @param windowTitle - title of a window(stage)
-	 */
-	private void loadWindow(String fxmlFileName, String windowTitle) {
-		loadWindow(fxmlFileName, windowTitle, null);
-	}
-
-	/**
-	 * Initializes window using fxml file
-	 * 
-	 * @param fxmlFileName - name of a fxml file which will be loaded
-	 * @param windowTitle  - windowTitle title of a window(stage)
-	 * @param controller   - controller for the fxml
-	 */
-	private void loadWindow(String fxmlFileName, String windowTitle, Object controller) {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
-			fxmlLoader.setController(controller);
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent);
-			Stage modalStage = new Stage();
-			modalStage.setTitle(windowTitle);
-			modalStage.setScene(scene);
-			modalStage.initModality(Modality.APPLICATION_MODAL);
-			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
-		} catch (LoadException e) {
-			LOGGER.error("Wrong controller \"" + controller + "\"", e);
-		} catch (IOException e) {
-			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
-		}
-	}
-
 }

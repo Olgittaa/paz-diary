@@ -92,7 +92,7 @@ public class Subject extends StudyObject {
 
 	@Override
 	public String toString() {
-		return name + "(\n" + "lessons:" + lessons + "\n" + "homework:" + homeworks + "\n" + "exams:" + exams + ")\n";
+		return name;
 	}
 
 }

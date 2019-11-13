@@ -6,12 +6,10 @@ import sk.upjs.paz.diary.entity.Subject;
 
 public interface ISubjectDAO {
 	/**
-	 * Extracts subjects out of database
+	 * Returns a list of subjects which gets from database
 	 * 
 	 * @return list of Subject
 	 */
 	List<Subject> getAllSubjects();
 
-	
-	
 }

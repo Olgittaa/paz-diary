@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 
 import sk.upjs.paz.diary.entity.Subject;
 
@@ -31,31 +32,17 @@ public class SubjectDao implements ISubjectDAO {
 	public List<Subject> getAllSubjects() {
 		String query = "SELECT * FROM subject;";
 
-		return jdbcTemplate.query(query, new ResultSetExtractor<List<Subject>>() {
-			@Override
-			public List<Subject> extractData(ResultSet rs) throws SQLException, DataAccessException {
-				LinkedList<Subject> subjects = new LinkedList<>();
-				
-				Subject subject = null;
-				while (rs.next()) {
-					String name = rs.getString("name");
+		return jdbcTemplate.query(query, (ResultSet rs, int rowNum) -> {
+			String name = rs.getString("name");
+			String site = rs.getString("site");
+			String email = rs.getString("email");
+			Subject subject = new Subject(name, site, email);
 
-					if (subject == null || subject.getName() != name) {
-						String site = rs.getString("site");
-						String email = rs.getString("email");
-						
-						subject = new Subject(name, site, email);
-
-						subject.setExams(examDao.getExamsBySubjectName(name));
-						subject.setHomework(homeworkDao.getHomeworkBySubjectName(name));
-						subject.setLessons(lessonDao.getLessonsBySubjectName(name));
-						
-						subjects.add(subject);
-					} 
-					
-				}
-				return subjects;
-			}
+			subject.setExams(examDao.getExamsBySubjectName(name));
+			subject.setLessons(lessonDao.getLessonsBySubjectName(name));
+			subject.setHomework(homeworkDao.getHomeworkBySubjectName(name));
+			
+			return subject;
 		});
 	}
 

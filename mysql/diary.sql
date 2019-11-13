@@ -68,9 +68,15 @@ INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES 
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('5', '2019-12-12', 'some description', '3');
 
 -- Fill lesson table
-#column date in lesson table is wrong
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('1', '2019-10-11', 'SJSP1', '240', 'lecture', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('2', '2020-12-11', 'SKUPJS', '120', 'practice', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('3', '2018-12-11', 'UAONPU', '45', 'practice', '2');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('4', '2015-5-11', 'RUMFTI', '180', 'lecture', '2');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('5', '2019-12-30', 'MSKMGU', '180', 'lecture', '3');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('6', '2019-12-2', 'MSMK', '100', 'practice', '3');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('7', '2019-13-11', 'KMSMK', '300', 'practice', '4');
 
-
+-- ==================
 SELECT *
 FROM
    `exam`;

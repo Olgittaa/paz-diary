@@ -1,15 +1,30 @@
 package sk.upjs.paz.diary.entity;
 
-//import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 
 public class Lesson extends StudyObject {
-//	private ? date;
+	private LocalDateTime date;
 	private String location;
 	private int duration;
-	private LessonType type;
+	private String type;
 
-	public enum LessonType {
-		LECTURE, PRACTICE;
+	public Lesson() {
+		location = new String();
+	}
+	
+	public Lesson(LocalDateTime date, String location, int duration, String type) {
+		this.date = date;
+		this.location = location;
+		this.duration = duration;
+		this.type = type;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
 	}
 
 	public String getLocation() {
@@ -28,12 +43,17 @@ public class Lesson extends StudyObject {
 		this.duration = duration;
 	}
 
-	public LessonType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(LessonType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "Lesson [date=" + date + ", location=" + location + ", duration=" + duration + ", type=" + type + "]";
+	}
+	
 }
