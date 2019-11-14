@@ -12,5 +12,5 @@ import sk.upjs.paz.diary.entity.Homework;
 public interface IHomeworkDAO {
 	List<Homework> getAllHomework();
 	
-	List<Homework> getHomeworkBySubjectName(String name);
+	List<Homework> getHomeworkBySubjectId(Long id);
 }

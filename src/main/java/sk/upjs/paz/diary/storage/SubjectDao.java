@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import sk.upjs.paz.diary.entity.Subject;
+
 /**
  * Class responses for access to subjects' data
  * 
@@ -15,7 +16,7 @@ import sk.upjs.paz.diary.entity.Subject;
 public class SubjectDao implements ISubjectDAO {
 
 	private JdbcTemplate jdbcTemplate;
-	
+
 	public SubjectDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -24,17 +25,17 @@ public class SubjectDao implements ISubjectDAO {
 	public List<Subject> getAllSubjects() {
 		String query = "SELECT * FROM subject;";
 		return jdbcTemplate.query(query, (ResultSet rs, int rowNum) -> {
+			Long id = rs.getLong("id_subject");
 			String name = rs.getString("name");
 			String site = rs.getString("site");
 			String email = rs.getString("email");
-			Subject subject = new Subject(name, site, email);
+			Subject subject = new Subject(id, name, site, email);
 
-			subject.setExams(DaoFactory.getExamDao().getExamsBySubjectName(name));
-			subject.setLessons(DaoFactory.getLessonDao().getLessonsBySubjectName(name));
-			subject.setHomework(DaoFactory.getHomeworkDao().getHomeworkBySubjectName(name));
-			
+			subject.setExams(DaoFactory.getExamDao().getExamsBySubjectId(id));
+			subject.setLessons(DaoFactory.getLessonDao().getLessonsBySubjectId(id));
+			subject.setHomework(DaoFactory.getHomeworkDao().getHomeworkBySubjectId(id));
+
 			return subject;
 		});
 	}
-
 }

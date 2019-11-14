@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `homework`
    `id_homework` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
    `deadline` DATETIME NOT NULL,
    `description` VARCHAR (255),
+   `status` BOOLEAN DEFAULT FALSE,
    `id_subject` BIGINT NOT NULL
 );
 ALTER TABLE homework ADD CONSTRAINT fk_homework_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject);
@@ -61,10 +62,10 @@ INSERT INTO `diary`.`exam` (`id_exam`, `date`, `location`, `id_subject`) VALUES 
 INSERT INTO `diary`.`exam` (`id_exam`, `date`, `location`, `id_subject`) VALUES ('2', '2001-09-13', 'SJ1P00', '2');
 
 -- Fill homework table
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('1', '2020-11-8', 'description', '2');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('2', '2020-01-01', 'second one', '2');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('1', '2020-11-8', 'description', TRUE ,'2');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('2', '2020-01-01', 'second one', TRUE,'2');
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('3', '2019-5-14', '1');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('4', '2019-5-6', '4');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `status`, `id_subject`) VALUES ('4', '2019-5-6', TRUE, '4');
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('5', '2019-12-12', 'some description', '3');
 
 -- Fill lesson table
@@ -74,7 +75,7 @@ INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('4', '2015-5-11', 'RUMFTI', '180', 'lecture', '2');
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('5', '2019-12-30', 'MSKMGU', '180', 'lecture', '3');
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('6', '2019-12-2', 'MSMK', '100', 'practice', '3');
-INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('7', '2019-13-11', 'KMSMK', '300', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('7', '2019-12-11', 'KMSMK', '300', 'practice', '4');
 
 -- ==================
 SELECT *
@@ -89,5 +90,3 @@ FROM
 SELECT *
 FROM
    `subject`;
-   
-select * from subject s left join homework h on s.id_subject=h.id_subject left join exam e on s.id_subject=e.id_subject;

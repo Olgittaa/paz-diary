@@ -6,6 +6,6 @@ import sk.upjs.paz.diary.entity.Exam;
 
 public interface IExamDAO {
 	List<Exam> getAllExams();
-	
-	List<Exam> getExamsBySubjectName(String name);
+
+	List<Exam> getExamsBySubjectId(Long id);
 }

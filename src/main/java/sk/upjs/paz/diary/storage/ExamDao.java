@@ -22,9 +22,8 @@ public class ExamDao extends DAO implements IExamDAO {
 	}
 
 	@Override
-	public List<Exam> getExamsBySubjectName(String name) {
-		String sql = "SELECT * FROM exam e LEFT JOIN subject s ON e.id_subject=s.id_subject WHERE s.name=\"" + name
-				+ "\"";
+	public List<Exam> getExamsBySubjectId(Long id) {
+		String sql = "SELECT * FROM exam e LEFT JOIN subject s ON e.id_subject=s.id_subject WHERE s.id_subject = " + id;
 		return jdbcTemplate.query(sql, new ExamRowMapperImpl());
 	}
 
