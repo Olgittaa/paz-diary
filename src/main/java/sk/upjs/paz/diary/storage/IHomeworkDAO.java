@@ -4,10 +4,10 @@ import java.util.List;
 
 import sk.upjs.paz.diary.entity.Homework;
 /**
- * Interface for ---------------------
+ * Interface for 
  * 
- * @author Yevhenii Kozhevin, Olga Charna
- *
+ * @author Yevhenii Kozhevin
+ * @author Olga Charna
  */
 public interface IHomeworkDAO {
 	List<Homework> getAllHomework();

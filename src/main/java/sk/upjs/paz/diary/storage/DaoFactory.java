@@ -4,10 +4,29 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+/**
+ * The Factory class is responsible for creating data access objects if do not
+ * exists or for returning already existing object
+ * 
+ * @author Yevhenii Kozhevin
+ * @author Olga Charna
+ */
 public class DaoFactory {
+	/**
+	 * Singleton of a SubjectDao
+	 */
 	private static ISubjectDAO subjectDao;
+	/**
+	 * Singleton of a ExamDao
+	 */
 	private static IExamDAO examDao;
+	/**
+	 * Singleton of a HomeworkDao
+	 */
 	private static IHomeworkDAO homeworkDao;
+	/**
+	 * Singleton of a LessonDao
+	 */
 	private static ILessonDAO lessonDao;
 
 	private static JdbcTemplate jdbcTemplate;
@@ -34,7 +53,7 @@ public class DaoFactory {
 	 * @return a singleton of a ExamDao object
 	 */
 	public static IExamDAO getExamDao() {
-		if(examDao == null) {
+		if (examDao == null) {
 			examDao = new ExamDao(initializeJdbcTemplate());
 		}
 		return examDao;
@@ -46,19 +65,20 @@ public class DaoFactory {
 	 * @return a singleton of a LessonDao object
 	 */
 	public static ILessonDAO getLessonDao() {
-		if(lessonDao == null) {
+		if (lessonDao == null) {
 			lessonDao = new LessonDao(initializeJdbcTemplate());
 		}
 		return lessonDao;
 	}
 
 	/**
-	 * Creates new HomeworkDao if it doesn't exist or returns already existing object
+	 * Creates new HomeworkDao if it doesn't exist or returns already existing
+	 * object
 	 * 
 	 * @return a singleton of a HomeworkDao object
 	 */
 	public static IHomeworkDAO getHomeworkDao() {
-		if(homeworkDao == null) {
+		if (homeworkDao == null) {
 			homeworkDao = new HomeworkDao(initializeJdbcTemplate());
 		}
 		return homeworkDao;

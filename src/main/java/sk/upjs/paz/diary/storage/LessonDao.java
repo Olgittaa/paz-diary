@@ -2,7 +2,6 @@ package sk.upjs.paz.diary.storage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,9 +10,10 @@ import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.paz.diary.entity.Lesson;
 
 /**
- * Class responses for access to lessons' data
+ * Class responses for access to subjects' lessons data
  * 
- * @author Yevhenii Kozhevin, Olha Charna
+ * @author Yevhenii Kozhevin
+ * @author Olha Charna
  */
 public class LessonDao extends DAO implements ILessonDAO {
 
@@ -40,15 +40,6 @@ public class LessonDao extends DAO implements ILessonDAO {
 	 * @author Yevhenii Kozhevin, Olha Charna
 	 */
 	private class LessonRowMapperImpl implements RowMapper<Lesson> {
-		/**
-		 * Reads every row of the database lesson table
-		 * 
-		 * @param rs     current row to map
-		 * @param rowNum the number of the current row
-		 * @return Lesson object for the current row
-		 * @throws SQLException if an SQLException is encountered getting column values
-		 *                      (that is, there's no need to catch SQLException)
-		 */
 		@Override
 		public Lesson mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Lesson lesson = new Lesson();
