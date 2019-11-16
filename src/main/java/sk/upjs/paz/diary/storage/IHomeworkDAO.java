@@ -14,5 +14,5 @@ public interface IHomeworkDAO {
 	
 	List<Homework> getHomeworkBySubjectId(Long id);
 	
-	List<Homework> refreshHomework();
+	void refreshHomework(Homework homework);
 }

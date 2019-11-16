@@ -62,11 +62,11 @@ INSERT INTO `diary`.`exam` (`id_exam`, `date`, `location`, `id_subject`) VALUES 
 INSERT INTO `diary`.`exam` (`id_exam`, `date`, `location`, `id_subject`) VALUES ('2', '2001-09-13', 'SJ1P00', '2');
 
 -- Fill homework table
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('1', '2020-11-8', 'description', TRUE ,'2');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('1', '2019-11-8', 'description', TRUE ,'2');
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('2', '2020-01-01', 'second one', TRUE,'2');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('3', '2019-5-14', 'hw', '1');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('4', '2019-5-6', 'pazpazpaz', TRUE, '4');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('5', '2019-12-12', 'some description', '3');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('3', '2019-12-14', 'hw', '1');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('4', '2019-12-6', 'pazpazpaz1c', TRUE, '4');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('5', '2019-11-13', 'some description', '3');
 
 -- Fill lesson table
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('1', '2019-10-11', 'SJSP1', '240', 'lecture', '1');

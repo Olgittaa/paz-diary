@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,16 +48,24 @@ public class MainWindowController {
 	private Button addExamButton;
 
 	@FXML
-	private Button refreshHomeWorkButton;
-
-	@FXML
 	void initialize() {
 		List<Homework> hw = DaoFactory.getHomeworkDao().getAllHomework();
 		for (Homework homework : hw) {
-			CheckBox checkBox = new CheckBox(homework.getDescription());
+			CheckBox checkBox = new CheckBox(homework.getDescription() + " until " + homework.getDeadline());
 			checkBox.setSelected(homework.isDone());
 			homeWorkFlowPane.getChildren().add(checkBox);
+			checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+					homework.setStatus(newValue);
+					DaoFactory.getHomeworkDao().refreshHomework(homework);
+				}
+			});
 		}
+	}
+
+	void refreshHomework() {
+
 	}
 
 	@FXML
@@ -66,15 +76,6 @@ public class MainWindowController {
 	@FXML
 	void addHomeWorkButtonClick(ActionEvent event) {
 		loadWindow("editHomework.fxml", "Edit homework");
-	}
-
-	@FXML
-	void refreshHomeWorkButtonClick(ActionEvent event) {
-		List<Homework> hw = DaoFactory.getHomeworkDao().refreshHomework();
-		for (Homework homework : hw) {
-			CheckBox checkBox = new CheckBox(homework.getDescription());
-			homeWorkFlowPane.getChildren().add(checkBox);
-		}
 	}
 
 	@FXML
