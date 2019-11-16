@@ -23,14 +23,13 @@ public class LessonDao extends DAO implements ILessonDAO {
 
 	@Override
 	public List<Lesson> getAllLessons() {
-		String sql = "SELECT * FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject";
+		String sql = "SELECT id_lesson, `date`, location, duration, `type` FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject";
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
 	}
 
 	@Override
-	public List<Lesson> getLessonsBySubjectName(String name) {
-		String sql = "SELECT * FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE s.name=\"" + name
-				+ "\"";
+	public List<Lesson> getLessonsBySubjectId(Long id) {
+		String sql = "SELECT id_lesson, `date`, location, duration, `type` FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE l.id_subject = " + id;
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
 	}
 
@@ -43,6 +42,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 		@Override
 		public Lesson mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Lesson lesson = new Lesson();
+			lesson.setId(rs.getLong("id_lesson"));
 			lesson.setDate(rs.getTimestamp("date").toLocalDateTime());
 			lesson.setDuration(rs.getInt("duration"));
 			lesson.setLocation(rs.getString("location"));

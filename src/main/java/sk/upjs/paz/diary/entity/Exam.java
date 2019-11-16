@@ -5,10 +5,11 @@ import java.time.LocalDateTime;
 public class Exam extends StudyObject {
 	private LocalDateTime dateTime;
 	private String location;
+	private Long idSubject;
 
 	public Exam() {
 	}
-	
+
 	public Exam(LocalDateTime dateTime, String location) {
 		this.dateTime = dateTime;
 		this.location = location;
@@ -28,6 +29,14 @@ public class Exam extends StudyObject {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Long getIdSubject() {
+		return idSubject;
+	}
+
+	public void setIdSubject(Long idSubject) {
+		this.idSubject = idSubject;
 	}
 
 	@Override

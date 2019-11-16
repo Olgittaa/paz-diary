@@ -6,55 +6,55 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="510.0" minWidth="504.0" prefHeight="550.0" prefWidth="615.0" style="-fx-background-color: #F3D9A7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.paz.diary.gui.ScheduleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="510.0" minWidth="504.0" prefHeight="540.0" prefWidth="615.0" style="-fx-background-color: #F3D9A7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.paz.diary.gui.ScheduleController">
    <children>
-      <ListView fx:id="mondayListView" layoutX="17.0" layoutY="56.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.leftAnchor="15.0" />
-      <ListView fx:id="wednesdayListView" layoutX="17.0" layoutY="396.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
-      <ListView fx:id="tuesdayListView" layoutX="17.0" layoutY="225.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.leftAnchor="15.0" />
-      <ListView fx:id="thursdayListView" layoutX="361.0" layoutY="50.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.rightAnchor="15.0" />
-      <ListView fx:id="fridayListView" layoutX="361.0" layoutY="225.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.rightAnchor="15.0" />
-      <Label layoutX="15.0" layoutY="40.0" prefHeight="20.0" prefWidth="57.0" text="Monday">
+      <ListView fx:id="mondayListView" layoutX="17.0" layoutY="56.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
+      <ListView fx:id="wednesdayListView" layoutX="17.0" layoutY="396.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="390.0" />
+      <ListView fx:id="tuesdayListView" layoutX="17.0" layoutY="225.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="220.0" />
+      <ListView fx:id="thursdayListView" layoutX="361.0" layoutY="50.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+      <ListView fx:id="fridayListView" layoutX="361.0" layoutY="225.0" prefHeight="135.0" prefWidth="275.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="220.0" />
+      <Label layoutX="15.0" layoutY="40.0" prefHeight="20.0" prefWidth="57.0" text="Monday" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font name="Arial Italic" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="209.0" text="Tuesday">
+      <Label layoutX="15.0" layoutY="209.0" text="Tuesday" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="200.0">
          <font>
             <Font name="Arial Italic" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="16.0" layoutY="384.0" text="Wednesday">
+      <Label layoutX="16.0" layoutY="384.0" text="Wednesday" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="370.0">
          <font>
             <Font name="Arial Italic" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="531.0" layoutY="34.0" text="Thursday">
+      <Label layoutX="531.0" layoutY="34.0" text="Thursday" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font name="Arial Italic" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="553.0" layoutY="209.0" text="Friday">
+      <Label layoutX="553.0" layoutY="209.0" text="Friday" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="200.0">
          <font>
             <Font name="Arial Italic" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="monthLabel" layoutX="262.0" layoutY="8.0" text="MONTH">
+      <Label fx:id="monthLabel" layoutX="262.0" layoutY="8.0" text="MONTH" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="15.0">
          <font>
             <Font name="Arial Bold" size="25.0" />
          </font>
       </Label>
-      <ListView fx:id="subjectListView" layoutX="325.0" layoutY="400.0" prefHeight="135.0" prefWidth="223.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="67.0" />
-      <Button fx:id="removeSubjectButton" layoutX="549.0" layoutY="468.0" mnemonicParsing="false" onAction="#removeSubjectButtonClick" prefHeight="66.0" prefWidth="51.0" text="-">
+      <ListView fx:id="subjectListView" layoutX="325.0" layoutY="400.0" prefHeight="135.0" prefWidth="223.0" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="390.0" />
+      <Button fx:id="removeSubjectButton" layoutX="549.0" layoutY="458.0" mnemonicParsing="false" onAction="#removeSubjectButtonClick" prefHeight="66.0" prefWidth="51.0" text="-" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="460.0">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button fx:id="addSubjectButton" layoutX="548.0" layoutY="400.0" mnemonicParsing="false" onAction="#addSubjectButtonClick" prefHeight="66.0" prefWidth="51.0" text="+" AnchorPane.rightAnchor="15.0">
+      <Button fx:id="addSubjectButton" layoutX="549.0" layoutY="390.0" mnemonicParsing="false" onAction="#addSubjectButtonClick" prefHeight="66.0" prefWidth="51.0" text="+" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="390.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label layoutX="325.0" layoutY="384.0" text="Subjects">
+      <Label layoutX="325.0" layoutY="384.0" text="Subjects" AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="370.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>

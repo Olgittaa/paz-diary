@@ -1,17 +1,20 @@
 package sk.upjs.paz.diary.gui;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -20,6 +23,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Exam;
+import sk.upjs.paz.diary.entity.Homework;
+import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class MainWindowController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
@@ -44,6 +49,22 @@ public class MainWindowController {
 
 	@FXML
 	void initialize() {
+		List<Homework> hw = DaoFactory.getHomeworkDao().getAllHomework();
+		for (Homework homework : hw) {
+			CheckBox checkBox = new CheckBox(homework.getDescription() + " until " + homework.getDeadline());
+			checkBox.setSelected(homework.isDone());
+			homeWorkFlowPane.getChildren().add(checkBox);
+			checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+					homework.setStatus(newValue);
+					DaoFactory.getHomeworkDao().refreshHomework(homework);
+				}
+			});
+		}
+	}
+
+	void refreshHomework() {
 
 	}
 
@@ -87,7 +108,7 @@ public class MainWindowController {
 
 	@FXML // TODO think about the method name
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
-		
+
 	}
 
 }

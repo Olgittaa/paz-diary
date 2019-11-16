@@ -18,10 +18,10 @@ public interface ILessonDAO {
 	List<Lesson> getAllLessons();
 
 	/**
-	 * Returns a list of lessons of subject with name defined by parameter name
+	 * Returns a list of lessons of subject with id defined by parameter id
 	 * 
-	 * @param name - name of each subject
+	 * @param id - id of each subject
 	 * @return list of Lesson
 	 */
-	List<Lesson> getLessonsBySubjectName(String name);
+	List<Lesson> getLessonsBySubjectId(Long id);
 }
