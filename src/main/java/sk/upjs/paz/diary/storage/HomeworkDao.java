@@ -2,10 +2,13 @@ package sk.upjs.paz.diary.storage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.paz.diary.entity.Homework;
 
@@ -31,11 +34,11 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	}
 
 	@Override
-	public void refreshHomework(Homework homework){
+	public void refreshHomework(Homework homework) {
 		String sql = "UPDATE homework SET status = ? WHERE id_homework = " + homework.getId();
 		jdbcTemplate.update(sql, homework.isDone());
 	}
-	
+
 	private class HomeworkRowMapperImpl implements RowMapper<Homework> {
 		@Override
 		public Homework mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -46,5 +49,20 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 			hw.setStatus(rs.getBoolean("status"));
 			return hw;
 		}
+	}
+
+	@Override
+	public Homework save(Homework hw) {
+		if (hw == null) {
+			return null;
+		} else {
+			SimpleJdbcInsert sjinsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
+					.usingGeneratedKeyColumns("id_homework").usingColumns("description");
+			Map<String, Object> parameters = new HashMap<>(1);
+			parameters.put("description", hw);
+			long id = sjinsert.executeAndReturnKey(parameters).longValue();
+			hw.setId(id);
+		}
+		return hw;
 	}
 }

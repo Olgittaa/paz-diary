@@ -8,7 +8,8 @@ public class Homework extends StudyObject {
 	private LocalDate deadline;
 	private String description;
 	private boolean status;
-
+	private Long idSubject;
+	
 	public LocalDate getDeadline() {
 		return deadline;
 	}
@@ -41,6 +42,14 @@ public class Homework extends StudyObject {
 		this.status = status;
 	}
 
+	public Long getIdSubject() {
+		return idSubject;
+	}
+
+	public void setIdSubject(Long idSubject) {
+		this.idSubject = idSubject;
+	}
+	
 	@Override
 	public String toString() {
 		return "Homework [deadline=" + deadline + ", description=" + description + "]\n";

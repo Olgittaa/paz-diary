@@ -9,7 +9,8 @@ public class Lesson extends StudyObject {
 	private String location;
 	private int duration;
 	private String type;
-
+	private Long idSubject;
+	
 	public Lesson() {
 		location = new String();
 	}
@@ -60,6 +61,14 @@ public class Lesson extends StudyObject {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getIdSubject() {
+		return idSubject;
+	}
+
+	public void setIdSubject(Long idSubject) {
+		this.idSubject = idSubject;
 	}
 	
 	@Override

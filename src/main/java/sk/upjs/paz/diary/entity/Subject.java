@@ -1,8 +1,5 @@
 package sk.upjs.paz.diary.entity;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Subject extends StudyObject {
 
 	private Long id;
@@ -10,18 +7,15 @@ public class Subject extends StudyObject {
 	private String site;
 	private String email;
 
-	private List<Lesson> lessons;
-	private List<Homework> homeworks;
-	private List<Exam> exams;
+	//лушче пусть каждый помнит свой сабджект, это легче реализовать
+//	private List<Lesson> lessons;
+//	private List<Homework> homeworks;
+//	private List<Exam> exams;
 
 	public Subject() {
 		name = new String();
 		site = new String();
 		email = new String();
-
-		lessons = new LinkedList<>();
-		homeworks = new LinkedList<>();
-		exams = new LinkedList<>();
 	}
 
 	public Subject(Long id, String name, String site, String email) {
@@ -30,18 +24,6 @@ public class Subject extends StudyObject {
 		this.name = name;
 		this.site = site;
 		this.email = email;
-	}
-
-	public void setLessons(List<Lesson> lessons) {
-		this.lessons = lessons;
-	}
-
-	public void setHomework(List<Homework> homeworks) {
-		this.homeworks = homeworks;
-	}
-
-	public void setExams(List<Exam> exams) {
-		this.exams = exams;
 	}
 
 	public String getName() {

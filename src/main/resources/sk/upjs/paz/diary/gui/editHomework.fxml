@@ -32,13 +32,13 @@
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="descriptionTextArea" layoutX="167.0" layoutY="107.0" prefHeight="75.0" prefWidth="210.0" promptText="Type a desription here..." AnchorPane.leftAnchor="167.0" AnchorPane.topAnchor="107.0">
+      <TextArea fx:id="descriptionTextArea" layoutX="167.0" layoutY="107.0" prefHeight="75.0" prefWidth="210.0" promptText="Type a desription here..." AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="107.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextArea>
-      <DatePicker fx:id="deadlineDatePicker" layoutX="167.0" layoutY="65.0" prefHeight="27.0" prefWidth="210.0" AnchorPane.leftAnchor="167.0" AnchorPane.topAnchor="65.0" />
-      <ComboBox fx:id="subjectComboBox" layoutX="168.0" layoutY="26.0" prefHeight="26.0" prefWidth="210.0" />
+      <DatePicker fx:id="deadlineDatePicker" layoutX="167.0" layoutY="65.0" prefHeight="27.0" prefWidth="210.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="65.0" />
+      <ComboBox fx:id="subjectComboBox" layoutX="168.0" layoutY="26.0" prefHeight="26.0" prefWidth="210.0" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="26.0" />
       <Label layoutX="58.0" layoutY="28.0" text="Subject:">
          <font>
             <Font name="Arial Bold" size="18.0" />

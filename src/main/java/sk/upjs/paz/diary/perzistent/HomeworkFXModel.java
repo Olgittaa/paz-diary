@@ -3,21 +3,40 @@ package sk.upjs.paz.diary.perzistent;
 import java.time.LocalDate;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import sk.upjs.paz.diary.entity.Homework;
 
 public class HomeworkFXModel {
 	
-	private LocalDate deadline;
+	private ObjectProperty<LocalDate> deadline;
 	private StringProperty description = new SimpleStringProperty();
 	private BooleanProperty status = new SimpleBooleanProperty();
 	
+	public Homework getHomework(Long idSubject) {
+		Homework hw = new Homework();
+		hw.setDeadline(getDeadline());
+		hw.setDescription(getDescription());
+		hw.setStatus(getStatus());
+		hw.setIdSubject(idSubject);
+		return hw;
+	}
+	
 	public LocalDate getDeadline() {
+		return deadline.get();
+	}
+	
+	public ObjectProperty<LocalDate> deadlineProperty(){
+		if(deadline == null){
+			deadline = new SimpleObjectProperty<>();
+        }
 		return deadline;
 	}
 	
-	public void setDeadline(LocalDate deadline) {
+	public void setDeadline(ObjectProperty<LocalDate> deadline) {
 		this.deadline = deadline;
 	}
 	
@@ -45,6 +64,5 @@ public class HomeworkFXModel {
 		this.status.set(status);
 	}
 
-	
 	
 }

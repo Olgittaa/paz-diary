@@ -31,9 +31,9 @@ public class SubjectDao implements ISubjectDAO {
 			String email = rs.getString("email");
 			Subject subject = new Subject(id, name, site, email);
 
-			subject.setExams(DaoFactory.getExamDao().getExamsBySubjectId(id));
-			subject.setLessons(DaoFactory.getLessonDao().getLessonsBySubjectId(id));
-			subject.setHomework(DaoFactory.getHomeworkDao().getHomeworkBySubjectId(id));
+//			subject.setExams(DaoFactory.getExamDao().getExamsBySubjectId(id));
+//			subject.setLessons(DaoFactory.getLessonDao().getLessonsBySubjectId(id));
+//			subject.setHomework(DaoFactory.getHomeworkDao().getHomeworkBySubjectId(id));
 
 			return subject;
 		});
