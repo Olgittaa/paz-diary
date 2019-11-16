@@ -19,7 +19,6 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	public List<Homework> getAllHomework() {
 		String sql = "SELECT id_homework, deadline, description, `status` FROM homework hw LEFT JOIN subject s ON hw.id_subject=s.id_subject";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
-
 	}
 
 	@Override
@@ -40,5 +39,16 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 			hw.setStatus(rs.getBoolean("status"));
 			return hw;
 		}
+	}
+
+	@Override
+	public List<Homework> refreshHomework() {
+		List<Homework> homework = getAllHomework();
+		for (Homework hw : homework) {
+			if (hw.isDone()) {
+				homework.remove(hw);
+			}
+		}
+		return homework;
 	}
 }

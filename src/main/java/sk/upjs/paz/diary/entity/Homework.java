@@ -33,7 +33,7 @@ public class Homework extends StudyObject {
 		this.id = id;
 	}
 	
-	public boolean isStatus() {
+	public boolean isDone() {
 		return status;
 	}
 

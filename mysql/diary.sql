@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `homework`
 (
    `id_homework` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
    `deadline` DATETIME NOT NULL,
-   `description` VARCHAR (255),
+   `description` VARCHAR (255) NOT NULL,
    `status` BOOLEAN DEFAULT FALSE,
    `id_subject` BIGINT NOT NULL
 );
@@ -64,8 +64,8 @@ INSERT INTO `diary`.`exam` (`id_exam`, `date`, `location`, `id_subject`) VALUES 
 -- Fill homework table
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('1', '2020-11-8', 'description', TRUE ,'2');
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('2', '2020-01-01', 'second one', TRUE,'2');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `id_subject`) VALUES ('3', '2019-5-14', '1');
-INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `status`, `id_subject`) VALUES ('4', '2019-5-6', TRUE, '4');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('3', '2019-5-14', 'hw', '1');
+INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `status`, `id_subject`) VALUES ('4', '2019-5-6', 'pazpazpaz', TRUE, '4');
 INSERT INTO `diary`.`homework` (`id_homework`, `deadline`, `description`, `id_subject`) VALUES ('5', '2019-12-12', 'some description', '3');
 
 -- Fill lesson table

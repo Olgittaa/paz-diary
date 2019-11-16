@@ -46,7 +46,7 @@
 			</columns>
 		</TableView>
 		<FlowPane fx:id="homeWorkFlowPane" layoutX="397.0" layoutY="58.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="326.0" style="-fx-background-color: #957878;" AnchorPane.leftAnchor="397.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0" />
-		<Button fx:id="addHomeWorkButton" layoutX="397.0" layoutY="297.0" mnemonicParsing="false" onAction="#addHomeWorkButtonClick" prefHeight="34.0" prefWidth="326.0" style="-fx-background-color: #9A6565;" text="Add homework" textFill="WHITE" AnchorPane.leftAnchor="397.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="297.0">
+		<Button fx:id="addHomeWorkButton" layoutX="397.0" layoutY="298.0" mnemonicParsing="false" onAction="#addHomeWorkButtonClick" prefHeight="34.0" prefWidth="170.0" style="-fx-background-color: #9A6565;" text="Add homework" textFill="WHITE" AnchorPane.leftAnchor="397.0" AnchorPane.rightAnchor="183.0" AnchorPane.topAnchor="298.0">
 			<font>
 				<Font name="Arial Bold" size="15.0" />
 			</font>
@@ -61,5 +61,10 @@
 				<Font name="Arial Italic" size="18.0" />
 			</font>
 		</Label>
+      <Button fx:id="refreshHomeWorkButton" layoutX="568.0" layoutY="298.0" mnemonicParsing="false" onAction="#refreshHomeWorkButtonClick" prefHeight="34.0" prefWidth="170.0" style="-fx-background-color: #9A6565;" text="Delete completed" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Button>
 	</children>
 </AnchorPane>

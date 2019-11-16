@@ -46,11 +46,14 @@ public class MainWindowController {
 	private Button addExamButton;
 
 	@FXML
+	private Button refreshHomeWorkButton;
+
+	@FXML
 	void initialize() {
 		List<Homework> hw = DaoFactory.getHomeworkDao().getAllHomework();
 		for (Homework homework : hw) {
 			CheckBox checkBox = new CheckBox(homework.getDescription());
-			checkBox.setSelected(homework.isStatus());
+			checkBox.setSelected(homework.isDone());
 			homeWorkFlowPane.getChildren().add(checkBox);
 		}
 	}
@@ -63,6 +66,15 @@ public class MainWindowController {
 	@FXML
 	void addHomeWorkButtonClick(ActionEvent event) {
 		loadWindow("editHomework.fxml", "Edit homework");
+	}
+
+	@FXML
+	void refreshHomeWorkButtonClick(ActionEvent event) {
+		List<Homework> hw = DaoFactory.getHomeworkDao().refreshHomework();
+		for (Homework homework : hw) {
+			CheckBox checkBox = new CheckBox(homework.getDescription());
+			homeWorkFlowPane.getChildren().add(checkBox);
+		}
 	}
 
 	@FXML
@@ -95,7 +107,7 @@ public class MainWindowController {
 
 	@FXML // TODO think about the method name
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
-		
+
 	}
 
 }
