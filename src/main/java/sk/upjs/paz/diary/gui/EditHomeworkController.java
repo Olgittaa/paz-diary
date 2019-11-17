@@ -13,7 +13,6 @@ import javafx.scene.control.TextArea;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.HomeworkFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
-import tornadofx.control.DateTimePicker;
 
 public class EditHomeworkController {
 
@@ -22,7 +21,7 @@ public class EditHomeworkController {
 
 	@FXML
 	private TextArea descriptionTextArea;
-	
+
 	@FXML
 	private DatePicker deadlineDatePicker;
 
@@ -55,7 +54,7 @@ public class EditHomeworkController {
 				}
 			}
 		});
-		
+
 	}
 
 	@FXML

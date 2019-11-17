@@ -1,11 +1,9 @@
 package sk.upjs.paz.diary.storage;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import sk.upjs.paz.diary.entity.Subject;
 
@@ -40,15 +38,10 @@ public class SubjectDao implements ISubjectDAO {
 			return subject;
 		});
 	}
-	
+
 	@Override
 	public String getNameById(Long id) {
-		String sql = "SELECT * FROM subject WHERE id_subject=" + id;
-		return jdbcTemplate.queryForObject(sql, new RowMapper<String>() {
-			@Override
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new String(rs.getString("name"));
-			}
-		});
+		String sql = "SELECT name FROM subject WHERE id_subject=?";
+		return jdbcTemplate.queryForObject(sql, String.class, id);
 	}
 }

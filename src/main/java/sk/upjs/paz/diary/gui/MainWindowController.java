@@ -57,7 +57,7 @@ public class MainWindowController {
 	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
 
 	private void initHomeworkCheckBoxes() {
-		List<Homework> hw = homeworkDao.getAllHomework();
+		List<Homework> hw = homeworkDao.getHomeworkOnWeek();
 		for (Homework homework : hw) {
 			String subjectName = DaoFactory.getSubjectDao().getNameById(homework.getIdSubject());
 
@@ -142,7 +142,7 @@ public class MainWindowController {
 
 	@FXML // TODO think about the method name
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
-
+		loadWindow("fileChooser.fxml", "FileChooser");
 	}
 
 }

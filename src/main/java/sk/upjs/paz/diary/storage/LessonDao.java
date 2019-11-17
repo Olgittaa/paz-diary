@@ -34,6 +34,12 @@ public class LessonDao extends DAO implements ILessonDAO {
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
 	}
 
+	@Override
+	public List<Lesson> getWeekSchedule() {
+		String sql = "SELECT * FROM `lesson` where week(`date`, 1) = week(current_date(), 1) order by `date`";
+		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
+	}
+
 	/**
 	 * Helping class for reading lessons from database
 	 */
@@ -46,6 +52,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 			lesson.setDuration(rs.getInt("duration"));
 			lesson.setLocation(rs.getString("location"));
 			lesson.setType("lecture".equals(rs.getString("type")) ? "lecture" : "practice");
+			lesson.setIdSubject(rs.getLong("id_subject"));
 			return lesson;
 		}
 	}

@@ -2,14 +2,10 @@ package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 public class Homework extends StudyObject {
 
-	private long id;
+	private Long id;
 	private LocalDateTime deadline;
 	private String description;
 	private boolean status;
@@ -20,8 +16,7 @@ public class Homework extends StudyObject {
 	}
 	
 	public String getStringDeadline() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HH:mm");
-		return getDeadline().format(formatter);
+		return getDeadline().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
 
 	public void setDeadline(LocalDateTime deadline) {
@@ -36,11 +31,11 @@ public class Homework extends StudyObject {
 		this.description = description;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

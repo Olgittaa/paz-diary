@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -22,17 +23,17 @@
             <Font name="Arial" size="18.0" />
          </font>
       </Button>
-      <Label layoutX="53.0" layoutY="68.0" text="Deadline:" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="68.0">
+      <Label layoutX="71.0" layoutY="68.0" text="Date:" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="68.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="41.0" layoutY="134.0" text="Description:" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="134.0">
+      <Label layoutX="41.0" layoutY="150.0" text="Description:" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="150.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="descriptionTextArea" layoutX="167.0" layoutY="107.0" prefHeight="75.0" prefWidth="210.0" promptText="Type a desription here..." AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="107.0">
+      <TextArea fx:id="descriptionTextArea" layoutX="167.0" layoutY="134.0" prefHeight="75.0" prefWidth="210.0" promptText="Type a desription here..." AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="134.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -40,6 +41,12 @@
       <DatePicker fx:id="deadlineDatePicker" layoutX="167.0" layoutY="65.0" prefHeight="27.0" prefWidth="210.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="65.0" />
       <ComboBox fx:id="subjectComboBox" layoutX="168.0" layoutY="26.0" prefHeight="26.0" prefWidth="210.0" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="26.0" />
       <Label layoutX="58.0" layoutY="28.0" text="Subject:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="timeSpinner" editable="true" layoutX="167.0" layoutY="101.0" prefHeight="26.0" prefWidth="210.0" />
+      <Label layoutX="69.0" layoutY="103.0" text="Time:">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>

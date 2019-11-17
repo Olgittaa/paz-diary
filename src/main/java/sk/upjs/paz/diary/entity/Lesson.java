@@ -1,22 +1,23 @@
 package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Lesson extends StudyObject {
-	
+
 	private Long id;
 	private LocalDateTime date;
 	private String location;
 	private int duration;
 	private String type;
 	private Long idSubject;
-	
+
 	public Lesson() {
 		location = new String();
 	}
-	
+
 	public Lesson(Long id, LocalDateTime date, String location, int duration, String type) {
-		this.id=id;
+		this.id = id;
 		this.date = date;
 		this.location = location;
 		this.duration = duration;
@@ -58,11 +59,11 @@ public class Lesson extends StudyObject {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Long getIdSubject() {
 		return idSubject;
 	}
@@ -70,10 +71,19 @@ public class Lesson extends StudyObject {
 	public void setIdSubject(Long idSubject) {
 		this.idSubject = idSubject;
 	}
-	
+
+	// поменять названия getTime getDate названия одинаковые делают разное
+	public LocalTime getStartTime() {
+		return date.toLocalTime();
+	}
+
+	public LocalTime getEndTime() {
+		return date.toLocalTime().plusMinutes(duration);
+	}
+
 	@Override
 	public String toString() {
 		return "Lesson [date=" + date + ", location=" + location + ", duration=" + duration + ", type=" + type + "]";
 	}
-	
+
 }

@@ -3,6 +3,7 @@ package sk.upjs.paz.diary.storage;
 import java.util.List;
 
 import sk.upjs.paz.diary.entity.Lesson;
+
 /**
  * 
  * 
@@ -24,4 +25,11 @@ public interface ILessonDAO {
 	 * @return list of Lesson
 	 */
 	List<Lesson> getLessonsBySubjectId(Long id);
+
+	/**
+	 * Returns a list of lessons on this week
+	 * 
+	 * @return list of lessons
+	 */
+	List<Lesson> getWeekSchedule();
 }

@@ -1,6 +1,5 @@
 package sk.upjs.paz.diary.perzistent;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.BooleanProperty;

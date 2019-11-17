@@ -20,23 +20,30 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 
 	@Override
 	public List<Homework> getAllHomework() {
+		String sql = "SELECT * FROM homework;";
+		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+	}
+	
+	@Override 
+	public List<Homework> getHomeworkOnWeek(){
 		String sql = "SELECT * FROM homework WHERE id_homework NOT IN (SELECT id_homework FROM homework "
-				+ "WHERE DATEDIFF(deadline, NOW()) < - 7 AND status = 1) ORDER BY deadline;";
+				+ "WHERE DATEDIFF(deadline, NOW()) < -7 AND status = 1) ORDER BY deadline;";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 	}
 
 	@Override
 	public List<Homework> getHomeworkBySubjectId(Long id) {
-		String sql = "SELECT id_homework, deadline, description, `status` FROM homework hw "
-				+ "LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE hw.id_subject =" + id;
-		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+		String sql = "SELECT id_homework, deadline, description, status FROM homework hw "
+				+ "LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE hw.id_subject = ?";
+		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl(), id);
+		//return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 
 	}
 
 	@Override
 	public void refreshHomework(Homework homework) {
-		String sql = "UPDATE homework SET status = ? WHERE id_homework = " + homework.getId();
-		jdbcTemplate.update(sql, homework.isDone());
+		String sql = "UPDATE homework SET status = ? WHERE id_homework = ?";
+		jdbcTemplate.update(sql, homework.isDone(), homework.getId());
 	}
 
 	private class HomeworkRowMapperImpl implements RowMapper<Homework> {

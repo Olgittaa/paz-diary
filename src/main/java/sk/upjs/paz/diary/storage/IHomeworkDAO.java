@@ -17,4 +17,6 @@ public interface IHomeworkDAO {
 	void refreshHomework(Homework homework);
 
 	Homework save(Homework homework);
+
+	List<Homework> getHomeworkOnWeek();
 }

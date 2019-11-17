@@ -75,18 +75,29 @@ INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('4', '2015-5-11', 'RUMFTI', '180', 'lecture', '2');
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('5', '2019-12-30', 'MSKMGU', '180', 'lecture', '3');
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('6', '2019-12-2', 'MSMK', '100', 'practice', '3');
-INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('7', '2019-12-11', 'KMSMK', '300', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('7', '2019-12-11', 'KMSMK', '300', 'lecture', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('8', '2019-11-18', 'SKRF', '60', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('23', '2019-11-9', 'AAAA', '60', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('24', '2019-11-10', 'BBBB', '60', 'practice', '3');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('25', '2019-11-11', 'CCCC', '60', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('17', '2019-11-12', 'DDDD', '60', 'practice', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('18', '2019-11-12', 'EEEE', '60', 'practice', '2');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('19', '2019-11-12', 'FFFF', '65', 'practice', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('20', '2019-11-15', 'GGGG', '60', 'practice', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('21', '2019-11-19', 'HHHH', '60', 'practice', '2');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('22', '2019-11-19', 'KKKK', '60', 'practice', '3');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('9', '2019-11-19', 'LLLL', '60', 'practice', '2');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('10', '2019-11-20', 'MMMM', '60', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('11', '2019-11-21', 'NNNN', '60', 'practice', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('12', '2019-11-22', 'OOOO', '60', 'practice', '2');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('13', '2019-11-22', 'PPPP', '60', 'practice', '4');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('14', '2019-11-24', 'RRRR', '60', 'practice', '3');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('15', '2019-11-26', 'SSSS', '60', 'practice', '1');
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES ('16', '2019-11-26', 'TTTT', '60', 'practice', '4');
+
 
 -- ==================
-SELECT *
-FROM
-   `exam`;
-SELECT *
-FROM
-   `homework`;
-SELECT *
-FROM
-   `lesson`;
-SELECT *
-FROM
-   `subject`;
+SELECT * FROM `exam`;
+SELECT * FROM `homework`;
+SELECT * FROM `lesson`;
+SELECT * FROM `subject`;
