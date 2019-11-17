@@ -12,4 +12,5 @@ public interface ISubjectDAO {
 	 */
 	List<Subject> getAllSubjects();
 
+	String getNameById(Long id);
 }

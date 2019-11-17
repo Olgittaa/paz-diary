@@ -17,11 +17,17 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>no.tornado</groupId>
+			<artifactId>tornadofx-controls</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
 			<version>13</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
 			<groupId>org.springframework</groupId>

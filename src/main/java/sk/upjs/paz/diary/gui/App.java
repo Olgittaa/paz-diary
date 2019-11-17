@@ -36,7 +36,6 @@ public class App extends Application {
 
 	@Override
 	public void stop() {
-		LOGGER.info("Closed");
 		System.exit(1);
 	}
 }

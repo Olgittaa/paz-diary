@@ -13,7 +13,7 @@ import sk.upjs.paz.diary.entity.Lesson;
  * Class responses for access to subjects' lessons data
  * 
  * @author Yevhenii Kozhevin
- * @author Olha Charna
+ * @author Olga Charna
  */
 public class LessonDao extends DAO implements ILessonDAO {
 
@@ -29,14 +29,13 @@ public class LessonDao extends DAO implements ILessonDAO {
 
 	@Override
 	public List<Lesson> getLessonsBySubjectId(Long id) {
-		String sql = "SELECT id_lesson, `date`, location, duration, `type` FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE l.id_subject = " + id;
+		String sql = "SELECT id_lesson, `date`, location, duration, `type` FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE l.id_subject = "
+				+ id;
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
 	}
 
 	/**
 	 * Helping class for reading lessons from database
-	 * 
-	 * @author Yevhenii Kozhevin, Olha Charna
 	 */
 	private class LessonRowMapperImpl implements RowMapper<Lesson> {
 		@Override

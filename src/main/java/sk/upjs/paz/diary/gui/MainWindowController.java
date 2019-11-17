@@ -11,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.IHomeworkDAO;
 
 public class MainWindowController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
@@ -49,16 +51,34 @@ public class MainWindowController {
 
 	@FXML
 	void initialize() {
-		List<Homework> hw = DaoFactory.getHomeworkDao().getAllHomework();
+		initHomeworkCheckBoxes();
+	}
+
+	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
+
+	private void initHomeworkCheckBoxes() {
+		List<Homework> hw = homeworkDao.getAllHomework();
 		for (Homework homework : hw) {
-			CheckBox checkBox = new CheckBox(homework.getDescription() + " until " + homework.getDeadline());
+			String subjectName = DaoFactory.getSubjectDao().getNameById(homework.getIdSubject());
+
+			CheckBox checkBox = new CheckBox(subjectName + ". Until " + homework.getStringDeadline());
 			checkBox.setSelected(homework.isDone());
 			homeWorkFlowPane.getChildren().add(checkBox);
+
 			checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 					homework.setStatus(newValue);
-					DaoFactory.getHomeworkDao().refreshHomework(homework);
+					homeworkDao.refreshHomework(homework);
+				}
+			});
+
+			checkBox.setOnMouseClicked(event -> {
+				if (event.getButton() == MouseButton.SECONDARY) {
+					loadWindow("editHomework.fxml", "Edit homework");
+				} else if (event.isControlDown() && event.getButton() == MouseButton.PRIMARY) {
+					loadWindow("homeworkDescription.fxml", "Description",
+							new HomeworkDescriptionController(homework.getDescription()));
 				}
 			});
 		}
@@ -90,10 +110,12 @@ public class MainWindowController {
 	 * 
 	 * @param xmlFileName - name of a fxml file which will be loaded
 	 * @param windowTitle - title of a window(stage)
+	 * @param controller  - controller to fxml file
 	 */
-	private void loadWindow(String fxmlFileName, String windowTitle) {
+	private void loadWindow(String fxmlFileName, String windowTitle, Object controller) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
+			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
@@ -101,9 +123,21 @@ public class MainWindowController {
 			modalStage.setScene(scene);
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
+		} catch (LoadException e) {
+			LOGGER.error("Wrong controller\"" + controller + "\"", e);
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
 		}
+	}
+
+	/**
+	 * Initializes window using fxml file
+	 * 
+	 * @param xmlFileName - name of a fxml file which will be loaded
+	 * @param windowTitle - title of a window(stage)
+	 */
+	private void loadWindow(String fxmlFileName, String windowTitle) {
+		loadWindow(fxmlFileName, windowTitle, null);
 	}
 
 	@FXML // TODO think about the method name

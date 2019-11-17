@@ -1,7 +1,5 @@
 package sk.upjs.paz.diary.gui;
 
-import java.util.List;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,10 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
-import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.HomeworkFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
+import tornadofx.control.DateTimePicker;
 
 public class EditHomeworkController {
 
@@ -24,7 +22,7 @@ public class EditHomeworkController {
 
 	@FXML
 	private TextArea descriptionTextArea;
-
+	
 	@FXML
 	private DatePicker deadlineDatePicker;
 
@@ -44,7 +42,7 @@ public class EditHomeworkController {
 		subjectsModel = FXCollections.observableArrayList(DaoFactory.getSubjectDao().getAllSubjects());
 		subjectComboBox.setItems(subjectsModel);
 
-		deadlineDatePicker.valueProperty().bindBidirectional(fxmodel.deadlineProperty());
+		// deadlineDatePicker.valueProperty().bindBidirectional(fxmodel.deadlineProperty());
 		descriptionTextArea.textProperty().bindBidirectional(fxmodel.descriptionProperty());
 
 		descriptionTextArea.textProperty().addListener(new ChangeListener<String>() {
@@ -57,6 +55,7 @@ public class EditHomeworkController {
 				}
 			}
 		});
+		
 	}
 
 	@FXML

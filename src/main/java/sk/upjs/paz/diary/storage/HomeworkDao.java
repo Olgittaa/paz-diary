@@ -44,9 +44,10 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		public Homework mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Homework hw = new Homework();
 			hw.setId(rs.getLong("id_homework"));
-			hw.setDeadline(rs.getTimestamp("deadline").toLocalDateTime().toLocalDate());
+			hw.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
 			hw.setDescription(rs.getString("description"));
 			hw.setStatus(rs.getBoolean("status"));
+			hw.setIdSubject(rs.getLong("id_subject"));
 			return hw;
 		}
 	}
@@ -65,4 +66,5 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		}
 		return hw;
 	}
+
 }
