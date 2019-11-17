@@ -18,7 +18,7 @@ public class Homework extends StudyObject {
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-
+	
 	public String getStringDeadline() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HH:mm");
 		return getDeadline().format(formatter);
