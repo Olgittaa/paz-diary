@@ -36,7 +36,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 
 	@Override
 	public List<Lesson> getWeekSchedule() {
-		String sql = "SELECT * FROM `lesson` where week(`date`, 1) = week(current_date(), 1) order by `date`";
+		String sql = "SELECT * FROM lesson where week(date, 1) = week(current_date(), 1) AND year(date)=year(current_date()) order by date;";
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
 	}
 

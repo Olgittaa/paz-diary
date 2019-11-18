@@ -112,7 +112,7 @@ public class MainWindowController {
 	 * @param windowTitle - title of a window(stage)
 	 * @param controller  - controller to fxml file
 	 */
-	private void loadWindow(String fxmlFileName, String windowTitle, Object controller) {
+	private Stage loadWindow(String fxmlFileName, String windowTitle, Object controller) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
 			fxmlLoader.setController(controller);
@@ -123,11 +123,13 @@ public class MainWindowController {
 			modalStage.setScene(scene);
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
+			return modalStage;
 		} catch (LoadException e) {
 			LOGGER.error("Wrong controller\"" + controller + "\"", e);
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
 		}
+		return null;
 	}
 
 	/**
@@ -136,13 +138,14 @@ public class MainWindowController {
 	 * @param xmlFileName - name of a fxml file which will be loaded
 	 * @param windowTitle - title of a window(stage)
 	 */
-	private void loadWindow(String fxmlFileName, String windowTitle) {
-		loadWindow(fxmlFileName, windowTitle, null);
+	private Stage loadWindow(String fxmlFileName, String windowTitle) {
+		return loadWindow(fxmlFileName, windowTitle, null);
 	}
 
 	@FXML // TODO think about the method name
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
-		loadWindow("fileChooser.fxml", "FileChooser");
+		Stage s = loadWindow("fileChooser.fxml", "FileChooser");
+		s.hide();
 	}
 
 }

@@ -3,7 +3,6 @@ package sk.upjs.paz.diary.pdf;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,7 +100,8 @@ public class SchedulePdfWriter {
 	private void writeChunk(String text) {
 		try {
 			Paragraph paragraph = new Paragraph(
-					new Chunk(text, FontFactory.getFont(FontFactory.HELVETICA, 18, BaseColor.BLACK)));
+					new Chunk(text, FontFactory.getFont(FontFactory.HELVETICA, 36, BaseColor.BLACK)));
+			paragraph.setSpacingAfter(20f);
 			paragraph.setAlignment(Element.ALIGN_CENTER);
 			DOCUMENT.add(paragraph);
 		} catch (DocumentException e) {
@@ -118,15 +118,13 @@ public class SchedulePdfWriter {
 		try {
 			PdfPTable table = new PdfPTable(1);
 			table.setLockedWidth(true);
-			table.setTotalWidth(new float[] { 200 });
+			table.setTotalWidth(new float[] { 250 });
+			table.setSpacingAfter(10f);
+
 			changeTableHeader(table, day);
-			// TODO увеличить шрифт таблицы, саму таблицу, по высоте и ширине, разделить
-			// таблицы
-			fillTable(day).forEach(l -> { // много мусора
-				String rowFullFill = subjectDao.getNameById(l.getIdSubject()) + " " + l.getStartTime() + " - "
-						+ l.getEndTime();
-				table.addCell(new PdfPCell(new Phrase(rowFullFill)));
-			});
+
+			fillTable(day, table);
+			table.setHorizontalAlignment(getHorizontalAlignment(day));
 
 			DOCUMENT.add(table);
 		} catch (DocumentException e) {
@@ -135,11 +133,50 @@ public class SchedulePdfWriter {
 	}
 
 	/**
-	 * Adds rows to table
+	 * Returns horizontal alignment for current day
+	 *
+	 * @param day - day of week, which identifies a table
+	 * @return horizontal alignment for current day
+	 */
+	private int getHorizontalAlignment(String day) {
+		switch (day) {
+		case "Monday":
+			return Element.ALIGN_LEFT;
+		case "Tuesday":
+			return Element.ALIGN_RIGHT;
+		case "Wednesday":
+			return Element.ALIGN_LEFT;
+		case "Thursday":
+			return Element.ALIGN_RIGHT;
+		case "Friday":
+			return Element.ALIGN_LEFT;
+		}
+		return -1;
+	}
+
+	/**
+	 * Fills table with lessons
+	 * 
+	 * @param day   - lessons of which day to fill
+	 * @param table - table to fill
+	 */
+	private void fillTable(String day, PdfPTable table) {
+		listLessonsByDay(day).forEach(l -> {
+			StringBuilder rowFullFill = new StringBuilder(subjectDao.getNameById(l.getIdSubject())).append(" ")
+					.append(l.getStartTime()).append(" - ").append(l.getEndTime());
+			PdfPCell cell = new PdfPCell(new Phrase(rowFullFill.toString()));
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(cell);
+		});
+	}
+
+	/**
+	 * Returns list of lessons in a current day
 	 * 
 	 * @param table - table to add rows
+	 * @return list of lesson in a current day
 	 */
-	private List<Lesson> fillTable(String day) {
+	private List<Lesson> listLessonsByDay(String day) {
 		switch (day) {
 		case "Monday":
 			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.MONDAY)
@@ -160,7 +197,6 @@ public class SchedulePdfWriter {
 			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.FRIDAY)
 					.collect(Collectors.toList());
 		}
-		// header.setHorizontalAlignment(Element.ALIGN_CENTER);
 		return null;
 	}
 
@@ -178,5 +214,4 @@ public class SchedulePdfWriter {
 		header.setHorizontalAlignment(Element.ALIGN_CENTER);
 		table.addCell(header);
 	}
-
 }
