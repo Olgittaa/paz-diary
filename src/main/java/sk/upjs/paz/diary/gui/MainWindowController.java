@@ -90,12 +90,10 @@ public class MainWindowController {
 		}
 	}
 
-
 	private void initExamTableView() {
 	List<Exam> exams = examDao.getAllExams();
-	
 	}
-	
+
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
 		loadWindow("editExam.fxml", "Edit exam");

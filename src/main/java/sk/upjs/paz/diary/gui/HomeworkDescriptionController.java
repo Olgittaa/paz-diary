@@ -1,12 +1,13 @@
 package sk.upjs.paz.diary.gui;
 
+import com.jfoenix.controls.JFXTextArea;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 
 public class HomeworkDescriptionController {
 
 	@FXML
-	private TextArea descriptionTextArea;
+	private JFXTextArea descriptionTextArea;
 
 	@FXML
 	void initialize() {

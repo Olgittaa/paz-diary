@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.paz.diary.gui.FileChooserController">
    <children>
-      <Button fx:id="selectFileButton" defaultButton="true" mnemonicParsing="false" onAction="#selectFileButtonClick" prefWidth="200.0" text="Select file">
+      <JFXButton fx:id="selectFileButton" defaultButton="true" onAction="#selectFileButtonClick" text="Select file">
          <font>
-            <Font size="16.0" />
+            <Font name="Arial" size="24.0" />
          </font>
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-      </Button>
+      </JFXButton>
    </children>
 </VBox>

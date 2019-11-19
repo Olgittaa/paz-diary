@@ -2,11 +2,12 @@ package sk.upjs.paz.diary.gui;
 
 import java.io.File;
 
+import com.jfoenix.controls.JFXButton;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.pdf.SchedulePdfWriter;
@@ -23,7 +24,7 @@ public class FileChooserController {
 	}
 
 	@FXML
-	private Button selectFileButton;
+	private JFXButton selectFileButton;
 
 	@FXML
 	void selectFileButtonClick(ActionEvent event) {
