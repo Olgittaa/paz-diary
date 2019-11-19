@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.beans.value.ChangeListener;
@@ -16,8 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -29,6 +28,7 @@ import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.IExamDAO;
 import sk.upjs.paz.diary.storage.IHomeworkDAO;
 
 public class MainWindowController {
@@ -47,10 +47,10 @@ public class MainWindowController {
 	private FlowPane homeWorkFlowPane;
 
 	@FXML
-	private Button addHomeWorkButton;
+	private JFXButton addHomeWorkButton;
 
 	@FXML
-	private Button addExamButton;
+	private JFXButton addExamButton;
 
 	@FXML
 	void initialize() {
@@ -59,6 +59,7 @@ public class MainWindowController {
 	}
 
 	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
+	private IExamDAO examDao = DaoFactory.getExamDao();
 
 	private void initHomeworkCheckBoxes() {
 		List<Homework> hw = homeworkDao.getHomeworkOnWeek();
@@ -91,6 +92,7 @@ public class MainWindowController {
 
 
 	private void initExamTableView() {
+	List<Exam> exams = examDao.getAllExams();
 	
 	}
 	
