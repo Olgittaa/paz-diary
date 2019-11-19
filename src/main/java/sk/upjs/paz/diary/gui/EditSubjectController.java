@@ -1,37 +1,38 @@
 package sk.upjs.paz.diary.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 
 public class EditSubjectController {
 
 	@FXML
-	private Button addSubjectButton;
+	private JFXTextField nameTextField;
 
 	@FXML
-	private TextField nameTextField;
+	private JFXTextField emailTextField;
 
 	@FXML
-	private TextField emailTextField;
+	private JFXTextField siteTextField;
 
 	@FXML
-	private TextField siteTextField;
+	private JFXButton addSubjectButton;
 
 	@FXML
-	private Button cancelSubjectButton;
+	private JFXButton cancelSubjectButton;
 
 	private SubjectFXModel editedSubject;
 
 	public EditSubjectController() {
 		editedSubject = new SubjectFXModel();
 	}
-	
+
 	public EditSubjectController(Subject subject) {
 		this();
 		editedSubject.load(subject);
@@ -43,14 +44,14 @@ public class EditSubjectController {
 		siteTextField.textProperty().bindBidirectional(editedSubject.getSiteProperty());
 		emailTextField.textProperty().bindBidirectional(editedSubject.getEmailProperty());
 
-		//FIXME
+		// FIXME
 		nameTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue == null || newValue.trim().isEmpty()) {
+				if (newValue == null || newValue.trim().isEmpty()) {
 					addSubjectButton.setDisable(true);
 				} else {
-					addSubjectButton.setDisable(false);					
+					addSubjectButton.setDisable(false);
 				}
 			}
 		});

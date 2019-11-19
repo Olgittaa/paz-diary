@@ -45,6 +45,10 @@ public class SchedulePdfWriter {
 	 * Lessons for current week
 	 */
 	private final List<Lesson> LESSONS;
+
+	/**
+	 * Access object to subjects
+	 */
 	private static final ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 
 	public SchedulePdfWriter(String fileName) {
@@ -141,15 +145,12 @@ public class SchedulePdfWriter {
 	private int getHorizontalAlignment(String day) {
 		switch (day) {
 		case "Monday":
-			return Element.ALIGN_LEFT;
-		case "Tuesday":
-			return Element.ALIGN_RIGHT;
 		case "Wednesday":
-			return Element.ALIGN_LEFT;
-		case "Thursday":
-			return Element.ALIGN_RIGHT;
 		case "Friday":
 			return Element.ALIGN_LEFT;
+		case "Tuesday":
+		case "Thursday":
+			return Element.ALIGN_RIGHT;
 		}
 		return -1;
 	}

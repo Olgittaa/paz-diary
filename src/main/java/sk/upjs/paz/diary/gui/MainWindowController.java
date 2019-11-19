@@ -123,6 +123,7 @@ public class MainWindowController {
 			modalStage.setScene(scene);
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
+			modalStage.hide();
 			return modalStage;
 		} catch (LoadException e) {
 			LOGGER.error("Wrong controller\"" + controller + "\"", e);
@@ -142,7 +143,7 @@ public class MainWindowController {
 		return loadWindow(fxmlFileName, windowTitle, null);
 	}
 
-	@FXML // TODO think about the method name
+	@FXML
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
 		Stage s = loadWindow("fileChooser.fxml", "FileChooser");
 		s.hide();

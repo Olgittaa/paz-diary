@@ -1,15 +1,17 @@
 package sk.upjs.paz.diary.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTimePicker;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.HomeworkFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
@@ -17,16 +19,19 @@ import sk.upjs.paz.diary.storage.DaoFactory;
 public class EditHomeworkController {
 
 	@FXML
-	private Button saveHomeworkButton;
+	private JFXButton saveHomeworkButton;
 
 	@FXML
-	private TextArea descriptionTextArea;
+	private JFXTextArea descriptionTextArea;
 
 	@FXML
-	private DatePicker deadlineDatePicker;
+	private JFXDatePicker deadlineDatePicker;
 
 	@FXML
-	private ComboBox<Subject> subjectComboBox;
+	private JFXTimePicker timePicker;
+
+	@FXML
+	private JFXComboBox<Subject> subjectComboBox;
 
 	private HomeworkFXModel fxmodel;
 
