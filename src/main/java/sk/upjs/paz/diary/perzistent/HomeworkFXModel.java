@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Homework;
+import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class HomeworkFXModel {
 
@@ -21,7 +22,7 @@ public class HomeworkFXModel {
 		hw.setDeadline(getDeadline());
 		hw.setDescription(getDescription());
 		hw.setStatus(getStatus());
-		hw.setIdSubject(idSubject);
+		hw.setSubject(DaoFactory.getSubjectDao().getSubjectById(idSubject));
 		return hw;
 	}
 

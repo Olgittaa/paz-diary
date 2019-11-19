@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jfoenix.controls.JFXCheckBox;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Exam;
@@ -52,6 +55,7 @@ public class MainWindowController {
 	@FXML
 	void initialize() {
 		initHomeworkCheckBoxes();
+		initExamTableView();
 	}
 
 	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
@@ -59,9 +63,10 @@ public class MainWindowController {
 	private void initHomeworkCheckBoxes() {
 		List<Homework> hw = homeworkDao.getHomeworkOnWeek();
 		for (Homework homework : hw) {
-			String subjectName = DaoFactory.getSubjectDao().getNameById(homework.getIdSubject());
+			String subjectName = homework.getSubject().getName();
 
-			CheckBox checkBox = new CheckBox(subjectName + ". Until " + homework.getStringDeadline());
+			JFXCheckBox checkBox = new JFXCheckBox(subjectName + ". Until " + homework.getStringDeadline());
+			checkBox.setCheckedColor(Color.valueOf("#661616"));
 			checkBox.setSelected(homework.isDone());
 			homeWorkFlowPane.getChildren().add(checkBox);
 
@@ -76,7 +81,7 @@ public class MainWindowController {
 			checkBox.setOnMouseClicked(event -> {
 				if (event.getButton() == MouseButton.SECONDARY) {
 					loadWindow("editHomework.fxml", "Edit homework");
-				} else if (event.isControlDown() && event.getButton() == MouseButton.PRIMARY) {
+				} else if (event.getClickCount() == 2) {
 					loadWindow("homeworkDescription.fxml", "Description",
 							new HomeworkDescriptionController(homework.getDescription()));
 				}
@@ -84,10 +89,11 @@ public class MainWindowController {
 		}
 	}
 
-	void refreshHomework() {
 
+	private void initExamTableView() {
+	
 	}
-
+	
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
 		loadWindow("editExam.fxml", "Edit exam");

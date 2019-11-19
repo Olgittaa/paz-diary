@@ -52,7 +52,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 			lesson.setDuration(rs.getInt("duration"));
 			lesson.setLocation(rs.getString("location"));
 			lesson.setType("lecture".equals(rs.getString("type")) ? "lecture" : "practice");
-			lesson.setIdSubject(rs.getLong("id_subject"));
+			lesson.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
 			return lesson;
 		}
 	}

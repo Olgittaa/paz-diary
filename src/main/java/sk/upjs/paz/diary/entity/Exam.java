@@ -1,15 +1,13 @@
 package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Exam extends StudyObject {
 	private LocalDateTime dateTime;
 	private String location;
 	private Subject subject;
-
-	public Exam() {
-	}
-
+	
 	public Exam(LocalDateTime dateTime, String location) {
 		this.dateTime = dateTime;
 		this.location = location;
@@ -17,6 +15,10 @@ public class Exam extends StudyObject {
 
 	public LocalDateTime getDateTime() {
 		return dateTime;
+	}
+	
+	public String getStringDeadline() {
+		return getDateTime().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
 
 	public void setDateTime(LocalDateTime dateTime) {

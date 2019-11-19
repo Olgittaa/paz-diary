@@ -33,5 +33,8 @@ public class ExamDao extends DAO implements IExamDAO {
 			return new Exam(rs.getTimestamp("date").toLocalDateTime(), rs.getString("location"));
 		}
 	}
-
+	
+	
+	
+	
 }
