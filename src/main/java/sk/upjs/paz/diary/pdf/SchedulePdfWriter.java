@@ -23,7 +23,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.storage.DaoFactory;
-import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 /**
  * Class writes 5 tables to pdf file, representing day of week, with a daily
@@ -45,11 +44,6 @@ public class SchedulePdfWriter {
 	 * Lessons for current week
 	 */
 	private final List<Lesson> LESSONS;
-
-	/**
-	 * Access object to subjects
-	 */
-	private static final ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 
 	public SchedulePdfWriter(String fileName) {
 		LOGGER = LoggerFactory.getLogger(SchedulePdfWriter.class);
@@ -163,7 +157,7 @@ public class SchedulePdfWriter {
 	 */
 	private void fillTable(String day, PdfPTable table) {
 		listLessonsByDay(day).forEach(l -> {
-			StringBuilder rowFullFill = new StringBuilder(subjectDao.getNameById(l.getIdSubject())).append(" ")
+			StringBuilder rowFullFill = new StringBuilder(l.getSubject().getName()).append(" ")
 					.append(l.getStartTime()).append(" - ").append(l.getEndTime());
 			PdfPCell cell = new PdfPCell(new Phrase(rowFullFill.toString()));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
