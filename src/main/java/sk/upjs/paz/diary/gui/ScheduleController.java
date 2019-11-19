@@ -6,15 +6,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Lesson;
@@ -27,31 +28,31 @@ public class ScheduleController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleController.class);
 
 	@FXML
-	private ListView<Lesson> mondayListView;
+	private JFXListView<Lesson> mondayListView;
 
 	@FXML
-	private ListView<Lesson> wednesdayListView;
+	private JFXListView<Lesson> wednesdayListView;
 
 	@FXML
-	private ListView<Lesson> tuesdayListView;
+	private JFXListView<Lesson> tuesdayListView;
 
 	@FXML
-	private ListView<Lesson> thursdayListView;
+	private JFXListView<Lesson> thursdayListView;
 
 	@FXML
-	private ListView<Lesson> fridayListView;
+	private JFXListView<Lesson> fridayListView;
+
+	@FXML
+	private JFXListView<Subject> subjectListView;
 
 	@FXML
 	private Label monthLabel;
 
 	@FXML
-	private ListView<Subject> subjectListView;
+	private JFXButton removeSubjectButton;
 
 	@FXML
-	private Button removeSubjectButton;
-
-	@FXML
-	private Button addSubjectButton;
+	private JFXButton addSubjectButton;
 
 	private ISubjectDAO dao = DaoFactory.getSubjectDao();
 
@@ -74,7 +75,7 @@ public class ScheduleController {
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
 		}
-			
+
 		refreshListView(subjectFXModel.getSubject());
 	}
 

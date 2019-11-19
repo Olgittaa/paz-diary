@@ -17,7 +17,6 @@ import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -89,11 +88,10 @@ public class MainWindowController {
 		}
 	}
 
-
 	private void initExamTableView() {
-	
+
 	}
-	
+
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
 		loadWindow("editExam.fxml", "Edit exam");
