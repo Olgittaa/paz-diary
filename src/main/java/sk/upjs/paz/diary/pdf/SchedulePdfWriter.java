@@ -174,22 +174,27 @@ public class SchedulePdfWriter {
 	private List<Lesson> listLessonsByDay(String day) {
 		switch (day) {
 		case "Monday":
-			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.MONDAY)
+			return LESSONS.stream()
+					.filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.MONDAY)
 					.collect(Collectors.toList());
 		case "Tuesday":
-			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.TUESDAY)
+			return LESSONS.stream()
+					.filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.TUESDAY)
 					.collect(Collectors.toList());
 
 		case "Wednesday":
-			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.WEDNESDAY)
+			return LESSONS.stream()
+					.filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.WEDNESDAY)
 					.collect(Collectors.toList());
 
 		case "Thursday":
-			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.THURSDAY)
+			return LESSONS.stream()
+					.filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.THURSDAY)
 					.collect(Collectors.toList());
 
 		case "Friday":
-			return LESSONS.stream().filter(l -> l.getDate().getDayOfWeek() == DayOfWeek.FRIDAY)
+			return LESSONS.stream()
+					.filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.FRIDAY)
 					.collect(Collectors.toList());
 		}
 		return null;

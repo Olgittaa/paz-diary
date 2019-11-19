@@ -3,10 +3,9 @@ package sk.upjs.paz.diary.entity;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Lesson extends StudyObject {
-
+public class Lesson {
 	private Long id;
-	private LocalDateTime date;
+	private LocalDateTime dateTime;
 	private String location;
 	private int duration;
 	private String type;
@@ -18,18 +17,18 @@ public class Lesson extends StudyObject {
 
 	public Lesson(Long id, LocalDateTime date, String location, int duration, String type) {
 		this.id = id;
-		this.date = date;
+		this.dateTime = date;
 		this.location = location;
 		this.duration = duration;
 		this.type = type;
 	}
 
-	public LocalDateTime getDate() {
-		return date;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.date = date;
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getLocation() {
@@ -67,23 +66,28 @@ public class Lesson extends StudyObject {
 	public Subject getSubject() {
 		return subject;
 	}
-	
+
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
 
-	// поменять названия getTime getDate названия одинаковые делают разное
 	public LocalTime getStartTime() {
-		return date.toLocalTime();
+		return dateTime.toLocalTime();
 	}
 
 	public LocalTime getEndTime() {
-		return date.toLocalTime().plusMinutes(duration);
+		return dateTime.toLocalTime().plusMinutes(duration);
 	}
 
 	@Override
 	public String toString() {
-		return "Lesson [date=" + date + ", location=" + location + ", duration=" + duration + ", type=" + type + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append(subject.getName()).append(" ");
+		if (type != null) {
+			sb.append(Character.toUpperCase(type.charAt(0))).append("\t");
+		}
+		sb.append(getStartTime()).append("-").append(getEndTime()).append("\t").append(location);
+		return sb.toString();
 	}
 
 }

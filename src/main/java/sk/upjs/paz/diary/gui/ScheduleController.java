@@ -1,6 +1,8 @@
 package sk.upjs.paz.diary.gui;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.ILessonDAO;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 public class ScheduleController {
@@ -54,8 +57,9 @@ public class ScheduleController {
 	@FXML
 	private JFXButton addSubjectButton;
 
-	private ISubjectDAO dao = DaoFactory.getSubjectDao();
-
+	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
+	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
+	
 	private SubjectFXModel subjectFXModel = new SubjectFXModel();
 	private Subject currentSubject = new Subject();
 
@@ -84,7 +88,7 @@ public class ScheduleController {
 	 * @param newSubject - added/edited subject
 	 */
 	private void refreshListView(Subject newSubject) {
-		List<Subject> currentSubjects = dao.getAllSubjects();
+		List<Subject> currentSubjects = subjectDao.getAllSubjects();
 
 		for (Subject subject : currentSubjects) {
 			if (subject.equals(newSubject)) {
@@ -98,11 +102,26 @@ public class ScheduleController {
 
 	@FXML
 	void removeSubjectButtonClick(ActionEvent event) {
-
+		
 	}
 
 	@FXML
 	void initialize() {
-		subjectListView.setItems(FXCollections.observableArrayList(dao.getAllSubjects()));
+		setItemsToSubjectsListView();
+		setItemsToLessonsListViews();
+	}
+
+	private void setItemsToSubjectsListView() {
+		List<Subject> list = subjectDao.getAllSubjects();
+		Collections.sort(list, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+		subjectListView.setItems(FXCollections.observableArrayList(list));
+	}
+	
+	private void setItemsToLessonsListViews() {
+		mondayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(2)));
+		tuesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(3)));
+		wednesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(4)));
+		thursdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(5)));
+		fridayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(6)));
 	}
 }

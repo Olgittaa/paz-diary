@@ -1,6 +1,6 @@
 package sk.upjs.paz.diary.entity;
 
-public class Subject extends StudyObject {
+public class Subject {
 
 	private Long id;
 	private String name;

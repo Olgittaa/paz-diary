@@ -3,8 +3,7 @@ package sk.upjs.paz.diary.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Homework extends StudyObject {
-
+public class Homework {
 	private Long id;
 	private LocalDateTime deadline;
 	private String description;
@@ -15,7 +14,7 @@ public class Homework extends StudyObject {
 		return deadline;
 	}
 	
-	public String getStringDeadline() {
+	public String getFormatDeadline() {
 		return getDeadline().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
 

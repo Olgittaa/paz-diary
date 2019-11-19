@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -52,6 +53,12 @@
 				<Font name="Arial Bold" size="14.0" />
 			</font>
 		</JFXButton>
-      <TableView fx:id="examsTableView" layoutX="8.0" layoutY="345.0" prefHeight="175.0" prefWidth="661.0" style="-fx-background-color: #707B86;" />
+      <TableView fx:id="examsTableView" layoutX="8.0" layoutY="345.0" prefHeight="175.0" prefWidth="660.0" style="-fx-background-color: #707B86;">
+         <columns>
+            <TableColumn fx:id="subjectTableColumn" prefWidth="165.0" text="Subject" />
+            <TableColumn fx:id="dateTableColumn" prefWidth="165.0" text="Date" />
+            <TableColumn fx:id="timeTableColumn" prefWidth="165.0" text="Time" />
+            <TableColumn fx:id="audienceTableColumn" prefWidth="165.0" text="Audience" />
+         </columns></TableView>
 	</children>
 </AnchorPane>

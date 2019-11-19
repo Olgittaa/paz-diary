@@ -1,6 +1,8 @@
 package sk.upjs.paz.diary.gui;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,13 +13,16 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -27,11 +32,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Homework;
+import sk.upjs.paz.diary.entity.Subject;
+import sk.upjs.paz.diary.perzistent.ExamFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.IExamDAO;
 import sk.upjs.paz.diary.storage.IHomeworkDAO;
 
+@SuppressWarnings("rawtypes")
 public class MainWindowController {
+	/** Logger */
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
 
 	@FXML
@@ -40,8 +49,17 @@ public class MainWindowController {
 	@FXML
 	private ImageView scheduleImageView;
 
+
 	@FXML
-	private TableView<Exam> examsTableView;
+	private TableView examsTableView;
+	@FXML
+	private TableColumn<ExamFXModel, Subject> subjectTableColumn;
+	@FXML
+	private TableColumn<ExamFXModel, LocalDate> dateTableColumn;
+	@FXML
+	private TableColumn<ExamFXModel, LocalTime> timeTableColumn;
+	@FXML
+	private TableColumn<ExamFXModel, String> audienceTableColumn;
 
 	@FXML
 	private FlowPane homeWorkFlowPane;
@@ -52,21 +70,21 @@ public class MainWindowController {
 	@FXML
 	private JFXButton addExamButton;
 
+	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
+	private IExamDAO examDao = DaoFactory.getExamDao();
+
 	@FXML
 	void initialize() {
 		initHomeworkCheckBoxes();
 		initExamTableView();
 	}
 
-	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
-	private IExamDAO examDao = DaoFactory.getExamDao();
-
 	private void initHomeworkCheckBoxes() {
 		List<Homework> hw = homeworkDao.getHomeworkOnWeek();
 		for (Homework homework : hw) {
 			String subjectName = homework.getSubject().getName();
 
-			JFXCheckBox checkBox = new JFXCheckBox(subjectName + ". Until " + homework.getStringDeadline());
+			JFXCheckBox checkBox = new JFXCheckBox(subjectName + ". Until " + homework.getFormatDeadline());
 			checkBox.setCheckedColor(Color.valueOf("#661616"));
 			checkBox.setSelected(homework.isDone());
 			homeWorkFlowPane.getChildren().add(checkBox);
@@ -90,8 +108,16 @@ public class MainWindowController {
 		}
 	}
 
+	
+	@SuppressWarnings("unchecked")
 	private void initExamTableView() {
-	List<Exam> exams = examDao.getAllExams();
+		List<Exam> exams = examDao.getAllExams();
+		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subjectProperty"));
+		dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("dateProperty"));
+		timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("timeProperty"));
+		audienceTableColumn.setCellValueFactory(new PropertyValueFactory<>("locationProperty"));
+		
+		//examsTableView.setItems(FXCollections.observableArrayList(new ExamFXModel(new Date)));
 	}
 
 	@FXML
@@ -118,7 +144,7 @@ public class MainWindowController {
 	 * @param windowTitle - title of a window(stage)
 	 * @param controller  - controller to fxml file
 	 */
-	private Stage loadWindow(String fxmlFileName, String windowTitle, Object controller) {
+	private void loadWindow(String fxmlFileName, String windowTitle, Object controller) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
 			fxmlLoader.setController(controller);
@@ -128,15 +154,12 @@ public class MainWindowController {
 			modalStage.setTitle(windowTitle);
 			modalStage.setScene(scene);
 			modalStage.initModality(Modality.APPLICATION_MODAL);
-			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
-			modalStage.hide();
-			return modalStage;
+			modalStage.showAndWait();
 		} catch (LoadException e) {
 			LOGGER.error("Wrong controller\"" + controller + "\"", e);
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
 		}
-		return null;
 	}
 
 	/**
@@ -145,14 +168,13 @@ public class MainWindowController {
 	 * @param xmlFileName - name of a fxml file which will be loaded
 	 * @param windowTitle - title of a window(stage)
 	 */
-	private Stage loadWindow(String fxmlFileName, String windowTitle) {
-		return loadWindow(fxmlFileName, windowTitle, null);
+	private void loadWindow(String fxmlFileName, String windowTitle) {
+		loadWindow(fxmlFileName, windowTitle, null);
 	}
 
 	@FXML
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
-		Stage s = loadWindow("fileChooser.fxml", "FileChooser");
-		s.hide();
+		loadWindow("fileChooser.fxml", "FileChooser");
 	}
 
 }

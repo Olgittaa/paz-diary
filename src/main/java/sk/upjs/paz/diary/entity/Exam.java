@@ -3,14 +3,21 @@ package sk.upjs.paz.diary.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Exam extends StudyObject {
+public class Exam {
 	private LocalDateTime dateTime;
 	private String location;
 	private Subject subject;
 	
-	public Exam(LocalDateTime dateTime, String location) {
+	public Exam() {}
+	public Exam(LocalDateTime dateTime, Subject subject) {
+		this.dateTime = dateTime;
+		this.subject = subject;
+	}
+
+	public Exam(LocalDateTime dateTime, String location, Subject subject) {
 		this.dateTime = dateTime;
 		this.location = location;
+		this.subject = subject;
 	}
 
 	public LocalDateTime getDateTime() {

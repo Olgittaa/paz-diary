@@ -42,16 +42,13 @@ public class SubjectDao implements ISubjectDAO {
 	}
 	
 	private class SubjectRowMapper implements RowMapper<Subject>{
-
 		@Override
 		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Long id = rs.getLong("id_subject");
 			String name = rs.getString("name");
 			String site = rs.getString("site");
 			String email = rs.getString("email");
-			Subject subject = new Subject(id, name, site, email);
-			return subject;
+			return new Subject(id, name, site, email);
 		}
-		
 	}
 }

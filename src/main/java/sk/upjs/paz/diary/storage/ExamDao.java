@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.paz.diary.entity.Exam;
 
 public class ExamDao extends DAO implements IExamDAO {
-	
+
 	public ExamDao(JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
 	}
@@ -30,11 +30,11 @@ public class ExamDao extends DAO implements IExamDAO {
 	private class ExamRowMapperImpl implements RowMapper<Exam> {
 		@Override
 		public Exam mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return new Exam(rs.getTimestamp("date").toLocalDateTime(), rs.getString("location"));
+			Exam exam = new Exam();
+			exam.setDateTime(rs.getTimestamp("date").toLocalDateTime());
+			exam.setLocation(rs.getString("location")); // TODO что будет если тут будет нал
+			exam.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
+			return exam;
 		}
 	}
-	
-	
-	
-	
 }

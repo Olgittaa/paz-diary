@@ -3,19 +3,23 @@ package sk.upjs.paz.diary.perzistent;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Homework;
+import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class HomeworkFXModel {
-
-	private ObjectProperty<LocalDateTime> deadline;
-	private StringProperty description = new SimpleStringProperty();
-	private BooleanProperty status = new SimpleBooleanProperty();
+	private LongProperty idProperty = new SimpleLongProperty();
+	private ObjectProperty<LocalDateTime> deadlineProperty = new SimpleObjectProperty<>();
+	private StringProperty descriptionProperty = new SimpleStringProperty();
+	private BooleanProperty statusProperty = new SimpleBooleanProperty();
+	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
 
 	public Homework getHomework(Long idSubject) {
 		Homework hw = new Homework();
@@ -27,42 +31,42 @@ public class HomeworkFXModel {
 	}
 
 	public LocalDateTime getDeadline() {
-		return deadline.get();
+		return deadlineProperty.get();
 	}
 
 	public ObjectProperty<LocalDateTime> deadlineProperty() {
-		if (deadline == null) {
-			deadline = new SimpleObjectProperty<>();
+		if (deadlineProperty == null) {
+			deadlineProperty = new SimpleObjectProperty<>();
 		}
-		return deadline;
+		return deadlineProperty;
 	}
 
 	public void setDeadline(ObjectProperty<LocalDateTime> deadline) {
-		this.deadline = deadline;
+		this.deadlineProperty = deadline;
 	}
 
 	public String getDescription() {
-		return description.get();
+		return descriptionProperty.get();
 	}
 
 	public StringProperty descriptionProperty() {
-		return description;
+		return descriptionProperty;
 	}
 
 	public void setDescription(String description) {
-		this.description.set(description);
+		this.descriptionProperty.set(description);
 	}
 
 	public Boolean getStatus() {
-		return status.get();
+		return statusProperty.get();
 	}
 
 	public BooleanProperty statusProperty() {
-		return status;
+		return statusProperty;
 	}
 
 	public void statusProperty(Boolean status) {
-		this.status.set(status);
+		this.statusProperty.set(status);
 	}
 
 }

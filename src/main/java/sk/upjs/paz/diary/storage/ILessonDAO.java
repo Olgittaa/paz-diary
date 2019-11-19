@@ -29,7 +29,17 @@ public interface ILessonDAO {
 	/**
 	 * Returns a list of lessons on this week
 	 * 
-	 * @return list of lessons
+	 * @return list of Lesson
 	 */
 	List<Lesson> getWeekSchedule();
+
+	/**
+	 * Returns a list of lessons on a concrete day
+	 * 
+	 * @param day - int type parameter, representing concrete day, where 1 - Sunday,
+	 *            6 - Saturday
+	 * @return list of Lesson
+	 */
+	List<Lesson> getDaySchedule(int day);
+
 }
