@@ -10,7 +10,7 @@ public class Lesson extends StudyObject {
 	private String location;
 	private int duration;
 	private String type;
-	private Long idSubject;
+	private Subject subject;
 
 	public Lesson() {
 		location = new String();
@@ -64,12 +64,12 @@ public class Lesson extends StudyObject {
 		this.id = id;
 	}
 
-	public Long getIdSubject() {
-		return idSubject;
+	public Subject getSubject() {
+		return subject;
 	}
-
-	public void setIdSubject(Long idSubject) {
-		this.idSubject = idSubject;
+	
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 
 	// поменять названия getTime getDate названия одинаковые делают разное
