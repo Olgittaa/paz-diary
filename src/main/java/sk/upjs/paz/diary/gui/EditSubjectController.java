@@ -59,7 +59,6 @@ public class EditSubjectController {
 
 	@FXML
 	void addSubjectButtonClick(ActionEvent event) {
-
 		addSubjectButton.getScene().getWindow().hide();
 	}
 
