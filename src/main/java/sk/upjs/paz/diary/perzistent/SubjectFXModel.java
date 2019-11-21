@@ -9,26 +9,10 @@ public class SubjectFXModel {
 	private StringProperty site;
 	private StringProperty email;
 
-//	private ObservableSet<Lesson> lessons;
-//	private ObservableSet<Homework> homeworks;
-//	private ObservableSet<Exam> exams;
-
 	public SubjectFXModel() {
 		name = new SimpleStringProperty();
 		site = new SimpleStringProperty();
 		email = new SimpleStringProperty();
-
-//		lessons = FXCollections.observableSet(set);
-//		homeworks = FXCollections.observableSet(set);
-//		exams = FXCollections.observableSet(set);
-	}
-
-	public Subject getSubject() {
-		Subject subject = new Subject();
-		subject.setName(name.get());
-		subject.setSite(site.get());
-		subject.setEmail(email.get());
-		return subject;
 	}
 
 	public StringProperty getNameProperty() {
@@ -85,4 +69,11 @@ public class SubjectFXModel {
 		setEmail(subject.getEmail());
 	}
 
+	public Subject getSubject() {
+		Subject subject = new Subject();
+		subject.setName(name.get());
+		subject.setSite(site.get());
+		subject.setEmail(email.get());
+		return subject;
+	}
 }

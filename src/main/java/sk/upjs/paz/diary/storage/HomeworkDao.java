@@ -61,14 +61,15 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	public Homework save(Homework hw) {
 		if (hw == null) {
 			return null;
-		} else {
-			SimpleJdbcInsert sjinsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
-					.usingGeneratedKeyColumns("id_homework").usingColumns("description");
-			Map<String, Object> parameters = new HashMap<>(1);
-			parameters.put("description", hw);
-			long id = sjinsert.executeAndReturnKey(parameters).longValue();
-			hw.setId(id);
 		}
+		
+		SimpleJdbcInsert sjinsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
+				.usingGeneratedKeyColumns("id_homework").usingColumns("description");
+		Map<String, Object> parameters = new HashMap<>(1);
+		parameters.put("description", hw);
+		long id = sjinsert.executeAndReturnKey(parameters).longValue();
+		hw.setId(id);
+
 		return hw;
 	}
 

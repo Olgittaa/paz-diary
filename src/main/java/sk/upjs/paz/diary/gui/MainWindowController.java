@@ -1,6 +1,5 @@
 package sk.upjs.paz.diary.gui;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,13 +12,8 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.LoadException;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,8 +22,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
@@ -39,16 +31,15 @@ import sk.upjs.paz.diary.storage.IExamDAO;
 import sk.upjs.paz.diary.storage.IHomeworkDAO;
 
 @SuppressWarnings("rawtypes")
-public class MainWindowController {
+public class MainWindowController extends Controller {
 	/** Logger */
-	private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
 
 	@FXML
 	private ImageView downloadImageView;
 
 	@FXML
 	private ImageView scheduleImageView;
-
 
 	@FXML
 	private TableView examsTableView;
@@ -108,8 +99,7 @@ public class MainWindowController {
 		}
 	}
 
-	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("all")
 	private void initExamTableView() {
 		List<Exam> exams = examDao.getAllExams();
 		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subjectProperty"));
@@ -135,41 +125,6 @@ public class MainWindowController {
 		if (event.getButton() != MouseButton.PRIMARY)
 			return;
 		loadWindow("schedule.fxml", "Schedule");
-	}
-
-	/**
-	 * Initializes window using fxml file
-	 * 
-	 * @param xmlFileName - name of a fxml file which will be loaded
-	 * @param windowTitle - title of a window(stage)
-	 * @param controller  - controller to fxml file
-	 */
-	private void loadWindow(String fxmlFileName, String windowTitle, Object controller) {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
-			fxmlLoader.setController(controller);
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent);
-			Stage modalStage = new Stage();
-			modalStage.setTitle(windowTitle);
-			modalStage.setScene(scene);
-			modalStage.initModality(Modality.APPLICATION_MODAL);
-			modalStage.showAndWait();
-		} catch (LoadException e) {
-			LOGGER.error("Wrong controller\"" + controller + "\"", e);
-		} catch (IOException e) {
-			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
-		}
-	}
-
-	/**
-	 * Initializes window using fxml file
-	 * 
-	 * @param xmlFileName - name of a fxml file which will be loaded
-	 * @param windowTitle - title of a window(stage)
-	 */
-	private void loadWindow(String fxmlFileName, String windowTitle) {
-		loadWindow(fxmlFileName, windowTitle, null);
 	}
 
 	@FXML

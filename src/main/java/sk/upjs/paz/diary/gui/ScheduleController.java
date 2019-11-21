@@ -1,8 +1,8 @@
 package sk.upjs.paz.diary.gui;
 
 import java.io.IOException;
+import java.time.Month;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.ILessonDAO;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
-public class ScheduleController {
+public class ScheduleController extends Controller{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleController.class);
 
 	@FXML
@@ -59,27 +59,43 @@ public class ScheduleController {
 
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
-	
+
 	private SubjectFXModel subjectFXModel = new SubjectFXModel();
 	private Subject currentSubject = new Subject();
 
 	@FXML
-	void addSubjectButtonClick(ActionEvent event) {
-		String fxmlFileName = "editSubject.fxml";
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
-			fxmlLoader.setController(new EditSubjectController(currentSubject));
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent);
-			Stage modalStage = new Stage();
-			modalStage.setTitle("Edit subject");
-			modalStage.setScene(scene);
-			modalStage.initModality(Modality.APPLICATION_MODAL);
-			modalStage.showAndWait(); // код за loadWindow не будет выполняться пока окно открыто
-		} catch (IOException e) {
-			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
-		}
+	void initialize() {
+		setItemsToLessonsListViews();
+		initMonthLabel();
+		setItemsToSubjectsListView();
+	}
 
+	/**
+	 * Initializes label according to month of the first lesson in a week
+	 */
+	private void initMonthLabel() {
+		Month month = null;
+		if (!mondayListView.getItems().isEmpty()) {
+			month = mondayListView.getItems().get(0).getDateTime().getMonth();
+		} else if (!tuesdayListView.getItems().isEmpty()) {
+			month = tuesdayListView.getItems().get(0).getDateTime().getMonth();
+		} else if (!wednesdayListView.getItems().isEmpty()) {
+			month = wednesdayListView.getItems().get(0).getDateTime().getMonth();
+		} else if (!thursdayListView.getItems().isEmpty()) {
+			month = thursdayListView.getItems().get(0).getDateTime().getMonth();
+		} else if (!fridayListView.getItems().isEmpty()) {
+			month = fridayListView.getItems().get(0).getDateTime().getMonth();
+		} else {
+			monthLabel.setText(null);
+			return;
+		}
+		monthLabel.setText(month.toString());
+	}
+
+	@FXML
+	void addSubjectButtonClick(ActionEvent event) {
+		loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));
+		
 		refreshListView(subjectFXModel.getSubject());
 	}
 
@@ -102,13 +118,7 @@ public class ScheduleController {
 
 	@FXML
 	void removeSubjectButtonClick(ActionEvent event) {
-		
-	}
 
-	@FXML
-	void initialize() {
-		setItemsToSubjectsListView();
-		setItemsToLessonsListViews();
 	}
 
 	private void setItemsToSubjectsListView() {
@@ -116,7 +126,7 @@ public class ScheduleController {
 		Collections.sort(list, (o1, o2) -> o1.getName().compareTo(o2.getName()));
 		subjectListView.setItems(FXCollections.observableArrayList(list));
 	}
-	
+
 	private void setItemsToLessonsListViews() {
 		mondayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(2)));
 		tuesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(3)));

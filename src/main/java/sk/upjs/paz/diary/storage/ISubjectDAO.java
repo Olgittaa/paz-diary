@@ -15,4 +15,6 @@ public interface ISubjectDAO {
 	String getNameById(Long id);
 
 	Subject getSubjectById(Long id);
+
+	void save(Subject subject);
 }

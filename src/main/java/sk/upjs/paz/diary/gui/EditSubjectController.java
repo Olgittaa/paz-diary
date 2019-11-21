@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
+import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 public class EditSubjectController {
 
@@ -28,6 +30,7 @@ public class EditSubjectController {
 	private JFXButton cancelSubjectButton;
 
 	private SubjectFXModel editedSubject;
+	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao(); 
 
 	public EditSubjectController() {
 		editedSubject = new SubjectFXModel();
@@ -59,6 +62,8 @@ public class EditSubjectController {
 
 	@FXML
 	void addSubjectButtonClick(ActionEvent event) {
+		Subject subject = editedSubject.getSubject();
+		subjectDao.save(subject);
 		addSubjectButton.getScene().getWindow().hide();
 	}
 

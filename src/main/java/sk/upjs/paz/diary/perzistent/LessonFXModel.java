@@ -21,7 +21,6 @@ public class LessonFXModel {
 	private StringProperty typeProperty = new SimpleStringProperty();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
 	
-	
 	public Long getId() {
 		return idProperty.get();
 	}
@@ -93,8 +92,7 @@ public class LessonFXModel {
 	}
 	public void setSubjectProperty(ObjectProperty<Subject> subjectProperty) {
 		this.subjectProperty = subjectProperty;
-	}
-	
+	}	
 	public Lesson getLesson() {
 		Lesson lesson = new Lesson();
 		lesson.setId(getId());
