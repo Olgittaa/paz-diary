@@ -64,7 +64,6 @@ public class SubjectDao implements ISubjectDAO {
 		if (subject.getId() == null) {
 			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("subject")
 					.usingGeneratedKeyColumns("subject_id");
-			
 			jdbcInsert.usingColumns("name", "site", "email");
 			
 			final Map<String, Object> values = new HashMap<>(4);
@@ -75,13 +74,17 @@ public class SubjectDao implements ISubjectDAO {
 			long id = jdbcInsert.executeAndReturnKey(values).longValue();
 			subject.setId(id);
 			
-			String sql = "INSERT INTO subject(id_subject, name, site, email) VALUES (1, 'paz1a', 'https://paz1a.ics.upjs.sk/', 'juraj.sebej@gmail.com')";
-			
-			jdbcTemplate.update(sql, subject);
 		}
 		// UPDATE
 		else {
-
+			String sql = "UPDATE subject SET name=?, site=?, email=? WHERE id = " + subject.getId();
+			jdbcTemplate.update(sql, subject.getName(), subject.getSite(), subject.getEmail());
 		}
+	}
+
+	@Override
+	public void remove(Subject subject) {
+		String sql = "DELETE FROM subject WHERE id_subject="+subject.getId();
+		jdbcTemplate.execute(sql);
 	}
 }

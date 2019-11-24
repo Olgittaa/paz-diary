@@ -53,7 +53,7 @@ public class MainWindowController extends Controller {
 	private TableColumn<ExamFXModel, String> audienceTableColumn;
 
 	@FXML
-	private FlowPane homeWorkFlowPane;
+	private FlowPane homeworkFlowPane;
 
 	@FXML
 	private JFXButton addHomeWorkButton;
@@ -64,6 +64,8 @@ public class MainWindowController extends Controller {
 	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
 	private IExamDAO examDao = DaoFactory.getExamDao();
 
+	//private ObservableList<Homework> onWeekHomework;
+
 	@FXML
 	void initialize() {
 		initHomeworkCheckBoxes();
@@ -71,29 +73,30 @@ public class MainWindowController extends Controller {
 	}
 
 	private void initHomeworkCheckBoxes() {
-		List<Homework> hw = homeworkDao.getHomeworkOnWeek();
-		for (Homework homework : hw) {
+		List<Homework> onWeekHomework = homeworkDao.getHomeworkOnWeekSorted();
+
+		for (Homework homework : onWeekHomework) {
 			String subjectName = homework.getSubject().getName();
 
 			JFXCheckBox checkBox = new JFXCheckBox(subjectName + ". Until " + homework.getFormatDeadline());
 			checkBox.setCheckedColor(Color.valueOf("#661616"));
 			checkBox.setSelected(homework.isDone());
-			homeWorkFlowPane.getChildren().add(checkBox);
+			homeworkFlowPane.getChildren().add(checkBox);
 
 			checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 					homework.setStatus(newValue);
-					homeworkDao.refreshHomework(homework);
+					homeworkDao.save(homework);
 				}
 			});
 
 			checkBox.setOnMouseClicked(event -> {
 				if (event.getButton() == MouseButton.SECONDARY) {
-					loadWindow("editHomework.fxml", "Edit homework");
-				} else if (event.getClickCount() == 2) {
-					loadWindow("homeworkDescription.fxml", "Description",
-							new HomeworkDescriptionController(homework.getDescription()));
+					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework));
+					refreshHomework();
+				} else if (event.isControlDown()) { // сделал через контрол читай {@link TODO} пункт 2
+					loadWindow("homeworkDescription.fxml", "Description", new HomeworkDescriptionController(homework));
 				}
 			});
 		}
@@ -106,8 +109,9 @@ public class MainWindowController extends Controller {
 		dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("dateProperty"));
 		timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("timeProperty"));
 		audienceTableColumn.setCellValueFactory(new PropertyValueFactory<>("locationProperty"));
-		
-		//examsTableView.setItems(FXCollections.observableArrayList(new ExamFXModel(new Date)));
+
+		// examsTableView.setItems(FXCollections.observableArrayList(new ExamFXModel(new
+		// Date)));
 	}
 
 	@FXML
@@ -117,7 +121,13 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void addHomeWorkButtonClick(ActionEvent event) {
-		loadWindow("editHomework.fxml", "Edit homework");
+		loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController());
+		refreshHomework();
+	}
+
+	private void refreshHomework() {
+		homeworkFlowPane.getChildren().clear();
+		initHomeworkCheckBoxes();
 	}
 
 	@FXML

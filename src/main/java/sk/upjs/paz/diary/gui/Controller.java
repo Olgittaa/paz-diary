@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -22,13 +23,14 @@ public class Controller {
 	 * @param windowTitle - title of a window(stage)
 	 * @param controller  - controller to fxml file
 	 */
-	protected void loadWindow(String fxmlFileName, String windowTitle, Object controller) {
+	protected Stage loadWindow(String fxmlFileName, String windowTitle, Object controller) {
+		Stage modalStage = null;
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);
-			Stage modalStage = new Stage();
+			modalStage = new Stage();
 			modalStage.setTitle(windowTitle);
 			modalStage.setScene(scene);
 			modalStage.initModality(Modality.APPLICATION_MODAL);
@@ -38,6 +40,7 @@ public class Controller {
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file\"" + fxmlFileName + "\"", e);
 		}
+		return modalStage;
 	}
 
 	/**
@@ -46,8 +49,16 @@ public class Controller {
 	 * @param xmlFileName - name of a fxml file which will be loaded
 	 * @param windowTitle - title of a window(stage)
 	 */
-	protected void loadWindow(String fxmlFileName, String windowTitle) {
-		loadWindow(fxmlFileName, windowTitle, null);
+	protected Stage loadWindow(String fxmlFileName, String windowTitle) {
+		return loadWindow(fxmlFileName, windowTitle, null);
+	}
+
+	/**
+	 * 
+	 * @param node
+	 */
+	protected void closeWindow(Node node) {
+		node.getScene().getWindow().hide();
 	}
 
 }

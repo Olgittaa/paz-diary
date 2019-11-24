@@ -2,6 +2,7 @@ package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Homework {
 	private Long id;
@@ -9,15 +10,18 @@ public class Homework {
 	private String description;
 	private boolean status;
 	private Subject subject;
+	
+	public boolean getStatus() {
+		return status;
+	}
 
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-	
 	public String getFormatDeadline() {
-		return getDeadline().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
+		return deadline.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
-
+	
 	public void setDeadline(LocalDateTime deadline) {
 		this.deadline = deadline;
 	}
@@ -59,4 +63,22 @@ public class Homework {
 		return "Homework [deadline=" + deadline + ", description=" + description + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Homework other = (Homework) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	
 }

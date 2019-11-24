@@ -20,14 +20,20 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 
 	@Override
 	public List<Homework> getAllHomework() {
-		String sql = "SELECT * FROM homework;";
+		String sql = "SELECT * FROM homework";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 	}
 
 	@Override
-	public List<Homework> getHomeworkOnWeek() {
+	public List<Homework> getAllHomeworkSorted() {
+		String sql = "SELECT * FROM homework ORDER BY deadline";
+		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+	}
+
+	@Override
+	public List<Homework> getHomeworkOnWeekSorted() {
 		String sql = "SELECT * FROM homework WHERE id_homework NOT IN (SELECT id_homework FROM homework "
-				+ "WHERE DATEDIFF(deadline, NOW()) < -7 AND status = 1) ORDER BY deadline;";
+				+ "WHERE DATEDIFF(deadline, NOW()) < -7 AND status = 1) ORDER BY deadline";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 	}
 
@@ -36,12 +42,6 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		String sql = "SELECT id_homework, deadline, description, status FROM homework hw "
 				+ "LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE hw.id_subject = ?";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl(), id);
-	}
-
-	@Override
-	public void refreshHomework(Homework homework) {
-		String sql = "UPDATE homework SET status = ? WHERE id_homework = ?";
-		jdbcTemplate.update(sql, homework.isDone(), homework.getId());
 	}
 
 	private class HomeworkRowMapperImpl implements RowMapper<Homework> {
@@ -58,19 +58,33 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	}
 
 	@Override
-	public Homework save(Homework hw) {
-		if (hw == null) {
-			return null;
+	public void save(Homework homework) {
+		if (homework == null) {
+			return;
 		}
-		
-		SimpleJdbcInsert sjinsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
-				.usingGeneratedKeyColumns("id_homework").usingColumns("description");
-		Map<String, Object> parameters = new HashMap<>(1);
-		parameters.put("description", hw);
-		long id = sjinsert.executeAndReturnKey(parameters).longValue();
-		hw.setId(id);
+		if (homework.getId() == null) { // INSERT
+			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
+					.usingGeneratedKeyColumns("id_homework");
+			Map<String, Object> parameters = new HashMap<>(1);
+			parameters.put("deadline", homework.getDeadline());
+			parameters.put("description", homework.getDescription());
+			parameters.put("status", homework.getStatus());
+			parameters.put("id_subject", homework.getSubject().getId());
 
-		return hw;
+			long id = jdbcInsert.executeAndReturnKey(parameters).longValue();
+			homework.setId(id);
+		} else { // UPDATE
+			String sql = "UPDATE homework SET deadline=?, description=?, status=?, id_subject=? WHERE id_homework = "
+					+ homework.getId();
+			jdbcTemplate.update(sql, homework.getDeadline(), homework.getDescription(), homework.getStatus(),
+					homework.getSubject().getId());
+		}
+	}
+
+	@Override
+	public void remove(Homework homework) {
+		String sql = "DELETE FROM homework WHERE id_homework=" + homework.getId();
+		jdbcTemplate.execute(sql);
 	}
 
 }

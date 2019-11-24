@@ -3,6 +3,7 @@ package sk.upjs.paz.diary.gui;
 import com.jfoenix.controls.JFXTextArea;
 
 import javafx.fxml.FXML;
+import sk.upjs.paz.diary.entity.Homework;
 
 public class HomeworkDescriptionController {
 
@@ -11,13 +12,13 @@ public class HomeworkDescriptionController {
 
 	@FXML
 	void initialize() {
-		descriptionTextArea.setText(description);
+		descriptionTextArea.setText(homework.getDescription());
 	}
 
-	private String description;
+	private Homework homework;
 
-	public HomeworkDescriptionController(String description) {
-		this.description = description;
+	public HomeworkDescriptionController(Homework homework) {
+		this.homework = homework;
 	}
 
 }

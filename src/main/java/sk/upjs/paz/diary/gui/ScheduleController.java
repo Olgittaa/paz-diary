@@ -1,6 +1,5 @@
 package sk.upjs.paz.diary.gui;
 
-import java.io.IOException;
 import java.time.Month;
 import java.util.Collections;
 import java.util.List;
@@ -14,20 +13,14 @@ import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.ILessonDAO;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
-public class ScheduleController extends Controller{
+public class ScheduleController extends Controller {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleController.class);
 
 	@FXML
@@ -60,7 +53,6 @@ public class ScheduleController extends Controller{
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
-	private SubjectFXModel subjectFXModel = new SubjectFXModel();
 	private Subject currentSubject = new Subject();
 
 	@FXML
@@ -68,6 +60,17 @@ public class ScheduleController extends Controller{
 		setItemsToLessonsListViews();
 		initMonthLabel();
 		setItemsToSubjectsListView();
+	}
+
+	/**
+	 * Initializes lessons lists with current week lessons
+	 */
+	private void setItemsToLessonsListViews() {
+		mondayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(2)));
+		tuesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(3)));
+		wednesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(4)));
+		thursdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(5)));
+		fridayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(6)));
 	}
 
 	/**
@@ -92,46 +95,26 @@ public class ScheduleController extends Controller{
 		monthLabel.setText(month.toString());
 	}
 
+	/**
+	 * Initializes subject's list with all subjects
+	 */
+	private void setItemsToSubjectsListView() {
+		List<Subject> list = subjectDao.getAllSubjects();
+		Collections.sort(list);
+		subjectListView.setItems(FXCollections.observableArrayList(list));
+	}
+
 	@FXML
 	void addSubjectButtonClick(ActionEvent event) {
 		loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));
-		
-		refreshListView(subjectFXModel.getSubject());
-	}
-
-	/**
-	 * 
-	 * @param newSubject - added/edited subject
-	 */
-	private void refreshListView(Subject newSubject) {
-		List<Subject> currentSubjects = subjectDao.getAllSubjects();
-
-		for (Subject subject : currentSubjects) {
-			if (subject.equals(newSubject)) {
-				subject = newSubject;
-				currentSubjects.add(subject);
-				break;
-			}
-		}
-		subjectListView.setItems(FXCollections.observableArrayList(currentSubjects));
+		setItemsToSubjectsListView();
 	}
 
 	@FXML
 	void removeSubjectButtonClick(ActionEvent event) {
-
+		Subject sbj = subjectListView.getSelectionModel().getSelectedItem();
+		subjectListView.getItems().remove(sbj);
+		subjectDao.remove(sbj);
 	}
 
-	private void setItemsToSubjectsListView() {
-		List<Subject> list = subjectDao.getAllSubjects();
-		Collections.sort(list, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-		subjectListView.setItems(FXCollections.observableArrayList(list));
-	}
-
-	private void setItemsToLessonsListViews() {
-		mondayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(2)));
-		tuesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(3)));
-		wednesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(4)));
-		thursdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(5)));
-		fridayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(6)));
-	}
 }

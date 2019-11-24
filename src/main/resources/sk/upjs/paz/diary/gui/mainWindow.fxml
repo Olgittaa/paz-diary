@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="530.0" minWidth="750.0" prefHeight="530.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.paz.diary.gui.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.paz.diary.gui.MainWindowController">
 	<children>
 		<Pane layoutX="8.0" layoutY="8.0" prefHeight="322.0" prefWidth="377.0" style="-fx-background-color: #CACACA;">
 			<children>
@@ -37,7 +37,7 @@
 				<Image url="@share.png" />
 			</image>
 		</ImageView>
-		<FlowPane fx:id="homeWorkFlowPane" layoutX="397.0" layoutY="58.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="326.0" style="-fx-background-color: #957878;" AnchorPane.leftAnchor="397.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0" />
+		<FlowPane fx:id="homeworkFlowPane" layoutX="397.0" layoutY="58.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="371.0" style="-fx-background-color: #957878;" AnchorPane.leftAnchor="396.8" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0" />
 		<Label layoutX="463.0" layoutY="7.0" prefHeight="34.0" prefWidth="287.0" text="Here is your nearest homework">
 			<font>
 				<Font name="Arial Italic" size="18.0" />
@@ -53,12 +53,12 @@
 				<Font name="Arial Bold" size="14.0" />
 			</font>
 		</JFXButton>
-      <TableView fx:id="examsTableView" layoutX="8.0" layoutY="345.0" prefHeight="175.0" prefWidth="660.0" style="-fx-background-color: #707B86;">
+      <TableView fx:id="examsTableView" layoutX="8.0" layoutY="345.0" prefHeight="175.0" prefWidth="690.0" style="-fx-background-color: #707B86;" AnchorPane.bottomAnchor="9.800000000000011" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="81.60000000000002" AnchorPane.topAnchor="345.00000000000006">
          <columns>
-            <TableColumn fx:id="subjectTableColumn" prefWidth="165.0" text="Subject" />
-            <TableColumn fx:id="dateTableColumn" prefWidth="165.0" text="Date" />
-            <TableColumn fx:id="timeTableColumn" prefWidth="165.0" text="Time" />
-            <TableColumn fx:id="audienceTableColumn" prefWidth="165.0" text="Audience" />
+            <TableColumn fx:id="subjectTableColumn" prefWidth="172.5" text="Subject" />
+            <TableColumn fx:id="dateTableColumn" prefWidth="172.5" text="Date" />
+            <TableColumn fx:id="timeTableColumn" prefWidth="172.5" text="Time" />
+            <TableColumn fx:id="audienceTableColumn" prefWidth="172.5" text="Audience" />
          </columns></TableView>
 	</children>
 </AnchorPane>

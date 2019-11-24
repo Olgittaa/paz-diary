@@ -31,7 +31,7 @@ public class EditSubjectController {
 
 	private SubjectFXModel editedSubject;
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao(); 
-
+	
 	public EditSubjectController() {
 		editedSubject = new SubjectFXModel();
 	}
@@ -51,11 +51,10 @@ public class EditSubjectController {
 		nameTextField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.trim().isEmpty()) {
+				if (newValue == null || newValue.trim().isEmpty())
 					addSubjectButton.setDisable(true);
-				} else {
+				else
 					addSubjectButton.setDisable(false);
-				}
 			}
 		});
 	}
@@ -64,6 +63,7 @@ public class EditSubjectController {
 	void addSubjectButtonClick(ActionEvent event) {
 		Subject subject = editedSubject.getSubject();
 		subjectDao.save(subject);
+		
 		addSubjectButton.getScene().getWindow().hide();
 	}
 

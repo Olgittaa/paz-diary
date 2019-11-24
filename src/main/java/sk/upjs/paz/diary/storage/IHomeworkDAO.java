@@ -12,11 +12,14 @@ import sk.upjs.paz.diary.entity.Homework;
 public interface IHomeworkDAO {
 	List<Homework> getAllHomework();
 	
+	List<Homework> getAllHomeworkSorted();
+
 	List<Homework> getHomeworkBySubjectId(Long id);
 	
-	void refreshHomework(Homework homework);
+	List<Homework> getHomeworkOnWeekSorted();
 
-	Homework save(Homework homework);
+	void save(Homework homework);
 
-	List<Homework> getHomeworkOnWeek();
+	void remove(Homework homework);
+
 }

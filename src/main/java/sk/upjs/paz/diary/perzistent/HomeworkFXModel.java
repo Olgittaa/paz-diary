@@ -1,12 +1,12 @@
 package sk.upjs.paz.diary.perzistent;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,34 +15,103 @@ import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class HomeworkFXModel {
-	private LongProperty idProperty = new SimpleLongProperty();
-	private ObjectProperty<LocalDateTime> deadlineProperty = new SimpleObjectProperty<>();
+	private Long id;
 	private StringProperty descriptionProperty = new SimpleStringProperty();
 	private BooleanProperty statusProperty = new SimpleBooleanProperty();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
 
+	private ObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
+	private ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<>();
+
+	/**
+	 * Casts HomeworkFXModel to Homework
+	 * 
+	 * @param idSubject - homeworks's subject's id
+	 * @return homework
+	 */
 	public Homework getHomework(Long idSubject) {
 		Homework hw = new Homework();
-		hw.setDeadline(getDeadline());
+		hw.setDeadline(LocalDateTime.of(getDate(), getTime()));
 		hw.setDescription(getDescription());
 		hw.setStatus(getStatus());
 		hw.setSubject(DaoFactory.getSubjectDao().getSubjectById(idSubject));
+		hw.setId(id);
 		return hw;
 	}
 
-	public LocalDateTime getDeadline() {
-		return deadlineProperty.get();
+	/**
+	 * Casts Homework to HomeworkFXModel
+	 * 
+	 * @param homework - homework to cast
+	 * @return homewworkFXModel
+	 */
+	public void loadFromHomework(Homework homework) {
+		setDate(homework.getDeadline().toLocalDate());
+		setTime(homework.getDeadline().toLocalTime());
+		setDescription(homework.getDescription());
+		id = homework.getId();
+		setStatus(homework.getStatus());
+		setSubject(homework.getSubject());
+	}
+	
+	public void setSubject(Subject subject) {
+		subjectProperty.set(subject);
 	}
 
-	public ObjectProperty<LocalDateTime> deadlineProperty() {
-		if (deadlineProperty == null) {
-			deadlineProperty = new SimpleObjectProperty<>();
-		}
-		return deadlineProperty;
+	public LocalDate getDate() {
+		return dateProperty.get();
 	}
 
-	public void setDeadline(ObjectProperty<LocalDateTime> deadline) {
-		this.deadlineProperty = deadline;
+	public ObjectProperty<LocalDate> getDateProperty() {
+		return dateProperty;
+	}
+
+	public void setDate(LocalDate date) {
+		dateProperty.set(date);
+	}
+
+	public LocalTime getTime() {
+		return timeProperty.get();
+	}
+
+	public StringProperty getDescriptionProperty() {
+		return descriptionProperty;
+	}
+
+	public void setDescriptionProperty(StringProperty descriptionProperty) {
+		this.descriptionProperty = descriptionProperty;
+	}
+
+	public BooleanProperty getStatusProperty() {
+		return statusProperty;
+	}
+
+	public void setStatusProperty(BooleanProperty statusProperty) {
+		this.statusProperty = statusProperty;
+	}
+
+	public ObjectProperty<Subject> getSubjectProperty() {
+		return subjectProperty;
+	}
+
+	public void setSubjectProperty(ObjectProperty<Subject> subjectProperty) {
+		this.subjectProperty = subjectProperty;
+	}
+
+	public ObjectProperty<LocalTime> getTimeProperty() {
+		return timeProperty;
+	}
+
+	public void setTimeProperty(ObjectProperty<LocalTime> timeProperty) {
+		this.timeProperty = timeProperty;
+	}
+
+	public void setDateProperty(ObjectProperty<LocalDate> dateProperty) {
+		this.dateProperty = dateProperty;
+	}
+
+	public void setTime(LocalTime time) {
+		timeProperty.set(time);
 	}
 
 	public String getDescription() {
@@ -61,12 +130,12 @@ public class HomeworkFXModel {
 		return statusProperty.get();
 	}
 
-	public BooleanProperty statusProperty() {
-		return statusProperty;
+	public void setStatus(Boolean status) {
+		this.statusProperty.set(status);
 	}
 
-	public void statusProperty(Boolean status) {
-		this.statusProperty.set(status);
+	public Subject getSubject() {
+		return subjectProperty.get();
 	}
 
 }

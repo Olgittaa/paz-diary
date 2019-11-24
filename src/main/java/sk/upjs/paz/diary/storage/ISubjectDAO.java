@@ -17,4 +17,6 @@ public interface ISubjectDAO {
 	Subject getSubjectById(Long id);
 
 	void save(Subject subject);
+	
+	void remove(Subject subject);
 }

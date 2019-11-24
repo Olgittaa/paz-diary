@@ -1,16 +1,11 @@
 package sk.upjs.paz.diary.entity;
 
-public class Subject {
+public class Subject implements Comparable<Subject>{
 
 	private Long id;
 	private String name;
 	private String site;
 	private String email;
-
-	//лушче пусть каждый помнит свой сабджект, это легче реализовать
-//	private List<Lesson> lessons;
-//	private List<Homework> homeworks;
-//	private List<Exam> exams;
 
 	public Subject() {
 		name = new String();
@@ -19,7 +14,6 @@ public class Subject {
 	}
 
 	public Subject(Long id, String name, String site, String email) {
-		this();
 		this.id = id;
 		this.name = name;
 		this.site = site;
@@ -92,6 +86,11 @@ public class Subject {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Subject s) {
+		return getName().compareToIgnoreCase(s.getName());
 	}
 
 }
