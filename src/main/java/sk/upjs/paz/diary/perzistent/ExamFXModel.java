@@ -10,19 +10,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
+import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class ExamFXModel {
+	private Long id;
 	private ObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<>();
 	private StringProperty locationProperty = new SimpleStringProperty();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
-
-	public ExamFXModel(LocalDate date, LocalTime time, String location, Subject subject) {
-		setDate(date);
-		setTime(time);
-		setLocation(location);
-		setSubject(subject);
-	}
 
 	public LocalDate getDate() {
 		return dateProperty.get();
@@ -88,11 +83,21 @@ public class ExamFXModel {
 		this.subjectProperty = subjectProperty;
 	}
 
-	public Exam getExam() {
+	public Exam getExam(Long idSubject) {
 		Exam exam = new Exam();
 		exam.setDateTime(LocalDateTime.of(getDate(), getTime()));
 		exam.setLocation(getLocation());
 		exam.setSubject(getSubject());
+		exam.setSubject(DaoFactory.getSubjectDao().getSubjectById(idSubject));
+		exam.setId(id);
 		return exam;
+	}
+
+	public void loadFromExam(Exam exam) {
+		setDate(exam.getDateTime().toLocalDate());
+		setTime(exam.getDateTime().toLocalTime());
+		setLocation(exam.getLocation());
+		id = exam.getId();
+		setSubject(exam.getSubject());
 	}
 }

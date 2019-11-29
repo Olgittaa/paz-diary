@@ -4,27 +4,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Exam {
+	private Long id;
 	private LocalDateTime dateTime;
 	private String location;
 	private Subject subject;
-	
-	public Exam() {}
-	public Exam(LocalDateTime dateTime, Subject subject) {
-		this.dateTime = dateTime;
-		this.subject = subject;
+
+	public Long getId() {
+		return id;
 	}
 
-	public Exam(LocalDateTime dateTime, String location, Subject subject) {
-		this.dateTime = dateTime;
-		this.location = location;
-		this.subject = subject;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
-	
-	public String getStringDeadline() {
+
+	public String getStringDateTime() {
 		return getDateTime().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
 
@@ -43,7 +40,7 @@ public class Exam {
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
-	
+
 	public Subject getSubject() {
 		return subject;
 	}
@@ -51,6 +48,37 @@ public class Exam {
 	@Override
 	public String toString() {
 		return "Exam [date=" + dateTime + ", location=" + location + "]\n";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
+		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Exam other = (Exam) obj;
+		if (dateTime == null) {
+			if (other.dateTime != null)
+				return false;
+		} else if (!dateTime.equals(other.dateTime))
+			return false;
+		if (subject == null) {
+			if (other.subject != null)
+				return false;
+		} else if (!subject.equals(other.subject))
+			return false;
+		return true;
 	}
 
 }

@@ -18,7 +18,7 @@ import sk.upjs.paz.diary.perzistent.HomeworkFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.IHomeworkDAO;
 
-public class EditHomeworkController extends Controller{
+public class EditHomeworkController extends Controller {
 
 	@FXML
 	private JFXButton saveHomeworkButton;
@@ -48,15 +48,14 @@ public class EditHomeworkController extends Controller{
 	 * Homework we are going to edit
 	 */
 	private Homework selectedHomework;
-	
+
 	/**
 	 * Homework we are going to save
 	 */
 	private Homework savedHomework;
-	
+
 	private ObservableList<Subject> subjectsModel;
 
-	
 	public EditHomeworkController() {
 		fxmodel = new HomeworkFXModel();
 	}
@@ -65,15 +64,15 @@ public class EditHomeworkController extends Controller{
 		this();
 		this.selectedHomework = selectedHomework;
 		fxmodel.loadFromHomework(selectedHomework);
-		
-		//TODO selectedHomework особо не нужен в поле
+
+		// TODO selectedHomework особо не нужен в поле
 	}
 
 	@FXML
 	void initialize() {
 		subjectsModel = FXCollections.observableArrayList(DaoFactory.getSubjectDao().getAllSubjects());
 		subjectComboBox.setItems(subjectsModel);
-		
+
 		if (selectedHomework == null) { // if creating homework
 			subjectComboBox.getSelectionModel().selectFirst();
 		} else { // if editing homework
@@ -87,7 +86,8 @@ public class EditHomeworkController extends Controller{
 		descriptionTextArea.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue != null && newValue.trim().length() > 0) {
+				if (newValue != null && newValue.trim().length() > 0 && deadlineDatePicker.valueProperty() != null
+						&& deadlineTimePicker.valueProperty() != null && subjectComboBox.valueProperty() != null) {
 					saveHomeworkButton.setDisable(false);
 				} else {
 					saveHomeworkButton.setDisable(true);
@@ -101,7 +101,7 @@ public class EditHomeworkController extends Controller{
 		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
 		Homework homework = fxmodel.getHomework(selectedSubject.getId());
 		homeworkDao.save(homework);
-		//savedHomework = homework;
+		// savedHomework = homework;
 		closeWindow(saveHomeworkButton);
 	}
 
@@ -111,7 +111,7 @@ public class EditHomeworkController extends Controller{
 		homeworkDao.remove(homework);
 		closeWindow(removeHomeworkButton);
 	}
-	
+
 	Homework getSavedHomework() {
 		return savedHomework;
 	}

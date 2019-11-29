@@ -12,8 +12,11 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -42,15 +45,13 @@ public class MainWindowController extends Controller {
 	private ImageView scheduleImageView;
 
 	@FXML
-	private TableView examsTableView;
+	private TableView<Exam> examsTableView;
 	@FXML
-	private TableColumn<ExamFXModel, Subject> subjectTableColumn;
+	private TableColumn<Exam, Subject> subjectTableColumn;
 	@FXML
-	private TableColumn<ExamFXModel, LocalDate> dateTableColumn;
+	private TableColumn<Exam, LocalDate> dateTimeTableColumn;
 	@FXML
-	private TableColumn<ExamFXModel, LocalTime> timeTableColumn;
-	@FXML
-	private TableColumn<ExamFXModel, String> audienceTableColumn;
+	private TableColumn<Exam, String> audienceTableColumn;
 
 	@FXML
 	private FlowPane homeworkFlowPane;
@@ -64,7 +65,7 @@ public class MainWindowController extends Controller {
 	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
 	private IExamDAO examDao = DaoFactory.getExamDao();
 
-	//private ObservableList<Homework> onWeekHomework;
+	// private ObservableList<Homework> onWeekHomework;
 
 	@FXML
 	void initialize() {
@@ -78,7 +79,8 @@ public class MainWindowController extends Controller {
 		for (Homework homework : onWeekHomework) {
 			String subjectName = homework.getSubject().getName();
 
-			JFXCheckBox checkBox = new JFXCheckBox(subjectName + ". Until " + homework.getFormatDeadline());
+			JFXCheckBox checkBox = new JFXCheckBox(
+					subjectName + " until " + homework.getFormatDeadline() + "\n-" + homework.getDescription());
 			checkBox.setCheckedColor(Color.valueOf("#661616"));
 			checkBox.setSelected(homework.isDone());
 			homeworkFlowPane.getChildren().add(checkBox);
@@ -99,24 +101,32 @@ public class MainWindowController extends Controller {
 					loadWindow("homeworkDescription.fxml", "Description", new HomeworkDescriptionController(homework));
 				}
 			});
+
 		}
 	}
 
 	@SuppressWarnings("all")
 	private void initExamTableView() {
-		List<Exam> exams = examDao.getAllExams();
-		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subjectProperty"));
-		dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("dateProperty"));
-		timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("timeProperty"));
-		audienceTableColumn.setCellValueFactory(new PropertyValueFactory<>("locationProperty"));
+		ObservableList<Exam> exams = FXCollections.observableArrayList(examDao.getAllExams());
+		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
+		dateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+		audienceTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
 
-		// examsTableView.setItems(FXCollections.observableArrayList(new ExamFXModel(new
-		// Date)));
+		examsTableView.setItems(exams);
+
+		examsTableView.setOnMouseClicked(event -> {
+			if (event.getButton() == MouseButton.SECONDARY) {
+				loadWindow("editExam.fxml", "Edit exam",
+						new EditExamsController(examsTableView.getSelectionModel().getSelectedItem()));
+				refreshExams();
+			}
+		});
 	}
 
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
 		loadWindow("editExam.fxml", "Edit exam");
+		refreshExams();
 	}
 
 	@FXML
@@ -128,6 +138,11 @@ public class MainWindowController extends Controller {
 	private void refreshHomework() {
 		homeworkFlowPane.getChildren().clear();
 		initHomeworkCheckBoxes();
+	}
+
+	private void refreshExams() {
+		examsTableView.getItems().clear();
+		initExamTableView();
 	}
 
 	@FXML

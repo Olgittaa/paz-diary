@@ -20,12 +20,6 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 
 	@Override
 	public List<Homework> getAllHomework() {
-		String sql = "SELECT * FROM homework";
-		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
-	}
-
-	@Override
-	public List<Homework> getAllHomeworkSorted() {
 		String sql = "SELECT * FROM homework ORDER BY deadline";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 	}
@@ -65,7 +59,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		if (homework.getId() == null) { // INSERT
 			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
 					.usingGeneratedKeyColumns("id_homework");
-			Map<String, Object> parameters = new HashMap<>(1);
+			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("deadline", homework.getDeadline());
 			parameters.put("description", homework.getDescription());
 			parameters.put("status", homework.getStatus());
