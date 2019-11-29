@@ -125,7 +125,7 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
-		loadWindow("editExam.fxml", "Edit exam");
+		loadWindow("editExam.fxml", "Edit exam", new EditExamsController());
 		refreshExams();
 	}
 

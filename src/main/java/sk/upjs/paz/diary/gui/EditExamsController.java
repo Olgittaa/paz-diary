@@ -83,18 +83,18 @@ public class EditExamsController extends Controller {
 	}
 
 	@FXML
-	void saveExam(ActionEvent event) {
-		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
-		Exam exam = fxmodel.getExam(selectedSubject.getId());
-		examDao.save(exam);
-		closeWindow(saveExamButton);
-	}
-
-	@FXML
 	void removeExam(ActionEvent event) {
 		Exam exam = fxmodel.getExam(fxmodel.getSubject().getId());
 		examDao.remove(exam);
 		closeWindow(removeExamButton);
 	}
 
+	@FXML
+	void saveExam(ActionEvent event) {
+		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
+		Exam exam = fxmodel.getExam(selectedSubject.getId());
+		examDao.save(exam);
+		closeWindow(saveExamButton);
+
+	}
 }
