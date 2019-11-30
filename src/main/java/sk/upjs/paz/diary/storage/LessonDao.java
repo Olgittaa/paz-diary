@@ -24,15 +24,14 @@ public class LessonDao extends DAO implements ILessonDAO {
 
 	@Override
 	public List<Lesson> getAllLessons() {
-		final String sql = "SELECT id_lesson, date, location, duration, `type` FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject";
+		final String sql = "SELECT id_lesson, date, location, duration, type FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject";
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
 	}
 
 	@Override
 	public List<Lesson> getLessonsBySubjectId(Long id) {
-		final String sql = "SELECT id_lesson, `date`, location, duration, `type` FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE l.id_subject = "
-				+ id;
-		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
+		final String sql = "SELECT * FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE l.id_subject = ?";
+		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), id);
 	}
 
 	@Override

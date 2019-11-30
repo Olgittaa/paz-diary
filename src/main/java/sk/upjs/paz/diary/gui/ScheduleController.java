@@ -102,7 +102,9 @@ public class ScheduleController extends Controller {
 	private void setItemsToSubjectsListView() {
 		subjectListView.setOnMouseClicked(e -> {
 			if (e.getButton() == MouseButton.SECONDARY) {
-				loadWindow("subjectDescription.fxml", subjectListView.getSelectionModel().getSelectedItem().getName());
+				Subject selectedSubject = subjectListView.getSelectionModel().getSelectedItem();
+				loadWindow("subjectDescription.fxml", selectedSubject.getName(),
+						new SubjectDescriptionController(selectedSubject));
 			}
 		});
 		subjectListView.setItems(FXCollections.observableArrayList(subjectDao.getAllSubjectsSorted()));

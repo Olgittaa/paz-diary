@@ -8,12 +8,15 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
+import sk.upjs.paz.diary.entity.Lesson;
+import sk.upjs.paz.diary.entity.Subject;
+import sk.upjs.paz.diary.storage.DaoFactory;
 
 public class SubjectDescriptionController extends Controller {
 	/** Logger */
@@ -29,41 +32,48 @@ public class SubjectDescriptionController extends Controller {
 	private JFXTextField siteTextField;
 
 	@FXML
-	private JFXButton cancelButton;
+	private JFXListView<Lesson> lessonsListView;
 
-	@FXML
-	private JFXButton saveButton;
+	private Subject subject;
 
-	@FXML
-	void cancelButtonClick(ActionEvent event) {
-		closeWindow(cancelButton);
+	public SubjectDescriptionController(Subject subject) {
+		this.subject = subject;
 	}
 
-	public SubjectDescriptionController() {
+	@FXML
+	void initialize() {
+		nameTextField.setText(subject.getName());
+		emailTextField.setText(subject.getEmail());
+		siteTextField.setText(subject.getSite());
 
+		lessonsListView.setItems(
+				FXCollections.observableArrayList(DaoFactory.getLessonDao().getLessonsBySubjectId(subject.getId())));
 	}
 
 	@FXML
 	void openInBrowserOnMouseClick(MouseEvent event) {
 		if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-			LOGGER.info("Action browse is not supported on this platform");
+			LOGGER.info("Action browsing is not supported on this platform");
 			return;
 		}
 		try {
-			Desktop.getDesktop().browse(new URI(""));
+			Desktop.getDesktop().browse(new URI(subject.getSite()));
 		} catch (IOException | URISyntaxException e) {
 			LOGGER.error("Browsing error", e);
 		}
 	}
 
 	@FXML
-	void saveButtonClick(ActionEvent event) {
-
-	}
-
-	@FXML
 	void sendEmailImageViewClick(MouseEvent event) {
-
+		if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.MAIL)) {
+			LOGGER.info("Action mailng is not supported on this platform");
+			return;
+		}
+		try {
+			Desktop.getDesktop().mail(new URI("mailto:" + subject.getEmail()));
+		} catch (IOException | URISyntaxException e) {
+			LOGGER.error("Mailing error", e);
+		}
 	}
 
 }

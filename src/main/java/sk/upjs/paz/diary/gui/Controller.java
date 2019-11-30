@@ -54,8 +54,9 @@ public class Controller {
 	}
 
 	/**
+	 * Closes a window where the node is deployed
 	 * 
-	 * @param node
+	 * @param node - deployed node
 	 */
 	protected void closeWindow(Node node) {
 		node.getScene().getWindow().hide();

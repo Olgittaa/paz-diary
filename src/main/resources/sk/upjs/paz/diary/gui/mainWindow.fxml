@@ -57,8 +57,11 @@
 			<columns>
 				<TableColumn fx:id="subjectTableColumn" prefWidth="230.0" text="Subject" />
 				<TableColumn fx:id="dateTimeTableColumn" prefWidth="230.0" text="Date" />
-				<TableColumn fx:id="audienceTableColumn" prefWidth="230.0" text="Audience" />
+				<TableColumn fx:id="audienceTableColumn" prefWidth="230.0" sortable="false" text="Audience" />
 			</columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
 		</TableView>
 	</children>
 </AnchorPane>
