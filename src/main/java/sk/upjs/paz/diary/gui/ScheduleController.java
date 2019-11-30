@@ -1,11 +1,7 @@
 package sk.upjs.paz.diary.gui;
 
 import java.time.Month;
-import java.util.Collections;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -14,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.storage.DaoFactory;
@@ -21,7 +18,6 @@ import sk.upjs.paz.diary.storage.ILessonDAO;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 public class ScheduleController extends Controller {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleController.class);
 
 	@FXML
 	private JFXListView<Lesson> mondayListView;
@@ -57,7 +53,7 @@ public class ScheduleController extends Controller {
 
 	@FXML
 	void initialize() {
-		setItemsToLessonsListViews();
+		setOrRefreshItemsToLessonsListViews();
 		initMonthLabel();
 		setItemsToSubjectsListView();
 	}
@@ -65,12 +61,17 @@ public class ScheduleController extends Controller {
 	/**
 	 * Initializes lessons lists with current week lessons
 	 */
-	private void setItemsToLessonsListViews() {
-		mondayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(2)));
-		tuesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(3)));
-		wednesdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(4)));
-		thursdayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(5)));
-		fridayListView.setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(6)));
+	private void setOrRefreshItemsToLessonsListViews() {
+		final ArrayList<JFXListView<Lesson>> views = new ArrayList<>(6);
+		views.add(mondayListView);
+		views.add(tuesdayListView);
+		views.add(wednesdayListView);
+		views.add(thursdayListView);
+		views.add(fridayListView);
+		for (int i = 0; i < views.size(); i++) {
+			views.get(i).getItems().clear();
+			views.get(i).setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(i + 2)));
+		}
 	}
 
 	/**
@@ -99,9 +100,12 @@ public class ScheduleController extends Controller {
 	 * Initializes subject's list with all subjects
 	 */
 	private void setItemsToSubjectsListView() {
-		List<Subject> list = subjectDao.getAllSubjects();
-		Collections.sort(list);
-		subjectListView.setItems(FXCollections.observableArrayList(list));
+		subjectListView.setOnMouseClicked(e -> {
+			if (e.getButton() == MouseButton.SECONDARY) {
+				loadWindow("subjectDescription.fxml", subjectListView.getSelectionModel().getSelectedItem().getName());
+			}
+		});
+		subjectListView.setItems(FXCollections.observableArrayList(subjectDao.getAllSubjectsSorted()));
 	}
 
 	@FXML
@@ -115,6 +119,7 @@ public class ScheduleController extends Controller {
 		Subject sbj = subjectListView.getSelectionModel().getSelectedItem();
 		subjectListView.getItems().remove(sbj);
 		subjectDao.remove(sbj);
+		setOrRefreshItemsToLessonsListViews();
 	}
 
 }

@@ -47,14 +47,14 @@ public class EditHomeworkController extends Controller {
 	/**
 	 * Homework we are going to edit
 	 */
-	private Homework selectedHomework;
-
-	/**
-	 * Homework we are going to save
-	 */
-	private Homework savedHomework;
+	private Homework selectedHomework; // помогает понять мы редактируем или создаем новые хв(см конструкторы)
 
 	private ObservableList<Subject> subjectsModel;
+	private boolean wereChanges;
+
+	public boolean wereChanges() {
+		return wereChanges;
+	}
 
 	public EditHomeworkController() {
 		fxmodel = new HomeworkFXModel();
@@ -64,8 +64,6 @@ public class EditHomeworkController extends Controller {
 		this();
 		this.selectedHomework = selectedHomework;
 		fxmodel.loadFromHomework(selectedHomework);
-
-		// TODO selectedHomework особо не нужен в поле
 	}
 
 	@FXML
@@ -86,8 +84,7 @@ public class EditHomeworkController extends Controller {
 		descriptionTextArea.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue != null && newValue.trim().length() > 0 && deadlineDatePicker.valueProperty() != null
-						&& deadlineTimePicker.valueProperty() != null && subjectComboBox.valueProperty() != null) {
+				if (newValue != null && newValue.trim().length() > 0) {
 					saveHomeworkButton.setDisable(false);
 				} else {
 					saveHomeworkButton.setDisable(true);
@@ -101,7 +98,7 @@ public class EditHomeworkController extends Controller {
 		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
 		Homework homework = fxmodel.getHomework(selectedSubject.getId());
 		homeworkDao.save(homework);
-		// savedHomework = homework;
+		wereChanges = true;
 		closeWindow(saveHomeworkButton);
 	}
 
@@ -109,11 +106,7 @@ public class EditHomeworkController extends Controller {
 	void removeHomework(ActionEvent event) {
 		Homework homework = fxmodel.getHomework(fxmodel.getSubject().getId());
 		homeworkDao.remove(homework);
+		wereChanges = true;
 		closeWindow(removeHomeworkButton);
 	}
-
-	Homework getSavedHomework() {
-		return savedHomework;
-	}
-
 }

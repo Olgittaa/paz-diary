@@ -20,10 +20,16 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 
 	@Override
 	public List<Homework> getAllHomework() {
-		String sql = "SELECT * FROM homework ORDER BY deadline";
+		String sql = "SELECT * FROM homework";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 	}
 
+	@Override
+	public List<Homework> getAllHomeworkSorted() {
+		String sql = "SELECT * FROM homework ORDER BY deadline";
+		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+	}
+	
 	@Override
 	public List<Homework> getHomeworkOnWeekSorted() {
 		String sql = "SELECT * FROM homework WHERE id_homework NOT IN (SELECT id_homework FROM homework "
@@ -80,5 +86,11 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		String sql = "DELETE FROM homework WHERE id_homework=" + homework.getId();
 		jdbcTemplate.execute(sql);
 	}
+	@Override
+	public boolean contains(Homework homework) {
+		List<Homework> hwList = getAllHomework();
+		return hwList.contains(homework);
+	}
+	
 
 }

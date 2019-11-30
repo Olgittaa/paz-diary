@@ -87,6 +87,7 @@ public class Lesson {
 			sb.append(Character.toUpperCase(type.charAt(0))).append("\t");
 		}
 		sb.append(getStartTime()).append("-").append(getEndTime()).append("\t").append(location);
+		//sb.append(getDateTime()).append("\t").append(location);
 		return sb.toString();
 	}
 

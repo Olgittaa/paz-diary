@@ -12,7 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sk.upjs.paz.diary.pdf.SchedulePdfWriter;
 
-public class FileChooserController {
+public class FileChooserController extends Controller{
 
 	private final FileChooser FILE_CHOOSER;
 

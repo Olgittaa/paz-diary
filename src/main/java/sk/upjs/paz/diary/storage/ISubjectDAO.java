@@ -19,4 +19,6 @@ public interface ISubjectDAO {
 	void save(Subject subject);
 	
 	void remove(Subject subject);
+
+	List<Subject> getAllSubjectsSorted();
 }

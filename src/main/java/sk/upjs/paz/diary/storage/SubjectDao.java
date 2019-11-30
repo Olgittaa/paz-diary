@@ -33,6 +33,13 @@ public class SubjectDao implements ISubjectDAO {
 	}
 
 	@Override
+	public List<Subject> getAllSubjectsSorted() {
+		String query = "SELECT * FROM subject ORDER BY name";
+		List<Subject> list = jdbcTemplate.query(query, new SubjectRowMapper());
+		return list;
+	}
+	
+	@Override
 	public String getNameById(Long id) {
 		String sql = "SELECT name FROM subject WHERE id_subject=?";
 		return jdbcTemplate.queryForObject(sql, String.class, id);

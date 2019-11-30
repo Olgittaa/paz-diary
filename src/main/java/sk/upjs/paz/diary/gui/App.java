@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,7 +18,6 @@ public class App extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-		// System.out.println(DaoFactory.getSubjectDao().getSubjectById(3l));
 	}
 
 	@Override
@@ -38,6 +38,6 @@ public class App extends Application {
 
 	@Override
 	public void stop() {
-		System.exit(1);
+		Platform.exit();
 	}
 }

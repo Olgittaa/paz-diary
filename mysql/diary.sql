@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `lesson`
    ),
    `id_subject` BIGINT NOT NULL
 );
-ALTER TABLE lesson ADD CONSTRAINT fk_lesson_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject);
+ALTER TABLE lesson ADD CONSTRAINT fk_lesson_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE;
 drop table if exists `homework`;
 CREATE TABLE IF NOT EXISTS `homework`
 (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `homework`
    `status` BOOLEAN DEFAULT FALSE,
    `id_subject` BIGINT NOT NULL
 );
-ALTER TABLE homework ADD CONSTRAINT fk_homework_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject);
+ALTER TABLE homework ADD CONSTRAINT fk_homework_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE;
 drop table if exists `exam`;
 CREATE TABLE IF NOT EXISTS `exam`
 (
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `exam`
    `location` VARCHAR (45),
    `id_subject` BIGINT NOT NULL
 );
-ALTER TABLE exam ADD CONSTRAINT fk_exam_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject);
+ALTER TABLE exam ADD CONSTRAINT fk_exam_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE;
 
 -- Fill subject table
 INSERT INTO `diary`.`subject` (`id_subject`, `name`, `site`, `email`) VALUES ('1', 'paz1a', 'https://paz1a.ics.upjs.sk/', 'juraj.sebej@gmail.com');
@@ -122,7 +122,16 @@ INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (29, '2019-11-22 12:05', 'WWWW', '60', 'lecture', 9);
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (30, '2019-11-24 13:05', 'VVVV', '60', 'practice', 7);
 INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (31, '2019-11-26 14:05', 'ZZZZ', '60', 'lecture', 8);
-INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (32, '2019-11-26 15:05', 'MOMO', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (32, '2019-11-26 8:05', 'MOMO', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (33, '2019-11-26 7:05', 'AUD', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (34, '2019-11-27 9:05', 'POI', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (35, '2019-11-27 8:05', 'CCK', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (36, '2019-11-27 7:05', 'WOI', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (37, '2019-11-27 10:05', 'WAR', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (38, '2019-11-25 11:05', 'MOR', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (39, '2019-11-25 12:05', 'REC', '60', 'practice', 6);
+INSERT INTO `diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, `type`, `id_subject`) VALUES (40, '2019-11-28 13:05', 'OBR', '60', 'practice', 6);
+
 
 -- ==================
 SELECT * FROM `exam`;

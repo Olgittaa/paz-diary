@@ -46,7 +46,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 		if (day < 2 || day > 6) {
 			return Collections.emptyList();
 		}
-		final String sql = "SELECT * FROM lesson WHERE dayofweek(date) =? ORDER BY date";
+		final String sql = "SELECT * FROM lesson WHERE dayofweek(date) =? AND week(date, 1) = week(current_date(), 1) ORDER BY date";
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), day);
 	}
 

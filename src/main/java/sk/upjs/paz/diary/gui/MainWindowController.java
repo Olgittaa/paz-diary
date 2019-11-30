@@ -1,7 +1,6 @@
 package sk.upjs.paz.diary.gui;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,12 +26,10 @@ import javafx.scene.paint.Color;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.ExamFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.IExamDAO;
 import sk.upjs.paz.diary.storage.IHomeworkDAO;
 
-@SuppressWarnings("rawtypes")
 public class MainWindowController extends Controller {
 	/** Logger */
 	static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
@@ -65,8 +61,6 @@ public class MainWindowController extends Controller {
 	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
 	private IExamDAO examDao = DaoFactory.getExamDao();
 
-	// private ObservableList<Homework> onWeekHomework;
-
 	@FXML
 	void initialize() {
 		initHomeworkCheckBoxes();
@@ -97,15 +91,12 @@ public class MainWindowController extends Controller {
 				if (event.getButton() == MouseButton.SECONDARY) {
 					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework));
 					refreshHomework();
-				} else if (event.isControlDown()) { // сделал через контрол читай {@link TODO} пункт 2
-					loadWindow("homeworkDescription.fxml", "Description", new HomeworkDescriptionController(homework));
 				}
 			});
 
 		}
 	}
 
-	@SuppressWarnings("all")
 	private void initExamTableView() {
 		ObservableList<Exam> exams = FXCollections.observableArrayList(examDao.getAllExams());
 		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));

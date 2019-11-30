@@ -12,7 +12,7 @@ import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
-public class EditSubjectController {
+public class EditSubjectController extends Controller{
 
 	@FXML
 	private JFXTextField nameTextField;

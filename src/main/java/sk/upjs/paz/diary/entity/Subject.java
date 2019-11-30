@@ -1,6 +1,8 @@
 package sk.upjs.paz.diary.entity;
 
-public class Subject implements Comparable<Subject>{
+import java.util.Objects;
+
+public class Subject implements Comparable<Subject> {
 
 	private Long id;
 	private String name;
@@ -54,11 +56,7 @@ public class Subject implements Comparable<Subject>{
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+		return Objects.hash(email, id, name, site);
 	}
 
 	@Override
@@ -70,17 +68,8 @@ public class Subject implements Comparable<Subject>{
 		if (getClass() != obj.getClass())
 			return false;
 		Subject other = (Subject) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
+		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(site, other.site);
 	}
 
 	@Override
