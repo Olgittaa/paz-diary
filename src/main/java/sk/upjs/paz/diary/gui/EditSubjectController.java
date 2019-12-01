@@ -1,34 +1,61 @@
 package sk.upjs.paz.diary.gui;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 public class EditSubjectController extends Controller{
-
 	@FXML
-	private JFXTextField nameTextField;
+    private JFXButton cancelSubjectButton;
 
-	@FXML
-	private JFXTextField emailTextField;
+    @FXML
+    private JFXButton addSubjectButton;
 
-	@FXML
-	private JFXTextField siteTextField;
+    @FXML
+    private JFXTextField siteTextField;
 
-	@FXML
-	private JFXButton addSubjectButton;
+    @FXML
+    private JFXTextField emailTextField;
 
-	@FXML
-	private JFXButton cancelSubjectButton;
+    @FXML
+    private JFXTextField nameTextField;
 
+    @FXML
+    private JFXComboBox<String> dayOfWeekLectureComboBox;
+
+    @FXML
+    private JFXComboBox<String> dayOfWeekPracticeComboBox;
+
+    @FXML
+    private JFXTimePicker timeLectureTimePicker;
+
+    @FXML
+    private JFXTimePicker timePracticeTimePicker;
+
+    @FXML
+    private JFXTextField quantityLectureTextField;
+
+    @FXML
+    private JFXTextField QuantityPracticeTextField;
+
+    @FXML
+    private JFXListView<Lesson> lecturesListView;
+
+    @FXML
+    private JFXListView<Lesson> practicesListView;
+    
 	private SubjectFXModel editedSubject;
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao(); 
 	
