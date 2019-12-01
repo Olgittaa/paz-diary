@@ -10,6 +10,8 @@ import javafx.fxml.LoadException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -60,6 +62,14 @@ public class Controller {
 	 */
 	protected void closeWindow(Node node) {
 		node.getScene().getWindow().hide();
+	}
+
+	protected void showAlert(AlertType type, String title, String header, String content) {
+		Alert alert = new Alert(type);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.show();
 	}
 
 }

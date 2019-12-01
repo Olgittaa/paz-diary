@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
@@ -55,6 +56,9 @@ public class SubjectDescriptionController extends Controller {
 		if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
 			LOGGER.info("Action browsing is not supported on this platform");
 			return;
+		} else if (subject.getSite() == null) {
+			showAlert(AlertType.WARNING, "Warning", "No site provided", "You should provide subject's site first");
+			return;
 		}
 		try {
 			Desktop.getDesktop().browse(new URI(subject.getSite()));
@@ -68,7 +72,11 @@ public class SubjectDescriptionController extends Controller {
 		if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.MAIL)) {
 			LOGGER.info("Action mailng is not supported on this platform");
 			return;
+		} else if (subject.getEmail() == null) {
+			showAlert(AlertType.WARNING, "Warning", "No email provided", "You should provide teacher's email first");
+			return;
 		}
+
 		try {
 			Desktop.getDesktop().mail(new URI("mailto:" + subject.getEmail()));
 		} catch (IOException | URISyntaxException e) {
