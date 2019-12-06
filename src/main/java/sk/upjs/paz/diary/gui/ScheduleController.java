@@ -49,7 +49,7 @@ public class ScheduleController extends Controller {
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
-	private Subject currentSubject = new Subject();
+	private Subject currentSubject /* = new Subject() */;
 
 	@FXML
 	void initialize() {
@@ -112,7 +112,12 @@ public class ScheduleController extends Controller {
 
 	@FXML
 	void editSubjectButtonClick(ActionEvent event) {
-		loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));
+		if(currentSubject == null) {
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController());
+		} else {
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));			
+		}
+		
 		setItemsToSubjectsListView();
 	}
 

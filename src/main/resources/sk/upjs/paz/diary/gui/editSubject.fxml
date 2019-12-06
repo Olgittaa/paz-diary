@@ -47,7 +47,7 @@
       <JFXTextField fx:id="siteTextField" focusColor="#510572" layoutX="217.0" layoutY="161.0" prefHeight="27.0" prefWidth="193.0" promptText="Type subject's site here..." />
       <JFXTextField fx:id="emailTextField" focusColor="#510572" layoutX="217.0" layoutY="119.0" prefHeight="27.0" prefWidth="193.0" promptText="Type teachers email here..." />
       <JFXTextField fx:id="nameTextField" focusColor="#510572" layoutX="217.0" layoutY="77.0" prefHeight="27.0" prefWidth="193.0" promptText="Type name of subject here..." />
-      <Label layoutX="77.0" layoutY="215.0" text="Lectures:">
+      <Label layoutX="52.0" layoutY="215.0" text="Lectures:">
          <font>
             <Font name="Arial Bold" size="20.0" />
          </font>
@@ -57,72 +57,72 @@
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="77.0" layoutY="255.0" text="Day of week:">
+      <Label layoutX="49.0" layoutY="255.0" text="Day of week:">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <JFXComboBox fx:id="dayOfWeekLectureComboBox" focusColor="#510572" layoutX="194.0" layoutY="253.0" prefHeight="27.0" prefWidth="33.0" />
+      <JFXComboBox fx:id="dayOfWeekLectureComboBox" focusColor="#510572" layoutX="163.0" layoutY="253.0" prefHeight="27.0" prefWidth="82.0" />
       <Label layoutX="270.0" layoutY="255.0" text="Day of week:">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <JFXComboBox fx:id="dayOfWeekPracticeComboBox" focusColor="#510572" layoutX="387.0" layoutY="253.0" prefHeight="27.0" prefWidth="33.0" />
-      <Label layoutX="77.0" layoutY="297.0" text="Time:">
+      <JFXComboBox fx:id="dayOfWeekPracticeComboBox" focusColor="#510572" layoutX="387.0" layoutY="253.0" prefHeight="27.0" prefWidth="82.0" />
+      <Label layoutX="49.0" layoutY="297.0" text="Time:">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <JFXTimePicker fx:id="timeLectureTimePicker" defaultColor="#510572" layoutX="135.0" layoutY="294.0" prefHeight="29.0" prefWidth="116.0" />
+      <JFXTimePicker fx:id="timeLectureTimePicker" defaultColor="#510572" layoutX="100.0" layoutY="294.0" prefHeight="29.0" prefWidth="116.0" />
       <Label layoutX="271.0" layoutY="297.0" text="Time:">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
       <JFXTimePicker fx:id="timePracticeTimePicker" defaultColor="#510572" layoutX="329.0" layoutY="294.0" prefHeight="29.0" prefWidth="116.0" />
-      <Label layoutX="77.0" layoutY="340.0" prefHeight="47.0" prefWidth="116.0" text="Quantity per semester:" wrapText="true">
+      <Label layoutX="49.0" layoutY="340.0" prefHeight="47.0" prefWidth="116.0" text="Quantity per semester:" wrapText="true">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="quantityLectureTextField" focusColor="#510572" layoutX="196.0" layoutY="350.0" prefHeight="27.0" prefWidth="50.0" />
+      <JFXTextField fx:id="quantityLectureTextField" focusColor="#510572" layoutX="159.0" layoutY="350.0" prefHeight="27.0" prefWidth="50.0" />
       <Label layoutX="274.0" layoutY="340.0" prefHeight="47.0" prefWidth="116.0" text="Quantity per semester:" wrapText="true">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
       <JFXTextField fx:id="quantityPracticeTextField" focusColor="#510572" layoutX="393.0" layoutY="350.0" prefHeight="27.0" prefWidth="50.0" />
-      <JFXListView fx:id="lecturesListView" layoutX="71.0" layoutY="485.0" prefHeight="58.0" prefWidth="174.0" />
+      <JFXListView fx:id="lecturesListView" layoutX="49.0" layoutY="485.0" prefHeight="58.0" prefWidth="174.0" />
       <JFXListView fx:id="practicesListView" layoutX="268.0" layoutY="485.0" prefHeight="58.0" prefWidth="174.0" />
       <Line endX="291.5" layoutX="178.0" layoutY="205.0" startX="-133.5" stroke="#4b4b4b" strokeWidth="3.0" />
-      <JFXButton layoutX="268.0" layoutY="543.0" onAction="#removePractice" prefHeight="26.0" prefWidth="87.0" text="Remove" />
-      <JFXButton layoutX="355.0" layoutY="543.0" onAction="#addPractice" prefHeight="26.0" prefWidth="87.0" text="Add" />
-      <JFXButton layoutX="71.0" layoutY="543.0" onAction="#removeLecture" prefHeight="26.0" prefWidth="87.0" text="Remove" />
-      <JFXButton layoutX="157.0" layoutY="543.0" onAction="#addLecture" prefHeight="26.0" prefWidth="87.0" text="Add" />
-      <JFXTextField fx:id="lectureDurationTextField" layoutX="177.0" layoutY="395.0" prefHeight="26.0" prefWidth="51.0" />
-      <Label layoutX="79.0" layoutY="399.0" text="Duration:">
+      <JFXButton fx:id="removePracticeButton" layoutX="268.0" layoutY="543.0" onAction="#removePractice" prefHeight="26.0" prefWidth="87.0" text="Remove" />
+      <JFXButton fx:id="addPracticeButton" layoutX="355.0" layoutY="543.0" onAction="#addPractice" prefHeight="26.0" prefWidth="87.0" text="Add" />
+      <JFXButton fx:id="removeLectureButton" layoutX="49.0" layoutY="543.0" onAction="#removeLecture" prefHeight="26.0" prefWidth="87.0" text="Remove" />
+      <JFXButton fx:id="addLectureButton" layoutX="136.0" layoutY="543.0" onAction="#addLecture" prefHeight="26.0" prefWidth="87.0" text="Add" />
+      <JFXTextField fx:id="lectureDurationTextField" focusColor="#510572" layoutX="139.0" layoutY="396.0" prefHeight="26.0" prefWidth="51.0" />
+      <Label layoutX="49.0" layoutY="399.0" text="Duration:">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="practiceDurationTextField" layoutX="368.0" layoutY="394.0" prefHeight="26.0" prefWidth="51.0" />
+      <JFXTextField fx:id="practiceDurationTextField" focusColor="#510572" layoutX="368.0" layoutY="394.0" prefHeight="26.0" prefWidth="51.0" />
       <Label layoutX="270.0" layoutY="398.0" text="Duration:">
          <font>
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="79.0" layoutY="447.0" text="Audience:">
+      <Label layoutX="49.0" layoutY="447.0" text="Audience:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="lectureAudienceTextField" layoutX="184.0" layoutY="443.0" prefHeight="26.0" prefWidth="51.0" />
+      <JFXTextField fx:id="lectureAudienceTextField" focusColor="#510572" layoutX="139.0" layoutY="447.0" prefHeight="26.0" prefWidth="51.0" />
       <Label layoutX="273.0" layoutY="447.0" text="Audience:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="practiceAudienceTextField" layoutX="378.0" layoutY="447.0" prefHeight="26.0" prefWidth="51.0" />
+      <JFXTextField fx:id="practiceAudienceTextField" focusColor="#510572" layoutX="378.0" layoutY="447.0" prefHeight="26.0" prefWidth="51.0" />
    </children>
 </AnchorPane>
