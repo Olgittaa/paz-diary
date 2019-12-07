@@ -58,12 +58,12 @@ public class ScheduleController extends Controller {
 	private JFXButton removeSubjectButton;
 
 	@FXML
-	private JFXButton addSubjectButton;
+	private JFXButton editSubjectButton;
 
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
-	private Subject currentSubject = new Subject();
+	private Subject currentSubject /* = new Subject() */;
 
 	@FXML
 	void initialize() {
@@ -174,8 +174,13 @@ public class ScheduleController extends Controller {
 	}
 
 	@FXML
-	void addSubjectButtonClick(ActionEvent event) {
-		loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));
+	void editSubjectButtonClick(ActionEvent event) {
+		if(currentSubject == null) {
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController());
+		} else {
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));			
+		}
+		
 		setItemsToSubjectsListView();
 	}
 
