@@ -16,10 +16,10 @@ public class EditLessonController extends Controller{
     private JFXTimePicker timePicker;
 
     @FXML
-    private JFXButton removeStudyObjectButton;
+    private JFXButton removeLessonButton;
 
     @FXML
-    private JFXButton saveStudyObjectButton;
+    private JFXButton saveLessonButton;
 
     @FXML
     private JFXTextField typeTextField;

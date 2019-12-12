@@ -84,7 +84,7 @@ public class EditHomeworkController extends Controller {
 		descriptionTextArea.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (oldValue == null || oldValue.trim().length() == 0) {// FIXME doesn't work
+				if (newValue.trim().length() != 0 && oldValue != newValue) {
 					saveHomeworkButton.setDisable(false);
 				} else {
 					saveHomeworkButton.setDisable(true);

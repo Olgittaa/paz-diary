@@ -1,5 +1,7 @@
 package sk.upjs.paz.diary.gui;
 
+import java.time.LocalDate;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -69,11 +71,11 @@ public class EditExamsController extends Controller {
 		timePicker.valueProperty().bindBidirectional(fxmodel.getTimeProperty());
 		locationTextField.textProperty().bindBidirectional(fxmodel.getLocationProperty());
 
-		subjectComboBox.valueProperty().addListener(new ChangeListener<Subject>() {
+		datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
-				if (newValue != null && datePicker.valueProperty() != null && timePicker.valueProperty() != null) {
+			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+				if (timePicker.valueProperty() != null && datePicker.valueProperty() != null) {
 					saveExamButton.setDisable(false);
 				} else {
 					saveExamButton.setDisable(true);

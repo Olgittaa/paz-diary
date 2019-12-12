@@ -89,7 +89,8 @@ public class MainWindowController extends Controller {
 
 			checkBox.setOnMouseClicked(event -> {
 				if (event.getButton() == MouseButton.SECONDARY) {
-					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework));
+					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 282,
+							420, 282);
 					refreshHomework();
 				}
 			});
@@ -108,7 +109,8 @@ public class MainWindowController extends Controller {
 		examsTableView.setOnMouseClicked(event -> {
 			if (event.getButton() == MouseButton.SECONDARY) {
 				loadWindow("editExam.fxml", "Edit exam",
-						new EditExamsController(examsTableView.getSelectionModel().getSelectedItem()));
+						new EditExamsController(examsTableView.getSelectionModel().getSelectedItem()), 420, 305, 420,
+						305);
 				refreshExams();
 			}
 		});
@@ -116,13 +118,13 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
-		loadWindow("editExam.fxml", "Edit exam", new EditExamsController());
+		loadWindow("editExam.fxml", "Edit exam", new EditExamsController(), 420, 305, 420, 305);
 		refreshExams();
 	}
 
 	@FXML
 	void addHomeWorkButtonClick(ActionEvent event) {
-		loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController());
+		loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(), 420, 305, 420, 305);
 		refreshHomework();
 	}
 
@@ -140,7 +142,7 @@ public class MainWindowController extends Controller {
 	void scheduleImageViewOnMouseClicked(MouseEvent event) {
 		if (event.getButton() != MouseButton.PRIMARY)
 			return;
-		loadWindow("schedule.fxml", "Schedule");
+		loadWindow("schedule.fxml", "Schedule", new ScheduleController(), 615, 560, 615, 560);
 	}
 
 	@FXML

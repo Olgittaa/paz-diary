@@ -6,96 +6,63 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="510.0" minWidth="504.0" prefHeight="540.0" prefWidth="615.0"
-	style="-fx-background-color: #D2CFBF;"
-	xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="sk.upjs.paz.diary.gui.ScheduleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="510.0" minWidth="510.0" prefHeight="540.0" prefWidth="615.0" style="-fx-background-color: #D2CFBF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<Label layoutX="48.0" layoutY="30.0" prefHeight="20.0"
-			prefWidth="57.0" text="Monday" AnchorPane.leftAnchor="48.0"
-			AnchorPane.topAnchor="30.0">
+		<Label layoutX="48.0" layoutY="30.0" prefHeight="20.0" prefWidth="57.0" text="Monday" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="30.0">
 			<font>
 				<Font name="Arial Italic" size="16.0" />
 			</font>
 		</Label>
-		<Label layoutX="46.0" layoutY="200.0" text="Tuesday"
-			AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="200.0">
+		<Label layoutX="46.0" layoutY="200.0" text="Tuesday" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="200.0">
 			<font>
 				<Font name="Arial Italic" size="16.0" />
 			</font>
 		</Label>
-		<Label layoutX="46.0" layoutY="371.0" text="Wednesday"
-			AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="371.0">
+		<Label layoutX="46.0" layoutY="371.0" text="Wednesday" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="371.0">
 			<font>
 				<Font name="Arial Italic" size="16.0" />
 			</font>
 		</Label>
-		<Label layoutX="492.0" layoutY="30.0" text="Thursday"
-			AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="30.0">
+		<Label layoutX="492.0" layoutY="30.0" text="Thursday" AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="30.0">
 			<font>
 				<Font name="Arial Italic" size="16.0" />
 			</font>
 		</Label>
-		<Label layoutX="514.0" layoutY="200.0" text="Friday"
-			AnchorPane.rightAnchor="56.5" AnchorPane.topAnchor="200.0">
+		<Label layoutX="514.0" layoutY="200.0" text="Friday" AnchorPane.rightAnchor="56.5" AnchorPane.topAnchor="200.0">
 			<font>
 				<Font name="Arial Italic" size="16.0" />
 			</font>
 		</Label>
-		<Label fx:id="monthLabel" layoutX="262.0" layoutY="8.0"
-			text="MONTH" AnchorPane.leftAnchor="260.0"
-			AnchorPane.topAnchor="15.0">
+		<Label fx:id="monthLabel" layoutX="262.0" layoutY="8.0" text="MONTH" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="15.0">
 			<font>
 				<Font name="Arial Bold" size="25.0" />
 			</font>
 		</Label>
-		<Label layoutX="325.0" layoutY="384.0" text="Subjects"
-			AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="370.0">
+		<Label layoutX="325.0" layoutY="384.0" text="Subjects" AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="370.0">
 			<font>
 				<Font name="Arial Bold" size="18.0" />
 			</font>
 		</Label>
-		<JFXListView fx:id="mondayListView" layoutX="15.0"
-			layoutY="50.0" prefHeight="135.0" prefWidth="275.0" />
-		<JFXListView fx:id="thursdayListView" layoutX="325.0"
-			layoutY="50.0" prefHeight="135.0" prefWidth="275.0" />
-		<JFXListView fx:id="subjectListView" layoutX="325.0"
-			layoutY="392.0" prefHeight="135.0" prefWidth="221.0" />
-		<JFXListView fx:id="wednesdayListView" layoutX="15.0"
-			layoutY="392.0" prefHeight="135.0" prefWidth="275.0" />
-		<JFXListView fx:id="fridayListView" layoutX="325.0"
-			layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
-		<JFXListView fx:id="tuesdayListView" layoutX="15.0"
-			layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
-		<JFXButton fx:id="editSubjectButton" layoutX="547.0"
-			layoutY="393.0" onAction="#editSubjectButtonClick" prefHeight="66.0"
-			prefWidth="50.0" style="-fx-border-width: 10px;" text="+">
+		<JFXListView fx:id="mondayListView" layoutX="15.0" layoutY="50.0" prefHeight="135.0" prefWidth="275.0" />
+		<JFXListView fx:id="thursdayListView" layoutX="325.0" layoutY="50.0" prefHeight="135.0" prefWidth="275.0" />
+		<JFXListView fx:id="subjectListView" layoutX="325.0" layoutY="392.0" prefHeight="135.0" prefWidth="205.0" />
+		<JFXListView fx:id="wednesdayListView" layoutX="15.0" layoutY="392.0" prefHeight="135.0" prefWidth="275.0" />
+		<JFXListView fx:id="fridayListView" layoutX="325.0" layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
+		<JFXListView fx:id="tuesdayListView" layoutX="15.0" layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
+		<JFXButton fx:id="editSubjectButton" layoutX="534.0" layoutY="395.0" onAction="#editSubjectButtonClick" prefHeight="60.0" prefWidth="67.0" style="-fx-background-color: #525457;" text="Edit Add" textAlignment="CENTER" textFill="WHITE" wrapText="true">
 
 			<font>
-				<Font size="24.0" />
+				<Font size="15.0" />
 			</font>
 		</JFXButton>
-		<Label fx:id="modayDateLabel" layoutX="21.0" layoutY="30.0"
-			prefHeight="20.0" prefWidth="25.0" text="1" textAlignment="CENTER"
-			AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="30.0" />
-		<Label fx:id="tuesdayDateLabel" layoutX="21.0" layoutY="200.0"
-			prefHeight="20.0" prefWidth="25.0" text="2" textAlignment="CENTER"
-			AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="200.0" />
-		<Label fx:id="wednesdayDateLabel" layoutX="21.0" layoutY="371.0"
-			prefHeight="20.0" prefWidth="25.0" text="3" textAlignment="CENTER"
-			AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="371.0" />
-		<Label fx:id="thursdayDateLabel" layoutX="570.0" layoutY="30.0"
-			prefHeight="20.0" prefWidth="25.0" text="4" textAlignment="CENTER"
-			AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0" />
-		<Label fx:id="fridayDateLabel" layoutX="570.0" layoutY="200.0"
-			prefHeight="20.0" prefWidth="25.0" text="5" textAlignment="CENTER" />
-		<JFXButton fx:id="removeSubjectButton" layoutX="547.0"
-			layoutY="459.0" onAction="#removeSubjectButtonClick"
-			prefHeight="66.0" prefWidth="50.0" text="Remove">
+		<Label fx:id="modayDateLabel" layoutX="21.0" layoutY="30.0" prefHeight="20.0" prefWidth="25.0" text="1" textAlignment="CENTER" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="30.0" />
+		<Label fx:id="tuesdayDateLabel" layoutX="21.0" layoutY="200.0" prefHeight="20.0" prefWidth="25.0" text="2" textAlignment="CENTER" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="200.0" />
+		<Label fx:id="wednesdayDateLabel" layoutX="21.0" layoutY="371.0" prefHeight="20.0" prefWidth="25.0" text="3" textAlignment="CENTER" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="371.0" />
+		<Label fx:id="thursdayDateLabel" layoutX="570.0" layoutY="30.0" prefHeight="20.0" prefWidth="25.0" text="4" textAlignment="CENTER" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0" />
+		<Label fx:id="fridayDateLabel" layoutX="570.0" layoutY="200.0" prefHeight="20.0" prefWidth="25.0" text="5" textAlignment="CENTER" />
+		<JFXButton fx:id="removeSubjectButton" layoutX="534.0" layoutY="463.0" onAction="#removeSubjectButtonClick" prefHeight="60.0" prefWidth="67.0" style="-fx-background-color: #525457;" text="Delete" textFill="WHITE">
 			<font>
-				<Font size="24.0" />
+				<Font size="15.0" />
 			</font>
 		</JFXButton>
 	</children>

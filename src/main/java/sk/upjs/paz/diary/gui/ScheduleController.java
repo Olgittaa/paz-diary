@@ -167,7 +167,7 @@ public class ScheduleController extends Controller {
 			if (e.getButton() == MouseButton.SECONDARY) {
 				Subject selectedSubject = subjectListView.getSelectionModel().getSelectedItem();
 				loadWindow("subjectDescription.fxml", selectedSubject.getName(),
-						new SubjectDescriptionController(selectedSubject));
+						new SubjectDescriptionController(selectedSubject), 500, 350, 500, 350);
 			}
 		});
 		subjectListView.setItems(FXCollections.observableArrayList(subjectDao.getAllSubjectsSorted()));
@@ -175,21 +175,22 @@ public class ScheduleController extends Controller {
 
 	@FXML
 	void editSubjectButtonClick(ActionEvent event) {
-		if(currentSubject == null) {
-			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController());
+		if (currentSubject == null) {
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(), 515, 680, 515, 680);
 		} else {
-			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));			
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject), 515, 680, 515,
+					680);
 		}
-		
+
 		setItemsToSubjectsListView();
 	}
 
-//	@FXML
-//	void removeSubjectButtonClick(ActionEvent event) {
-//		Subject sbj = subjectListView.getSelectionModel().getSelectedItem();
-//		subjectListView.getItems().remove(sbj);
-//		subjectDao.remove(sbj);
-//		setOrRefreshItemsToLessonsListViews();
-//	}
+	@FXML
+	void removeSubjectButtonClick(ActionEvent event) {
+		Subject sbj = subjectListView.getSelectionModel().getSelectedItem();
+		subjectListView.getItems().remove(sbj);
+		subjectDao.remove(sbj);
+		setOrRefreshItemsToLessonsListViews();
+	}
 
 }

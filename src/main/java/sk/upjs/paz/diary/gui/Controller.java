@@ -25,7 +25,8 @@ public class Controller {
 	 * @param windowTitle - title of a window(stage)
 	 * @param controller  - controller to fxml file
 	 */
-	protected Stage loadWindow(String fxmlFileName, String windowTitle, Object controller) {
+	protected Stage loadWindow(String fxmlFileName, String windowTitle, Object controller, double minWidth,
+			double minHeigth, double maxWidth, double maxHeigth) {
 		Stage modalStage = null;
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
@@ -36,6 +37,10 @@ public class Controller {
 			modalStage.setTitle(windowTitle);
 			modalStage.setScene(scene);
 			modalStage.initModality(Modality.APPLICATION_MODAL);
+			modalStage.setMinHeight(minHeigth);
+			modalStage.setMinWidth(minWidth);
+			modalStage.setMaxHeight(maxHeigth);
+			modalStage.setMaxWidth(maxWidth);
 			modalStage.showAndWait();
 		} catch (LoadException e) {
 			LOGGER.error("Wrong controller\"" + controller + "\"", e);
@@ -52,7 +57,7 @@ public class Controller {
 	 * @param windowTitle - title of a window(stage)
 	 */
 	protected Stage loadWindow(String fxmlFileName, String windowTitle) {
-		return loadWindow(fxmlFileName, windowTitle, null);
+		return loadWindow(fxmlFileName, windowTitle, null, Double.MIN_VALUE, Double.MIN_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
 	}
 
 	/**
