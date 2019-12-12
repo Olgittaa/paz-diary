@@ -1,5 +1,7 @@
 package sk.upjs.paz.diary;
 
+import javafx.scene.Node;
+
 public final class TODO {
 
 	// ==================
@@ -30,9 +32,9 @@ public final class TODO {
 	/*
 	 * 1. Поискать баги в хм. Напр: поиск добавление дубликатов и тд....
 	 * 
-	 * 2. Как быстрее сортить через колекшнс или мускл
-	 *
-	 *
+	 * 3. Сделать закрытие через (Node)event.getSource()
+	 * 
+	 * 4. Не используем MVC
 	 */
 
 	private TODO() {

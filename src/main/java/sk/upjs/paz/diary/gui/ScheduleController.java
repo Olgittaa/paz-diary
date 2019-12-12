@@ -49,13 +49,16 @@ public class ScheduleController extends Controller {
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
-	private Subject currentSubject /* = new Subject() */;
+	private Subject currentSubject;
 
 	@FXML
 	void initialize() {
 		setOrRefreshItemsToLessonsListViews();
 		initMonthLabel();
 		setItemsToSubjectsListView();
+//		subjectListView.onMouseClickedProperty().addListener((observable, oldValue, newValue) -> {
+//			
+//		});
 	}
 
 	/**
@@ -112,21 +115,13 @@ public class ScheduleController extends Controller {
 
 	@FXML
 	void editSubjectButtonClick(ActionEvent event) {
-		if(currentSubject == null) {
+		currentSubject = subjectListView.getSelectionModel().getSelectedItem();
+		if (currentSubject == null) {
 			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController());
 		} else {
-			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));			
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject));
 		}
-		
 		setItemsToSubjectsListView();
-	}
-
-	@FXML
-	void removeSubjectButtonClick(ActionEvent event) {
-		Subject sbj = subjectListView.getSelectionModel().getSelectedItem();
-		subjectListView.getItems().remove(sbj);
-		subjectDao.remove(sbj);
-		setOrRefreshItemsToLessonsListViews();
 	}
 
 }

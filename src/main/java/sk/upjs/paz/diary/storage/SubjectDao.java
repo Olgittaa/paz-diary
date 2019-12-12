@@ -84,8 +84,8 @@ public class SubjectDao implements ISubjectDAO {
 		}
 		// UPDATE
 		else {
-			String sql = "UPDATE subject SET name=?, site=?, email=? WHERE id = " + subject.getId();
-			jdbcTemplate.update(sql, subject.getName(), subject.getSite(), subject.getEmail());
+			String sql = "UPDATE subject SET name=?, site=?, email=? WHERE id_subject=?";
+			jdbcTemplate.update(sql, subject.getName(), subject.getSite(), subject.getEmail(), subject.getId());
 		}
 	}
 

@@ -45,18 +45,13 @@
       </Label>
       <JFXListView fx:id="mondayListView" layoutX="15.0" layoutY="50.0" prefHeight="135.0" prefWidth="275.0" />
       <JFXListView fx:id="thursdayListView" layoutX="325.0" layoutY="50.0" prefHeight="135.0" prefWidth="275.0" />
-      <JFXListView fx:id="subjectListView" layoutX="325.0" layoutY="392.0" prefHeight="135.0" prefWidth="221.0" />
+      <JFXListView fx:id="subjectListView" layoutX="325.0" layoutY="392.0" prefHeight="92.0" prefWidth="275.0" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="14.800000000000011" AnchorPane.topAnchor="392.0" />
       <JFXListView fx:id="wednesdayListView" layoutX="15.0" layoutY="392.0" prefHeight="135.0" prefWidth="275.0" />
       <JFXListView fx:id="fridayListView" layoutX="325.0" layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
       <JFXListView fx:id="tuesdayListView" layoutX="15.0" layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
-      <JFXButton fx:id="editSubjectButton" layoutX="547.0" layoutY="393.0" onAction="#editSubjectButtonClick" prefHeight="66.0" prefWidth="50.0" style="-fx-border-width: 10px;" text="+">
+      <JFXButton fx:id="editSubjectButton" layoutX="324.0" layoutY="484.0" onAction="#editSubjectButtonClick" prefHeight="30.0" prefWidth="275.0" style="-fx-border-width: 10px;" text=" Edit Subject" textAlignment="CENTER" textOverrun="CLIP">
          <font>
-            <Font size="24.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="removeSubjectButton" layoutX="547.0" layoutY="459.0" onAction="#removeSubjectButtonClick" prefHeight="66.0" prefWidth="50.0" text="Remove">
-         <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </JFXButton>
    </children>
