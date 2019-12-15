@@ -43,23 +43,10 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl(), id);
 	}
 
-	private class HomeworkRowMapperImpl implements RowMapper<Homework> {
-		@Override
-		public Homework mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Homework hw = new Homework();
-			hw.setId(rs.getLong("id_homework"));
-			hw.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-			hw.setDescription(rs.getString("description"));
-			hw.setStatus(rs.getBoolean("status"));
-			hw.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
-			return hw;
-		}
-	}
-
 	@Override
-	public void save(Homework homework) {
+	public Homework save(Homework homework) {
 		if (homework == null) {
-			return;
+			return homework;
 		}
 		if (homework.getId() == null) { // INSERT
 			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
@@ -78,6 +65,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 			jdbcTemplate.update(sql, homework.getDeadline(), homework.getDescription(), homework.getStatus(),
 					homework.getSubject().getId());
 		}
+		return homework;
 	}
 
 	@Override
@@ -86,10 +74,18 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		jdbcTemplate.execute(sql);
 	}
 
-	@Override
-	public boolean contains(Homework homework) {
-		List<Homework> hwList = getAllHomework();
-		return hwList.contains(homework);
+	
+	private class HomeworkRowMapperImpl implements RowMapper<Homework> {
+		@Override
+		public Homework mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Homework hw = new Homework();
+			hw.setId(rs.getLong("id_homework"));
+			hw.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
+			hw.setDescription(rs.getString("description"));
+			hw.setStatus(rs.getBoolean("status"));
+			hw.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
+			return hw;
+		}
 	}
 
 }

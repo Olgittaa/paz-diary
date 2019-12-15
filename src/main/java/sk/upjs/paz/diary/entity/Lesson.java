@@ -88,7 +88,7 @@ public class Lesson {
 		}
 		sb.append(getStartTime()).append("-").append(getEndTime()).append(", ").append(location);
 		sb.append(", ").append(getSubject().getId());
-		//sb.append(getDateTime()).append("\t").append(location);
+		sb.append(getDateTime()).append("\t").append(location);
 		return sb.toString();
 	}
 

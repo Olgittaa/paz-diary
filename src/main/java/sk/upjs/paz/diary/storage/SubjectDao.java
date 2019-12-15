@@ -51,17 +51,6 @@ public class SubjectDao implements ISubjectDAO {
 		return jdbcTemplate.queryForObject(sql, new SubjectRowMapper());
 	}
 
-	private class SubjectRowMapper implements RowMapper<Subject> {
-		@Override
-		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Long id = rs.getLong("id_subject");
-			String name = rs.getString("name");
-			String site = rs.getString("site");
-			String email = rs.getString("email");
-			return new Subject(id, name, site, email);
-		}
-	}
-
 	@Override
 	public Subject getSubjectByName(String name) {
 		String sql = "SELECT * FROM subject WHERE name=?";
@@ -100,6 +89,17 @@ public class SubjectDao implements ISubjectDAO {
 	public void remove(Subject subject) {
 		String sql = "DELETE FROM subject WHERE id_subject=" + subject.getId();
 		jdbcTemplate.execute(sql);
+	}
+	
+	private class SubjectRowMapper implements RowMapper<Subject> {
+		@Override
+		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Long id = rs.getLong("id_subject");
+			String name = rs.getString("name");
+			String site = rs.getString("site");
+			String email = rs.getString("email");
+			return new Subject(id, name, site, email);
+		}
 	}
 
 }

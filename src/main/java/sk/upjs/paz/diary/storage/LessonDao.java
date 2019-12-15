@@ -65,9 +65,9 @@ public class LessonDao extends DAO implements ILessonDAO {
 	}
 
 	@Override
-	public void save(Lesson lesson) {
+	public Lesson save(Lesson lesson) {
 		if (lesson == null)
-			return;
+			return null;
 
 		// INSERT
 		if (lesson.getId() == null) {
@@ -90,6 +90,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 			jdbcTemplate.update(sql, lesson.getDateTime(), lesson.getLocation(), lesson.getDuration(), lesson.getType(),
 					lesson.getSubject().getId(), lesson.getId());
 		}
+		return lesson;
 	}
 
 	/**

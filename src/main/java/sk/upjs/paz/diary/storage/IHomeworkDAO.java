@@ -19,10 +19,8 @@ List<Homework> getAllHomework();
 	
 	List<Homework> getHomeworkOnWeekSorted();
 
-	void save(Homework homework);
+	Homework save(Homework homework);
 
 	void remove(Homework homework);
-
-	boolean contains(Homework homework);
 
 }

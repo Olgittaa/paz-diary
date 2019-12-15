@@ -41,8 +41,6 @@ class ExamDaoTest {
 				}
 			}
 			assertEquals(Exams, dao.getExamsBySubjectId(id));
-		} else {
-			assertTrue(true);
 		}
 	}
 }

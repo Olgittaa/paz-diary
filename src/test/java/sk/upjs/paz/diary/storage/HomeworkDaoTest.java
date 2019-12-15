@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz.diary.entity.Homework;
+import sk.upjs.paz.diary.entity.Subject;
 
 class HomeworkDaoTest {
 
@@ -69,8 +70,29 @@ class HomeworkDaoTest {
 				}
 			}
 			assertEquals(homeworks, dao.getHomeworkBySubjectId(id));
-		} else {
-			assertTrue(true);
 		}
+	}
+	
+	@Test
+	void testSaveAndRemove() {
+		Subject subject = new Subject();
+		subject.setEmail("email@upjs.sk");
+		subject.setName("example");
+		subject.setSite("example.com");
+		Long subjectId = subjectDao.save(subject).getId();
+		subject.setId(subjectId);
+		Homework homework = new Homework();
+		homework.setSubject(subject);
+		homework.setDescription("example");
+		homework.setStatus(false);
+		homework.setDeadline(LocalDateTime.of(2019, 12, 15, 14, 20));
+		int beforeSave = dao.getAllHomework().size();
+		Long id = dao.save(homework).getId();
+		homework.setId(id);
+		int afterSave = dao.getAllHomework().size();
+		assertTrue(afterSave == beforeSave + 1);
+		dao.remove(homework);
+		int afterDelete = dao.getAllHomework().size();
+		assertTrue(afterDelete == afterSave - 1);
 	}
 }

@@ -46,6 +46,6 @@ public interface ILessonDAO {
 
 	void remove(Lesson lesson);
 
-	void save(Lesson lesson);
+	Lesson save(Lesson lesson);
 
 }
