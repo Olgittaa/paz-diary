@@ -9,14 +9,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Lesson;
+import sk.upjs.paz.diary.entity.Lesson.LessonType;
 import sk.upjs.paz.diary.entity.Subject;
 
-public class LessonFXModel {
+public class LessonFxModel {
 	private Long id;
 	private ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
 	private StringProperty locationProperty = new SimpleStringProperty();
 	private IntegerProperty durationProperty = new SimpleIntegerProperty();
-	private StringProperty typeProperty = new SimpleStringProperty();
+	private ObjectProperty<LessonType> typeProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
 
 	public Long getId() {
@@ -51,11 +52,11 @@ public class LessonFXModel {
 		durationProperty.set(duration);
 	}
 
-	public String getType() {
+	public LessonType getType() {
 		return typeProperty.get();
 	}
 
-	public void setType(String type) {
+	public void setType(LessonType type) {
 		typeProperty.set(type);
 	}
 
@@ -91,11 +92,11 @@ public class LessonFXModel {
 		this.durationProperty = durationProperty;
 	}
 
-	public StringProperty getTypeProperty() {
+	public ObjectProperty<LessonType> getTypeProperty() {
 		return typeProperty;
 	}
 
-	public void setTypeProperty(StringProperty typeProperty) {
+	public void setTypeProperty(ObjectProperty<LessonType> typeProperty) {
 		this.typeProperty = typeProperty;
 	}
 
@@ -126,4 +127,12 @@ public class LessonFXModel {
 		lesson.setSubject(getSubject());
 		return lesson;
 	}
+
+	@Override
+	public String toString() {
+		return "LessonFXModel [id=" + id + ", dateTimeProperty=" + dateTimeProperty + ", locationProperty="
+				+ locationProperty + ", durationProperty=" + durationProperty + ", typeProperty=" + typeProperty
+				+ ", subjectProperty=" + subjectProperty + "]";
+	}
+	
 }

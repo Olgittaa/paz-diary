@@ -14,9 +14,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.ExamFXModel;
+import sk.upjs.paz.diary.perzistent.ExamFxModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
 import sk.upjs.paz.diary.storage.IExamDAO;
 
@@ -42,12 +43,12 @@ public class EditExamsController extends Controller {
 
 	private IExamDAO examDao = DaoFactory.getExamDao();
 
-	private ExamFXModel fxmodel;
+	private ExamFxModel fxmodel;
 	private Exam selectedExam;
 	private ObservableList<Subject> subjectModel;
 
 	public EditExamsController() {
-		fxmodel = new ExamFXModel();
+		fxmodel = new ExamFxModel();
 	}
 
 	public EditExamsController(Exam selectedExam) {
@@ -72,7 +73,6 @@ public class EditExamsController extends Controller {
 		locationTextField.textProperty().bindBidirectional(fxmodel.getLocationProperty());
 
 		datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
-
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				if (timePicker.valueProperty() != null && datePicker.valueProperty() != null) {
@@ -89,6 +89,7 @@ public class EditExamsController extends Controller {
 		Exam exam = fxmodel.getExam(fxmodel.getSubject().getId());
 		examDao.remove(exam);
 		closeWindow(event);
+		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Exam was removed");
 	}
 
 	@FXML
@@ -97,5 +98,6 @@ public class EditExamsController extends Controller {
 		Exam exam = fxmodel.getExam(selectedSubject.getId());
 		examDao.save(exam);
 		closeWindow(event);
+		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Exam was added");
 	}
 }

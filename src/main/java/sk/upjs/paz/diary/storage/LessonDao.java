@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.paz.diary.entity.Lesson;
+import sk.upjs.paz.diary.entity.Lesson.LessonType;
 
 /**
  * Class responses for access to subjects' lessons data
@@ -94,7 +95,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 	}
 
 	/**
-	 * Helping class for reading lessons from database
+	 * Helping class for mapping rows from database to Lesson objects
 	 */
 	private class LessonRowMapperImpl implements RowMapper<Lesson> {
 		@Override
@@ -104,7 +105,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 			lesson.setDateTime(rs.getTimestamp("date").toLocalDateTime());
 			lesson.setDuration(rs.getInt("duration"));
 			lesson.setLocation(rs.getString("location"));
-			lesson.setType("lecture".equalsIgnoreCase(rs.getString("type")) ? "lecture" : "practice");
+			lesson.setType("lecture".equalsIgnoreCase(rs.getString("type")) ? LessonType.LECTURE : LessonType.PRACTICE);
 			lesson.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
 			return lesson;
 		}

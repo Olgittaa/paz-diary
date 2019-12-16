@@ -8,14 +8,23 @@ public class Lesson {
 	private LocalDateTime dateTime;
 	private String location;
 	private int duration;
-	private String type;
+	private LessonType type;
 	private Subject subject;
+
+	public enum LessonType {
+		LECTURE, PRACTICE;
+
+		@Override
+		public String toString() {
+			return this.name().toLowerCase();
+		}
+	}
 
 	public Lesson() {
 		location = new String();
 	}
 
-	public Lesson(Long id, LocalDateTime date, String location, int duration, String type) {
+	public Lesson(Long id, LocalDateTime date, String location, int duration, LessonType type) {
 		this.id = id;
 		this.dateTime = date;
 		this.location = location;
@@ -47,11 +56,11 @@ public class Lesson {
 		this.duration = duration;
 	}
 
-	public String getType() {
+	public LessonType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(LessonType type) {
 		this.type = type;
 	}
 
@@ -82,13 +91,11 @@ public class Lesson {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(subject.getName()).append(", ");
+		sb.append(subject.getName()).append(" ");
 		if (type != null) {
-			sb.append(Character.toUpperCase(type.charAt(0))).append(", ");
+			sb.append(Character.toUpperCase(type.toString().charAt(0))).append(" ");
 		}
-		sb.append(getStartTime()).append("-").append(getEndTime()).append(", ").append(location);
-		sb.append(", ").append(getSubject().getId());
-		sb.append(getDateTime()).append("\t").append(location);
+		sb.append(getStartTime()).append("-").append(getEndTime()).append(" ").append(location);
 		return sb.toString();
 	}
 

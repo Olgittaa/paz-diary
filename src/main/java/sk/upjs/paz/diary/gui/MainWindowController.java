@@ -89,8 +89,8 @@ public class MainWindowController extends Controller {
 
 			checkBox.setOnMouseClicked(event -> {
 				if (event.getButton() == MouseButton.SECONDARY) {
-					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 282,
-							420, 282);
+					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 305,
+							420, 305);
 					refreshHomework();
 				}
 			});
@@ -140,8 +140,9 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void scheduleImageViewOnMouseClicked(MouseEvent event) {
-		if (event.getButton() != MouseButton.PRIMARY)
+		if (event.getButton() != MouseButton.PRIMARY) {
 			return;
+		}
 		loadWindow("schedule.fxml", "Schedule", new ScheduleController(), 615, 560, 615, 560);
 	}
 

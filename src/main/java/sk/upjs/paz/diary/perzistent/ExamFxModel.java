@@ -12,7 +12,7 @@ import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.storage.DaoFactory;
 
-public class ExamFXModel {
+public class ExamFxModel {
 	private Long id;
 	private ObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<>();
@@ -100,4 +100,11 @@ public class ExamFXModel {
 		id = exam.getId();
 		setSubject(exam.getSubject());
 	}
+
+	@Override
+	public String toString() {
+		return "ExamFXModel [id=" + id + ", dateProperty=" + dateProperty + ", timeProperty=" + timeProperty
+				+ ", locationProperty=" + locationProperty + ", subjectProperty=" + subjectProperty + "]";
+	}
+
 }

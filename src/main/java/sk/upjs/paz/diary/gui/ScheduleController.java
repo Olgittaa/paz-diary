@@ -42,18 +42,15 @@ public class ScheduleController extends Controller {
 
 	@FXML
 	private Label modayDateLabel;
-
 	@FXML
 	private Label tuesdayDateLabel;
-
 	@FXML
 	private Label wednesdayDateLabel;
-
 	@FXML
 	private Label thursdayDateLabel;
-
 	@FXML
 	private Label fridayDateLabel;
+	
 	@FXML
 	private JFXButton removeSubjectButton;
 

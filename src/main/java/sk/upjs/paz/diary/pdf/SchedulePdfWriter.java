@@ -31,7 +31,7 @@ import sk.upjs.paz.diary.storage.DaoFactory;
  * @author Yevhenii Kozhevin
  * @author Olga Charna
  */
-public class SchedulePdfWriter {
+public class SchedulePdfWriter implements sk.upjs.paz.diary.pdf.PdfWriter{
 	/** Logger */
 	private final Logger LOGGER;
 
@@ -71,9 +71,10 @@ public class SchedulePdfWriter {
 	}
 
 	/**
-	 * Creates schedule to pdf file
+	 * Writes schedule to pdf file
 	 */
-	public void createPdf() {
+	@Override
+	public void writeToPdf() {
 		DOCUMENT.open();
 		writeSchedule();
 		DOCUMENT.close();
@@ -157,8 +158,7 @@ public class SchedulePdfWriter {
 	 */
 	private void fillTable(String day, PdfPTable table) {
 		listLessonsByDay(day).forEach(l -> {
-			StringBuilder rowFullFill = new StringBuilder(l.getSubject().getName()).append(" ").append(l.getStartTime())
-					.append(" - ").append(l.getEndTime());
+			StringBuilder rowFullFill = new StringBuilder(l.toString());
 			PdfPCell cell = new PdfPCell(new Phrase(rowFullFill.toString()));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			table.addCell(cell);
@@ -172,27 +172,8 @@ public class SchedulePdfWriter {
 	 * @return list of lesson in a current day
 	 */
 	private List<Lesson> listLessonsByDay(String day) {
-		switch (day) {
-		case "Monday":
-			return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.MONDAY)
-					.collect(Collectors.toList());
-		case "Tuesday":
-			return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.TUESDAY)
-					.collect(Collectors.toList());
-
-		case "Wednesday":
-			return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.WEDNESDAY)
-					.collect(Collectors.toList());
-
-		case "Thursday":
-			return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.THURSDAY)
-					.collect(Collectors.toList());
-
-		case "Friday":
-			return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.FRIDAY)
-					.collect(Collectors.toList());
-		}
-		return null;
+		return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.valueOf(day.toUpperCase()))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -209,4 +190,5 @@ public class SchedulePdfWriter {
 		header.setHorizontalAlignment(Element.ALIGN_CENTER);
 		table.addCell(header);
 	}
+
 }

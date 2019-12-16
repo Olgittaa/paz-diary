@@ -14,7 +14,7 @@ import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.storage.DaoFactory;
 
-public class HomeworkFXModel {
+public class HomeworkFxModel {
 	private Long id;
 	private StringProperty descriptionProperty = new SimpleStringProperty();
 	private BooleanProperty statusProperty = new SimpleBooleanProperty();
@@ -45,7 +45,7 @@ public class HomeworkFXModel {
 	 * @param homework - homework to cast
 	 * @return homewworkFXModel
 	 */
-	public void loadFromHomework(Homework homework) {
+	public void load(Homework homework) {
 		setDate(homework.getDeadline().toLocalDate());
 		setTime(homework.getDeadline().toLocalTime());
 		setDescription(homework.getDescription());
@@ -138,4 +138,11 @@ public class HomeworkFXModel {
 		return subjectProperty.get();
 	}
 
+	@Override
+	public String toString() {
+		return "HomeworkFXModel [id=" + id + ", descriptionProperty=" + descriptionProperty + ", statusProperty="
+				+ statusProperty + ", subjectProperty=" + subjectProperty + ", dateProperty=" + dateProperty
+				+ ", timeProperty=" + timeProperty + "]";
+	}
+	
 }

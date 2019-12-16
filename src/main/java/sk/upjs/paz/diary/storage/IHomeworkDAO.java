@@ -11,12 +11,12 @@ import sk.upjs.paz.diary.entity.Homework;
  * @author Olga Charna
  */
 public interface IHomeworkDAO {
-List<Homework> getAllHomework();
-	
+	List<Homework> getAllHomework();
+
 	List<Homework> getAllHomeworkSorted();
 
 	List<Homework> getHomeworkBySubjectId(Long id);
-	
+
 	List<Homework> getHomeworkOnWeekSorted();
 
 	Homework save(Homework homework);

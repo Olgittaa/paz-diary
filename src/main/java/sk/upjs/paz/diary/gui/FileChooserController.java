@@ -9,12 +9,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import sk.upjs.paz.diary.pdf.PdfWriter;
 import sk.upjs.paz.diary.pdf.SchedulePdfWriter;
 
 public class FileChooserController extends Controller {
 
 	private final FileChooser FILE_CHOOSER;
-
+	private PdfWriter pdfWriter;
+	
 	public FileChooserController() {
 		FILE_CHOOSER = new FileChooser();
 		FILE_CHOOSER.setTitle("Choose or create file");
@@ -38,6 +40,7 @@ public class FileChooserController extends Controller {
 	}
 
 	private void createPdf(String fileName) {
-		new SchedulePdfWriter(fileName).createPdf();
+		pdfWriter = new SchedulePdfWriter(fileName);
+		pdfWriter.writeToPdf();
 	}
 }

@@ -49,7 +49,7 @@
 		<JFXListView fx:id="wednesdayListView" layoutX="15.0" layoutY="392.0" prefHeight="135.0" prefWidth="275.0" />
 		<JFXListView fx:id="fridayListView" layoutX="325.0" layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
 		<JFXListView fx:id="tuesdayListView" layoutX="15.0" layoutY="220.0" prefHeight="135.0" prefWidth="275.0" />
-		<JFXButton fx:id="editSubjectButton" layoutX="534.0" layoutY="395.0" onAction="#editSubjectButtonClick" prefHeight="135.0" prefWidth="67.0" style="-fx-background-color: #525457;" text="Edit Add" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+		<JFXButton fx:id="editSubjectButton" layoutX="534.0" layoutY="395.0" onAction="#editSubjectButtonClick" prefHeight="135.0" prefWidth="67.0" style="-fx-background-color: #525457;" text="Edit / Add" textAlignment="CENTER" textFill="WHITE" wrapText="true">
 
 			<font>
 				<Font size="15.0" />

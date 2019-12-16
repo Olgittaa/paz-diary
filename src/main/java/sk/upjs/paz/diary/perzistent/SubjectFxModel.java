@@ -4,16 +4,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Subject;
 
-public class SubjectFXModel {
+public class SubjectFxModel {
 	private Long id;
 	private StringProperty name;
 	private StringProperty site;
 	private StringProperty email;
 
-	public SubjectFXModel() {
+	public SubjectFxModel() {
 		name = new SimpleStringProperty();
 		site = new SimpleStringProperty();
 		email = new SimpleStringProperty();
+	}
+
+	public SubjectFxModel(Subject subject) {
+		this();
+		load(subject);
 	}
 
 	public StringProperty getNameProperty() {
@@ -72,7 +77,7 @@ public class SubjectFXModel {
 		return id;
 	}
 
-	public void load(Subject subject) {
+	public final void load(Subject subject) {
 		setId(subject.getId());
 		setName(subject.getName());
 		setSite(subject.getSite());
@@ -86,5 +91,10 @@ public class SubjectFXModel {
 		subject.setEmail(email.get());
 		subject.setId(getId());
 		return subject;
+	}
+
+	@Override
+	public String toString() {
+		return "SubjectFxModel [id=" + id + ", name=" + name + ", site=" + site + ", email=" + email + "]";
 	}
 }
