@@ -82,11 +82,12 @@ public class Lesson {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(subject.getName()).append(" ");
+		sb.append(subject.getName()).append(", ");
 		if (type != null) {
-			sb.append(Character.toUpperCase(type.charAt(0))).append("\t");
+			sb.append(Character.toUpperCase(type.charAt(0))).append(", ");
 		}
-		sb.append(getStartTime()).append("-").append(getEndTime()).append("\t").append(location);
+		sb.append(getStartTime()).append("-").append(getEndTime()).append(", ").append(location);
+		sb.append(", ").append(getSubject().getId());
 		//sb.append(getDateTime()).append("\t").append(location);
 		return sb.toString();
 	}

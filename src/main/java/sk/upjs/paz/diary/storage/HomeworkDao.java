@@ -29,7 +29,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		String sql = "SELECT * FROM homework ORDER BY deadline";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
 	}
-	
+
 	@Override
 	public List<Homework> getHomeworkOnWeekSorted() {
 		String sql = "SELECT * FROM homework WHERE id_homework NOT IN (SELECT id_homework FROM homework "
@@ -39,8 +39,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 
 	@Override
 	public List<Homework> getHomeworkBySubjectId(Long id) {
-		String sql = "SELECT id_homework, deadline, description, status FROM homework hw "
-				+ "LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE hw.id_subject = ?";
+		String sql = "SELECT * FROM homework hw LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE s.id_subject = ?";
 		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl(), id);
 	}
 
@@ -86,11 +85,11 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		String sql = "DELETE FROM homework WHERE id_homework=" + homework.getId();
 		jdbcTemplate.execute(sql);
 	}
+
 	@Override
 	public boolean contains(Homework homework) {
 		List<Homework> hwList = getAllHomework();
 		return hwList.contains(homework);
 	}
-	
 
 }

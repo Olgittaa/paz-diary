@@ -60,7 +60,8 @@ public class Homework {
 
 	@Override
 	public String toString() {
-		return "Homework [deadline=" + deadline + ", description=" + description + "]";
+		return "Homework [id=" + id + ", deadline=" + deadline + ", description=" + description + ", status=" + status
+				+ ", subject=" + subject + "]";
 	}
 
 	@Override

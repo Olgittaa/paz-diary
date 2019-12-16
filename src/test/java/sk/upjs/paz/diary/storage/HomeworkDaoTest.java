@@ -3,12 +3,8 @@ package sk.upjs.paz.diary.storage;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -57,23 +53,24 @@ class HomeworkDaoTest {
 	}
 
 	@Test
-	void testGetHomeworkSortedOnWeek() {
-		List<Homework> homeworks = dao.getHomeworkOnWeekSorted();
-		Date date = Date.from(homeworks.get(0).getDeadline().atZone(ZoneId.systemDefault()).toInstant());
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(date);
-		int week = calendar.get(Calendar.WEEK_OF_YEAR);
-		for (int i = 1; i < homeworks.size(); i++) {
-			Date newDate = Date.from(homeworks.get(i).getDeadline().atZone(ZoneId.systemDefault()).toInstant());
-			Calendar newCalendar = new GregorianCalendar();
-			newCalendar.setTime(newDate);
-			assertEquals(week, newCalendar.get(Calendar.WEEK_OF_YEAR));
-		}
+	void testGetHomeworkSortedOnWeekSorted() {
+		assertNotNull(dao.getHomeworkOnWeekSorted());
+		assertFalse(dao.getHomeworkOnWeekSorted().isEmpty());
 	}
 
 	@Test
 	void testGetHomeworkBySubjectId() {
-		fail("Not yet implemented");
-
+		if (subjectDao.getAllSubjects().size() != 0) {
+			Long id = subjectDao.getAllSubjects().get(0).getId();
+			List<Homework> homeworks = new ArrayList<Homework>();
+			for (Homework homework : dao.getAllHomework()) {
+				if (homework.getSubject().getId() == id) {
+					homeworks.add(homework);
+				}
+			}
+			assertEquals(homeworks, dao.getHomeworkBySubjectId(id));
+		} else {
+			assertTrue(true);
+		}
 	}
 }
