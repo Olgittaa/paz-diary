@@ -110,7 +110,6 @@ public class EditSubjectController extends Controller {
 				lessonFxModel.load(selectedItem);
 				lessonStartTimePicker.setValue(lessonFxModel.getDateTime().toLocalTime());
 				dayOfWeekComboBox.setValue(DayOfWeek.from(lessonFxModel.getDateTime()));
-				// TODO
 				lastLessonDatePicker.setValue(lessonDao.getLastLessonOfSubject(selectedItem.getSubject()).getDateTime().toLocalDate());
 			}
 		});

@@ -94,10 +94,10 @@ public class LessonDao extends DAO implements ILessonDAO {
 		}
 		return lesson;
 	}
-	
+
 	@Override
 	public Lesson getLastLessonOfSubject(Subject subject) {
-		final String sql = "SELECT * FROM lesson WHERE date=(SELECT MAX(date) FROM lesson WHERE id_subject=?)";
+		final String sql = "SELECT * FROM lesson WHERE date=(SELECT max(date) FROM lesson WHERE id_subject=?)";
 		return jdbcTemplate.queryForObject(sql, new LessonRowMapperImpl(), subject.getId());
 	}
 
