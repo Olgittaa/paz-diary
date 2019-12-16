@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Lesson.LessonType;
+import sk.upjs.paz.diary.entity.Subject;
 
 /**
  * Class responses for access to subjects' lessons data
@@ -92,6 +93,12 @@ public class LessonDao extends DAO implements ILessonDAO {
 					lesson.getSubject().getId(), lesson.getId());
 		}
 		return lesson;
+	}
+	
+	@Override
+	public Lesson getLastLessonOfSubject(Subject subject) {
+		final String sql = "SELECT * FROM lesson WHERE date=(SELECT MAX(date) FROM lesson WHERE id_subject=?)";
+		return jdbcTemplate.queryForObject(sql, new LessonRowMapperImpl(), subject.getId());
 	}
 
 	/**

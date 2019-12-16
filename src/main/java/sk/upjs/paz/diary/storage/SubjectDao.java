@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -53,10 +54,14 @@ public class SubjectDao implements ISubjectDAO {
 
 	@Override
 	public Subject getSubjectByName(String name) {
-		String sql = "SELECT * FROM subject WHERE name=?";
-		return jdbcTemplate.queryForObject(sql, new SubjectRowMapper(), name);
+		try {
+			String sql = "SELECT * FROM subject WHERE name=?";
+			return jdbcTemplate.queryForObject(sql, new SubjectRowMapper(), name);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
-	
+
 	@Override
 	public Subject save(Subject subject) {
 		if (subject == null)
@@ -90,7 +95,7 @@ public class SubjectDao implements ISubjectDAO {
 		String sql = "DELETE FROM subject WHERE id_subject=" + subject.getId();
 		jdbcTemplate.execute(sql);
 	}
-	
+
 	private class SubjectRowMapper implements RowMapper<Subject> {
 		@Override
 		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {

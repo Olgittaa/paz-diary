@@ -17,7 +17,7 @@ public interface ISubjectDAO {
 	Subject getSubjectById(Long id);
 
 	Subject save(Subject subject);
-	
+
 	void remove(Subject subject);
 
 	List<Subject> getAllSubjectsSorted();

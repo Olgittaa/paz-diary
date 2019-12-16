@@ -54,7 +54,7 @@ public class EditSubjectController extends Controller {
 	private JFXTimePicker lessonStartTimePicker;
 
 	@FXML
-	private JFXDatePicker lastLessonDateTextField;
+	private JFXDatePicker lastLessonDatePicker;
 
 	@FXML
 	private JFXTextField locationTextField;
@@ -110,7 +110,17 @@ public class EditSubjectController extends Controller {
 				lessonFxModel.load(selectedItem);
 				lessonStartTimePicker.setValue(lessonFxModel.getDateTime().toLocalTime());
 				dayOfWeekComboBox.setValue(DayOfWeek.from(lessonFxModel.getDateTime()));
-				// lastLessonDateTextField.setValue();
+				// TODO
+				lastLessonDatePicker.setValue(lessonDao.getLastLessonOfSubject(selectedItem.getSubject()).getDateTime().toLocalDate());
+			}
+		});
+
+		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (nameTextField.getText() != null && !newValue.trim().isEmpty()) {
+				Subject subject = subjectDao.getSubjectByName(newValue);
+				if (subject != null) {
+					lessonsModel.setAll(lessonDao.getWeekScheduleBySubjectId(subject.getId()));
+				}
 			}
 		});
 	}
@@ -159,10 +169,10 @@ public class EditSubjectController extends Controller {
 	@FXML
 	void addLessonButtonClick(ActionEvent event) {
 		if (dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null && lessonStartTimePicker.getValue() != null
-				&& lastLessonDateTextField.getValue() != null && durationTextField.getText() != null) {
+				&& lastLessonDatePicker.getValue() != null && durationTextField.getText() != null) {
 			lessonFxModel.setSubject(editedSubject.getSubject());
 
-			LocalDate end = lastLessonDateTextField.getValue();
+			LocalDate end = lastLessonDatePicker.getValue();
 			LocalDate now = LocalDate.now();
 
 			long countOfWeeks = ChronoUnit.WEEKS.between(now, end);
@@ -193,7 +203,7 @@ public class EditSubjectController extends Controller {
 	private void clearInputs() {
 		dayOfWeekComboBox.getSelectionModel().clearSelection();
 		lessonStartTimePicker.setValue(null);
-		lastLessonDateTextField.setValue(null);
+		lastLessonDatePicker.setValue(null);
 		locationTextField.clear();
 		durationTextField.clear();
 		typeOfLessonComboBox.getSelectionModel().clearSelection();
@@ -212,9 +222,11 @@ public class EditSubjectController extends Controller {
 
 	@FXML
 	void saveSubjectButtonClick(ActionEvent event) {
-		Subject subject = subjectDao.save(editedSubject.getSubject());
-		editedSubject.load(subject);
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
+//		if (subjectDao.getAllSubjects().contains(o)) {
+//			subject = subjectDao.save(editedSubject.getSubject());
+//			editedSubject.load(subject);
+//			showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
+//		}
 	}
 
 	@FXML

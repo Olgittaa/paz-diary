@@ -53,7 +53,7 @@
             <JFXListView fx:id="lessonsListView" layoutX="192.0" layoutY="13.0" prefHeight="215.0" prefWidth="219.0" />
             <JFXComboBox fx:id="dayOfWeekComboBox" focusColor="#4d66cc" layoutX="3.0" layoutY="59.0" prefHeight="26.0" prefWidth="182.0" promptText="Day Of Week" style="-jfx-focus-color: rgb(77,102,204);" />
             <JFXTimePicker fx:id="lessonStartTimePicker" defaultColor="#4d66cc" layoutX="3.0" layoutY="94.0" prefHeight="26.0" prefWidth="182.0" promptText="Time Of Lesson Start" />
-            <JFXDatePicker fx:id="lastLessonDateTextField" defaultColor="#4d66cc" layoutX="3.0" layoutY="197.0" prefHeight="26.0" prefWidth="182.0" promptText="Until date" />
+            <JFXDatePicker fx:id="lastLessonDatePicker" defaultColor="#4d66cc" layoutX="3.0" layoutY="197.0" prefHeight="26.0" prefWidth="182.0" promptText="Until date" />
             <JFXTextField fx:id="locationTextField" focusColor="#4d66cc" layoutX="3.0" layoutY="163.0" prefHeight="26.0" prefWidth="182.0" promptText="Location" />
             <JFXTextField fx:id="durationTextField" focusColor="#4d66cc" layoutX="3.0" layoutY="128.0" prefHeight="26.0" prefWidth="182.0" promptText="Duration" />
             <JFXComboBox fx:id="typeOfLessonComboBox" focusColor="#4d66cc" layoutX="3.0" layoutY="24.0" prefHeight="26.0" prefWidth="182.0" promptText="Type Of Lesson" />
