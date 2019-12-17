@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.perzistent;
+package sk.upjs.paz.diary.gui.adapters;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

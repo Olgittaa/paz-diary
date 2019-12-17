@@ -13,9 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.storage.DaoFactory;
-import sk.upjs.paz.diary.storage.ILessonDAO;
-import sk.upjs.paz.diary.storage.ISubjectDAO;
+import sk.upjs.paz.diary.persistence.DaoFactory;
+import sk.upjs.paz.diary.persistence.ILessonDAO;
+import sk.upjs.paz.diary.persistence.ISubjectDAO;
 
 public class ScheduleController extends Controller {
 

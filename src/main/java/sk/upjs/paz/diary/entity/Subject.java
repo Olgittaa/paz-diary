@@ -2,7 +2,7 @@ package sk.upjs.paz.diary.entity;
 
 import java.util.Objects;
 
-public class Subject implements Comparable<Subject> {
+public class Subject {
 	private Long id;
 	private String name;
 	private String site;
@@ -73,11 +73,6 @@ public class Subject implements Comparable<Subject> {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	@Override
-	public int compareTo(Subject s) {
-		return getName().compareToIgnoreCase(s.getName());
 	}
 
 }

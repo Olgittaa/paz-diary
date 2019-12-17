@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.storage;
+package sk.upjs.paz.diary.persistence;
 
 import java.util.List;
 

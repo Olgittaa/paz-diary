@@ -13,9 +13,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.HomeworkFxModel;
-import sk.upjs.paz.diary.storage.DaoFactory;
-import sk.upjs.paz.diary.storage.IHomeworkDAO;
+import sk.upjs.paz.diary.gui.adapters.HomeworkFxModel;
+import sk.upjs.paz.diary.persistence.DaoFactory;
+import sk.upjs.paz.diary.persistence.IHomeworkDAO;
 
 public class EditHomeworkController extends Controller {
 

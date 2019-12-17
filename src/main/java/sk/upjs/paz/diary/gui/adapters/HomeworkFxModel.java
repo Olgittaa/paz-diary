@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.perzistent;
+package sk.upjs.paz.diary.gui.adapters;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.persistence.DaoFactory;
 
 public class HomeworkFxModel {
 	private Long id;

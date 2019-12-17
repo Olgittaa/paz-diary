@@ -22,12 +22,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Lesson.LessonType;
+import sk.upjs.paz.diary.gui.adapters.LessonFxModel;
+import sk.upjs.paz.diary.gui.adapters.SubjectFxModel;
+import sk.upjs.paz.diary.persistence.DaoFactory;
+import sk.upjs.paz.diary.persistence.ILessonDAO;
+import sk.upjs.paz.diary.persistence.ISubjectDAO;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.LessonFxModel;
-import sk.upjs.paz.diary.perzistent.SubjectFxModel;
-import sk.upjs.paz.diary.storage.DaoFactory;
-import sk.upjs.paz.diary.storage.ILessonDAO;
-import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 //FIXME бай дифолт устанавливаются значения 0
 public class EditSubjectController extends Controller {

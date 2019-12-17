@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz.diary.entity.Subject;
+import sk.upjs.paz.diary.persistence.DaoFactory;
+import sk.upjs.paz.diary.persistence.ISubjectDAO;
 
 class SubjectDaoTest {
 

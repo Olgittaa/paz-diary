@@ -2,6 +2,7 @@ package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class Lesson {
 	private Long id;
@@ -99,4 +100,22 @@ public class Lesson {
 		return sb.toString();
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(dateTime, duration, location, subject, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lesson other = (Lesson) obj;
+		return Objects.equals(dateTime, other.dateTime) && duration == other.duration
+				&& Objects.equals(location, other.location) && Objects.equals(subject, other.subject)
+				&& type == other.type;
+	}
 }

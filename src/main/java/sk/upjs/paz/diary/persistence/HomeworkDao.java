@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.storage;
+package sk.upjs.paz.diary.persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,7 +74,6 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		getJdbcTemplate().execute(sql);
 	}
 
-	
 	private class HomeworkRowMapperImpl implements RowMapper<Homework> {
 		@Override
 		public Homework mapRow(ResultSet rs, int rowNum) throws SQLException {

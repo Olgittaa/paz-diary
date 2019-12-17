@@ -22,7 +22,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import sk.upjs.paz.diary.entity.Lesson;
-import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.persistence.DaoFactory;
 
 /**
  * Class writes 5 tables to pdf file, representing day of week, with a daily

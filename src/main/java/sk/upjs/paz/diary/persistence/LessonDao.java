@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.storage;
+package sk.upjs.paz.diary.persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -89,8 +89,8 @@ public class LessonDao extends DAO implements ILessonDAO {
 		// UPDATE
 		else {
 			String sql = "UPDATE lesson SET date=?, location=?, duration=?, type=?, id_subject=? WHERE id_lesson=?";
-			getJdbcTemplate().update(sql, lesson.getDateTime(), lesson.getLocation(), lesson.getDuration(), lesson.getType(),
-					lesson.getSubject().getId(), lesson.getId());
+			getJdbcTemplate().update(sql, lesson.getDateTime(), lesson.getLocation(), lesson.getDuration(),
+					lesson.getType(), lesson.getSubject().getId(), lesson.getId());
 		}
 		return lesson;
 	}

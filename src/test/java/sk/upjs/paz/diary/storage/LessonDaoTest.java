@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Lesson.LessonType;
+import sk.upjs.paz.diary.persistence.DaoFactory;
+import sk.upjs.paz.diary.persistence.ILessonDAO;
+import sk.upjs.paz.diary.persistence.ISubjectDAO;
 import sk.upjs.paz.diary.entity.Subject;
 
 class LessonDaoTest {

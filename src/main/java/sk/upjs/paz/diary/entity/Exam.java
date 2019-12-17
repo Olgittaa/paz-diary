@@ -2,6 +2,7 @@ package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Exam {
 	private Long id;
@@ -52,11 +53,7 @@ public class Exam {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-		return result;
+		return Objects.hash(dateTime, location, subject);
 	}
 
 	@Override
@@ -68,17 +65,8 @@ public class Exam {
 		if (getClass() != obj.getClass())
 			return false;
 		Exam other = (Exam) obj;
-		if (dateTime == null) {
-			if (other.dateTime != null)
-				return false;
-		} else if (!dateTime.equals(other.dateTime))
-			return false;
-		if (subject == null) {
-			if (other.subject != null)
-				return false;
-		} else if (!subject.equals(other.subject))
-			return false;
-		return true;
+		return Objects.equals(dateTime, other.dateTime) && Objects.equals(location, other.location)
+				&& Objects.equals(subject, other.subject);
 	}
 
 }

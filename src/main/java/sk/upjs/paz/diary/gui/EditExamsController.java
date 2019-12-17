@@ -17,9 +17,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.ExamFxModel;
-import sk.upjs.paz.diary.storage.DaoFactory;
-import sk.upjs.paz.diary.storage.IExamDAO;
+import sk.upjs.paz.diary.gui.adapters.ExamFxModel;
+import sk.upjs.paz.diary.persistence.DaoFactory;
+import sk.upjs.paz.diary.persistence.IExamDAO;
 
 public class EditExamsController extends Controller {
 

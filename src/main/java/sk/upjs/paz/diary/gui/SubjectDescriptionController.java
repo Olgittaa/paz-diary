@@ -17,8 +17,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.perzistent.SubjectFxModel;
-import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.gui.adapters.SubjectFxModel;
+import sk.upjs.paz.diary.persistence.DaoFactory;
 
 public class SubjectDescriptionController extends Controller {
 	/** Logger */
