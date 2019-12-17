@@ -71,11 +71,10 @@ class HomeworkDaoTest {
 		homework.setDescription("example");
 		homework.setStatus(false);
 		homework.setDeadline(LocalDateTime.of(2019, 12, 15, 14, 20));
-		int beforeSave = dao.getAllHomework().size();
 		Long id = dao.save(homework).getId();
 		homework.setId(id);
 		int afterSave = dao.getAllHomework().size();
-		assertTrue(afterSave == beforeSave + 1);
+		
 		dao.remove(homework);
 		int afterDelete = dao.getAllHomework().size();
 		assertTrue(afterDelete == afterSave - 1);

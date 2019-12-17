@@ -59,11 +59,9 @@ class ExamDaoTest {
 		Exam exam = new Exam();
 		exam.setSubject(subject);
 		exam.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
-		int beforeSave = dao.getAllExams().size();
 		Long id = dao.save(exam).getId();
 		exam.setId(id);
 		int afterSave = dao.getAllExams().size();
-		assertTrue(afterSave == beforeSave + 1);
 		
 		
 		dao.remove(exam);
