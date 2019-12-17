@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +20,10 @@ import sk.upjs.paz.diary.persistence.ISubjectDAO;
 
 class HomeworkDaoTest {
 
-	private IHomeworkDAO dao = DaoFactory.INSTANCE.getHomeworkDao(true);
+	private IHomeworkDAO homeworkDao = DaoFactory.INSTANCE.getHomeworkDao(true);
 	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao(true);
+
+	private List<Homework> list = new ArrayList<>();
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -31,22 +35,22 @@ class HomeworkDaoTest {
 
 	@Test
 	void testGetAllHomework() {
-		assertNotNull(dao.getAllHomework());
-		assertFalse(dao.getAllHomework().isEmpty());
+		List<Homework> allHomework = homeworkDao.getAllHomework();
+		assertNotNull(allHomework);
+		assertFalse(allHomework.isEmpty());
 	}
 
 	@Test
-	void testGetHomeworkSortedOnWeekSorted() {
-		assertNotNull(dao.getHomeworkOnWeekSorted());
-		assertFalse(dao.getHomeworkOnWeekSorted().isEmpty());
+	void testGetHomeworkOnWeekSorted() {
+		assertNotNull(homeworkDao.getHomeworkOnWeekSorted());
+		assertFalse(homeworkDao.getHomeworkOnWeekSorted().isEmpty());
+		List<Homework> list = homeworkDao.getHomeworkOnWeekSorted();
 	}
 
 	@Test
-	void testSaveAndRemove() {
+	void testSave() {
 		Subject subject = new Subject();
-		subject.setEmail("email@upjs.sk");
 		subject.setName("example");
-		subject.setSite("example.com");
 		Long subjectId = subjectDao.save(subject).getId();
 		subject.setId(subjectId);
 		Homework homework = new Homework();
@@ -54,13 +58,30 @@ class HomeworkDaoTest {
 		homework.setDescription("example");
 		homework.setStatus(false);
 		homework.setDeadline(LocalDateTime.of(2019, 12, 15, 14, 20));
-		int beforeSave = dao.getAllHomework().size();
-		Long id = dao.save(homework).getId();
+		int beforeSave = homeworkDao.getAllHomework().size();
+		Long id = homeworkDao.save(homework).getId();
 		homework.setId(id);
-		int afterSave = dao.getAllHomework().size();
+		int afterSave = homeworkDao.getAllHomework().size();
 		assertTrue(afterSave == beforeSave + 1);
-		dao.remove(homework);
-		int afterDelete = dao.getAllHomework().size();
+	}
+
+	@Test
+	void testRemove() {
+		Subject subject = new Subject();
+		subject.setName("example");
+		Long subjectId = subjectDao.save(subject).getId();
+		subject.setId(subjectId);
+		Homework homework = new Homework();
+		homework.setSubject(subject);
+		homework.setDescription("example");
+		homework.setStatus(false);
+		homework.setDeadline(LocalDateTime.of(2019, 12, 15, 14, 20));
+		Long id = homeworkDao.save(homework).getId();
+		homework.setId(id);
+		int afterSave = homeworkDao.getAllHomework().size();
+
+		homeworkDao.remove(homework);
+		int afterDelete = homeworkDao.getAllHomework().size();
 		assertTrue(afterDelete == afterSave - 1);
 	}
 }

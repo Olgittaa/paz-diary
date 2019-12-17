@@ -7,7 +7,7 @@ import sk.upjs.paz.diary.entity.Exam;
 public interface IExamDAO {
 	List<Exam> getAllExams();
 
-	void save(Exam exam);
+	Exam save(Exam exam);
 
 	void remove(Exam exam);
 }

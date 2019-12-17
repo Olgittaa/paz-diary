@@ -25,9 +25,9 @@ public class ExamDao extends DAO implements IExamDAO {
 	}
 
 	@Override
-	public void save(Exam exam) {
+	public Exam save(Exam exam) {
 		if (exam == null) {
-			return;
+			return null;
 		}
 		// INSERT
 		if (exam.getId() == null) {
@@ -45,6 +45,7 @@ public class ExamDao extends DAO implements IExamDAO {
 			String sql = "UPDATE exam SET date=?, location=?, id_subject=? WHERE id_exam = " + exam.getId();
 			getJdbcTemplate().update(sql, exam.getDateTime(), exam.getLocation(), exam.getSubject().getId());
 		}
+		return exam;
 	}
 
 	@Override

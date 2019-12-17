@@ -5,10 +5,15 @@ use diary;
 drop table if exists subject;
 CREATE TABLE IF NOT EXISTS subject
 (
-   `id_subject` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-   `name` VARCHAR (50) NOT NULL UNIQUE,
+   `id_subject` BIGINT NOT NULL AUTO_INCREMENT,
+   `name` VARCHAR (50) NOT NULL,
    `site` VARCHAR (100),
-   `email` VARCHAR (50)
+   `email` VARCHAR (50),
+   PRIMARY KEY
+   (
+      `id_subject`,
+      `name`
+   )
 );
 
 drop table if exists lesson;
@@ -121,3 +126,5 @@ SELECT * FROM `exam`;
 SELECT * FROM `homework`;
 SELECT * FROM `lesson`;
 SELECT * FROM `subject`;
+
+SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));SELECT * FROM lesson WHERE id_subject = 2 GROUP BY DAYOFWEEK(date) ORDER BY date;
