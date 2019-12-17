@@ -33,7 +33,6 @@ class LessonDaoTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-	
 	@Test
 	void testGetAllLessons() {
 		assertNotNull(dao.getAllLessons());
@@ -56,8 +55,9 @@ class LessonDaoTest {
 
 	@Test
 	void testGetWeekSchedule() {
-		if (dao.getAllLessons().size() != 0) {
+		
 			List<Lesson> lessons = dao.getWeekSchedule();
+			if (lessons.size() != 0) {
 			Date date = Date.from(lessons.get(0).getDateTime().atZone(ZoneId.systemDefault()).toInstant());
 			Calendar calendar = new GregorianCalendar();
 			calendar.setTime(date);
@@ -83,8 +83,13 @@ class LessonDaoTest {
 
 	@Test
 	void testSave() {
+		Subject subject = new Subject();
+		subject.setName("example");
+		Long subjectId = subjectDao.save(subject).getId();
+		subject.setId(subjectId);
+		
 		Lesson lesson = new Lesson();
-		lesson.setSubject(new Subject());
+		lesson.setSubject(subject);
 		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
 		lesson.setLocation("sa1c03");
@@ -99,8 +104,13 @@ class LessonDaoTest {
 	
 	@Test
 	void testRemove() {
+		Subject subject = new Subject();
+		subject.setName("example");
+		Long subjectId = subjectDao.save(subject).getId();
+		subject.setId(subjectId);
+		
 		Lesson lesson = new Lesson();
-		lesson.setSubject(new Subject());
+		lesson.setSubject(subject);
 		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
 		lesson.setLocation("sa1c03");
