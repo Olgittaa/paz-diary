@@ -30,25 +30,25 @@ public class LessonDao extends DAO implements ILessonDAO {
 	@Override
 	public List<Lesson> getAllLessons() {
 		final String sql = "SELECT * FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject";
-		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
+		return getJdbcTemplate().query(sql, new LessonRowMapperImpl());
 	}
 
 	@Override
 	public List<Lesson> getLessonsBySubjectId(Long id) {
 		final String sql = "SELECT * FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject WHERE s.id_subject = ?";
-		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), id);
+		return getJdbcTemplate().query(sql, new LessonRowMapperImpl(), id);
 	}
 
 	@Override
 	public List<Lesson> getWeekSchedule() {
 		final String sql = "SELECT * FROM lesson where week(date, 1) = week(current_date(), 1) AND year(date)=year(current_date()) ORDER BY date";
-		return jdbcTemplate.query(sql, new LessonRowMapperImpl());
+		return getJdbcTemplate().query(sql, new LessonRowMapperImpl());
 	}
 
 	@Override
 	public List<Lesson> getWeekScheduleBySubjectId(Long id) {
 		final String sql = "SELECT * FROM lesson WHERE id_subject = ? GROUP BY DAYOFWEEK(date) ORDER BY date";
-		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), id);
+		return getJdbcTemplate().query(sql, new LessonRowMapperImpl(), id);
 	}
 
 	@Override
@@ -57,13 +57,13 @@ public class LessonDao extends DAO implements ILessonDAO {
 			return Collections.emptyList();
 		}
 		final String sql = "SELECT * FROM lesson WHERE dayofweek(date) =? AND week(date, 1) = week(current_date(), 1) ORDER BY date";
-		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), day);
+		return getJdbcTemplate().query(sql, new LessonRowMapperImpl(), day);
 	}
 
 	@Override
 	public void remove(Lesson lesson) {
 		final String sql = "DELETE FROM lesson WHERE id_lesson=" + lesson.getId();
-		jdbcTemplate.execute(sql);
+		getJdbcTemplate().execute(sql);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 
 		// INSERT
 		if (lesson.getId() == null) {
-			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("lesson")
+			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(getJdbcTemplate()).withTableName("lesson")
 					.usingGeneratedKeyColumns("id_lesson");
 
 			final Map<String, Object> values = new HashMap<>(6);
@@ -89,7 +89,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 		// UPDATE
 		else {
 			String sql = "UPDATE lesson SET date=?, location=?, duration=?, type=?, id_subject=? WHERE id_lesson=?";
-			jdbcTemplate.update(sql, lesson.getDateTime(), lesson.getLocation(), lesson.getDuration(), lesson.getType(),
+			getJdbcTemplate().update(sql, lesson.getDateTime(), lesson.getLocation(), lesson.getDuration(), lesson.getType(),
 					lesson.getSubject().getId(), lesson.getId());
 		}
 		return lesson;
@@ -98,7 +98,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 	@Override
 	public Lesson getLastLessonOfSubject(Subject subject) {
 		final String sql = "SELECT * FROM lesson WHERE date=(SELECT max(date) FROM lesson WHERE id_subject=?)";
-		return jdbcTemplate.queryForObject(sql, new LessonRowMapperImpl(), subject.getId());
+		return getJdbcTemplate().queryForObject(sql, new LessonRowMapperImpl(), subject.getId());
 	}
 
 	/**

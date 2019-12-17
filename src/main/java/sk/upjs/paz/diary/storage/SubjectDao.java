@@ -19,44 +19,42 @@ import sk.upjs.paz.diary.entity.Subject;
  * @author Yevhenii Kozhevin
  * @author Olga Charna
  */
-public class SubjectDao implements ISubjectDAO {
-
-	private JdbcTemplate jdbcTemplate;
+public class SubjectDao extends DAO implements ISubjectDAO {
 
 	public SubjectDao(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+		super(jdbcTemplate);
 	}
 
 	@Override
 	public List<Subject> getAllSubjects() {
 		String query = "SELECT * FROM subject;";
-		return jdbcTemplate.query(query, new SubjectRowMapper());
+		return getJdbcTemplate().query(query, new SubjectRowMapper());
 	}
 
 	@Override
 	public List<Subject> getAllSubjectsSorted() {
 		String query = "SELECT * FROM subject ORDER BY name";
-		List<Subject> list = jdbcTemplate.query(query, new SubjectRowMapper());
+		List<Subject> list = getJdbcTemplate().query(query, new SubjectRowMapper());
 		return list;
 	}
 
 	@Override
 	public String getNameById(Long id) {
 		String sql = "SELECT name FROM subject WHERE id_subject=?";
-		return jdbcTemplate.queryForObject(sql, String.class, id);
+		return getJdbcTemplate().queryForObject(sql, String.class, id);
 	}
 
 	@Override
 	public Subject getSubjectById(Long id) {
 		String sql = "SELECT * FROM subject WHERE id_subject=" + id;
-		return jdbcTemplate.queryForObject(sql, new SubjectRowMapper());
+		return getJdbcTemplate().queryForObject(sql, new SubjectRowMapper());
 	}
 
 	@Override
 	public Subject getSubjectByName(String name) {
 		try {
 			String sql = "SELECT * FROM subject WHERE name=?";
-			return jdbcTemplate.queryForObject(sql, new SubjectRowMapper(), name);
+			return getJdbcTemplate().queryForObject(sql, new SubjectRowMapper(), name);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -69,7 +67,7 @@ public class SubjectDao implements ISubjectDAO {
 
 		// INSERT
 		if (subject.getId() == null) {
-			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("subject")
+			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(getJdbcTemplate()).withTableName("subject")
 					.usingGeneratedKeyColumns("subject_id");
 			jdbcInsert.usingColumns("name", "site", "email");
 
@@ -85,7 +83,7 @@ public class SubjectDao implements ISubjectDAO {
 		// UPDATE
 		else {
 			String sql = "UPDATE subject SET name=?, site=?, email=? WHERE id_subject=?";
-			jdbcTemplate.update(sql, subject.getName(), subject.getSite(), subject.getEmail(), subject.getId());
+			getJdbcTemplate().update(sql, subject.getName(), subject.getSite(), subject.getEmail(), subject.getId());
 		}
 		return subject;
 	}
@@ -93,7 +91,7 @@ public class SubjectDao implements ISubjectDAO {
 	@Override
 	public void remove(Subject subject) {
 		String sql = "DELETE FROM subject WHERE id_subject=" + subject.getId();
-		jdbcTemplate.execute(sql);
+		getJdbcTemplate().execute(sql);
 	}
 
 	private class SubjectRowMapper implements RowMapper<Subject> {

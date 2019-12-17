@@ -21,13 +21,13 @@ public class ExamDao extends DAO implements IExamDAO {
 	@Override
 	public List<Exam> getAllExams() {
 		String sql = "SELECT * FROM exam ORDER BY date";
-		return jdbcTemplate.query(sql, new ExamRowMapperImpl());
+		return getJdbcTemplate().query(sql, new ExamRowMapperImpl());
 	}
 
 	@Override
 	public List<Exam> getExamsBySubjectId(Long id) {
 		String sql = "SELECT * FROM exam e LEFT JOIN subject s ON e.id_subject=s.id_subject WHERE s.id_subject = " + id;
-		return jdbcTemplate.query(sql, new ExamRowMapperImpl());
+		return getJdbcTemplate().query(sql, new ExamRowMapperImpl());
 	}
 
 	private class ExamRowMapperImpl implements RowMapper<Exam> {
@@ -52,7 +52,7 @@ public class ExamDao extends DAO implements IExamDAO {
 		}
 		if (exam.getId() == null) {
 			// INSERT
-			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("exam")
+			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(getJdbcTemplate()).withTableName("exam")
 					.usingGeneratedKeyColumns("id_exam");
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("date", exam.getDateTime());
@@ -65,7 +65,7 @@ public class ExamDao extends DAO implements IExamDAO {
 			//UPDATE
 			String sql = "UPDATE exam SET date=?, location=?, id_subject=? WHERE id_exam = "
 					+ exam.getId();
-			jdbcTemplate.update(sql, exam.getDateTime(), exam.getLocation(), exam.getSubject().getId());
+			getJdbcTemplate().update(sql, exam.getDateTime(), exam.getLocation(), exam.getSubject().getId());
 		}
 		
 	}
@@ -73,7 +73,7 @@ public class ExamDao extends DAO implements IExamDAO {
 	@Override
 	public void remove(Exam exam) {
 		String sql = "DELETE FROM exam WHERE id_exam=" + exam.getId();
-		jdbcTemplate.execute(sql);
+		getJdbcTemplate().execute(sql);
 	}
 
 }

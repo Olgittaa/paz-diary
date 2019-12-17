@@ -21,26 +21,26 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	@Override
 	public List<Homework> getAllHomework() {
 		String sql = "SELECT * FROM homework";
-		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl());
 	}
 
 	@Override
 	public List<Homework> getAllHomeworkSorted() {
 		String sql = "SELECT * FROM homework ORDER BY deadline";
-		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl());
 	}
 
 	@Override
 	public List<Homework> getHomeworkOnWeekSorted() {
 		String sql = "SELECT * FROM homework WHERE id_homework NOT IN (SELECT id_homework FROM homework "
 				+ "WHERE DATEDIFF(deadline, NOW()) < -7 AND status = 1) ORDER BY deadline";
-		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl());
+		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl());
 	}
 
 	@Override
 	public List<Homework> getHomeworkBySubjectId(Long id) {
 		String sql = "SELECT * FROM homework hw LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE s.id_subject = ?";
-		return jdbcTemplate.query(sql, new HomeworkRowMapperImpl(), id);
+		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl(), id);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 			return homework;
 		}
 		if (homework.getId() == null) { // INSERT
-			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("homework")
+			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(getJdbcTemplate()).withTableName("homework")
 					.usingGeneratedKeyColumns("id_homework");
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("deadline", homework.getDeadline());
@@ -62,7 +62,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		} else { // UPDATE
 			String sql = "UPDATE homework SET deadline=?, description=?, status=?, id_subject=? WHERE id_homework = "
 					+ homework.getId();
-			jdbcTemplate.update(sql, homework.getDeadline(), homework.getDescription(), homework.getStatus(),
+			getJdbcTemplate().update(sql, homework.getDeadline(), homework.getDescription(), homework.getStatus(),
 					homework.getSubject().getId());
 		}
 		return homework;
@@ -71,7 +71,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	@Override
 	public void remove(Homework homework) {
 		String sql = "DELETE FROM homework WHERE id_homework=" + homework.getId();
-		jdbcTemplate.execute(sql);
+		getJdbcTemplate().execute(sql);
 	}
 
 	
