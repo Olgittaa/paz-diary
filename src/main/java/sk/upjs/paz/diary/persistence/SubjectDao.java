@@ -28,20 +28,20 @@ public class SubjectDao extends DAO implements ISubjectDAO {
 	@Override
 	public List<Subject> getAllSubjects() {
 		String query = "SELECT * FROM subject;";
-		return getJdbcTemplate().query(query, new SubjectRowMapper());
+		return getJdbcTemplate().query(query, new SubjectRowMapperImpl());
 	}
 
 	@Override
 	public List<Subject> getAllSubjectsSorted() {
 		String query = "SELECT * FROM subject ORDER BY name";
-		List<Subject> list = getJdbcTemplate().query(query, new SubjectRowMapper());
+		List<Subject> list = getJdbcTemplate().query(query, new SubjectRowMapperImpl());
 		return list;
 	}
 
 	@Override
 	public Subject getSubjectById(Long id) {
 		String sql = "SELECT * FROM subject WHERE id_subject=" + id;
-		return getJdbcTemplate().queryForObject(sql, new SubjectRowMapper());
+		return getJdbcTemplate().queryForObject(sql, new SubjectRowMapperImpl());
 	}
 
 	// returns null if subject does not exist
@@ -49,7 +49,7 @@ public class SubjectDao extends DAO implements ISubjectDAO {
 	public Subject getSubjectByName(String name) {
 		try {
 			String sql = "SELECT * FROM subject WHERE name=?";
-			return getJdbcTemplate().queryForObject(sql, new SubjectRowMapper(), name);
+			return getJdbcTemplate().queryForObject(sql, new SubjectRowMapperImpl(), name);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -89,7 +89,7 @@ public class SubjectDao extends DAO implements ISubjectDAO {
 		getJdbcTemplate().execute(sql);
 	}
 
-	private class SubjectRowMapper implements RowMapper<Subject> {
+	private class SubjectRowMapperImpl implements RowMapper<Subject> {
 		@Override
 		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Long id = rs.getLong("id_subject");
