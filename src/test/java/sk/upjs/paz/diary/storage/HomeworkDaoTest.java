@@ -43,11 +43,27 @@ class HomeworkDaoTest {
 	}
 	
 	@Test
-	void testSaveAndRemove() {
+	void testSave() {
 		Subject subject = new Subject();
-		subject.setEmail("email@upjs.sk");
 		subject.setName("example");
-		subject.setSite("example.com");
+		Long subjectId = subjectDao.save(subject).getId();
+		subject.setId(subjectId);
+		Homework homework = new Homework();
+		homework.setSubject(subject);
+		homework.setDescription("example");
+		homework.setStatus(false);
+		homework.setDeadline(LocalDateTime.of(2019, 12, 15, 14, 20));
+		int beforeSave = dao.getAllHomework().size();
+		Long id = dao.save(homework).getId();
+		homework.setId(id);
+		int afterSave = dao.getAllHomework().size();
+		assertTrue(afterSave == beforeSave + 1);
+	}
+	
+	@Test
+	void testRemove() {
+		Subject subject = new Subject();
+		subject.setName("example");
 		Long subjectId = subjectDao.save(subject).getId();
 		subject.setId(subjectId);
 		Homework homework = new Homework();

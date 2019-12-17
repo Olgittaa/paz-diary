@@ -75,4 +75,10 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 		}
 	}
 
+	@Override
+	public List<Homework> getHomeworkBySubjectId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
