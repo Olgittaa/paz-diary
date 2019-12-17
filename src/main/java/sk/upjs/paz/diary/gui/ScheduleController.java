@@ -172,5 +172,6 @@ public class ScheduleController extends Controller {
 					680);
 		}
 		setItemsToSubjectsListView();
+		setOrRefreshItemsToLessonsListViews();
 	}
 }

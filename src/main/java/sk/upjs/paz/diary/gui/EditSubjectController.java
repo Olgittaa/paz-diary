@@ -263,6 +263,8 @@ public class EditSubjectController extends Controller {
 		Subject subject = subjectDao.save(editedSubject.getSubject());
 		editedSubject.load(subject);
 		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
+		addLessonButton.setDisable(false);
+		removeLessonButton.setDisable(false);
 	}
 
 	@FXML

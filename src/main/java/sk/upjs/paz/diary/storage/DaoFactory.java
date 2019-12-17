@@ -4,13 +4,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-/**
- * The Factory class is responsible for creating data access objects if do not
- * exists or for returning already existing object
- * 
- * @author Yevhenii Kozhevin
- * @author Olga Charna
- */
 public class DaoFactory {
 	private static ISubjectDAO subjectDao;
 	private static IExamDAO examDao;

@@ -50,6 +50,7 @@ public class SubjectDao extends DAO implements ISubjectDAO {
 		return getJdbcTemplate().queryForObject(sql, new SubjectRowMapper());
 	}
 
+	// returns null if subject does not exist
 	@Override
 	public Subject getSubjectByName(String name) {
 		try {

@@ -140,10 +140,11 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void scheduleImageViewOnMouseClicked(MouseEvent event) {
-		if (event.getButton() != MouseButton.PRIMARY) {
-			return;
+		if (event.getButton() == MouseButton.PRIMARY) {
+			loadWindow("schedule.fxml", "Schedule", new ScheduleController(), 615, 560, 615, 560);
+			refreshExams();
+			refreshHomework();
 		}
-		loadWindow("schedule.fxml", "Schedule", new ScheduleController(), 615, 560, 615, 560);
 	}
 
 	@FXML
