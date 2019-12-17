@@ -9,9 +9,6 @@ public class Subject {
 	private String email;
 
 	public Subject() {
-		name = new String();
-		site = new String();
-		email = new String();
 	}
 
 	public Subject(Long id, String name, String site, String email) {

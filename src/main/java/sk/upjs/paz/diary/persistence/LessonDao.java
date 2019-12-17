@@ -15,22 +15,10 @@ import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Lesson.LessonType;
 import sk.upjs.paz.diary.entity.Subject;
 
-/**
- * Class responses for access to subjects' lessons data
- * 
- * @author Yevhenii Kozhevin
- * @author Olga Charna
- */
 public class LessonDao extends DAO implements ILessonDAO {
 
 	public LessonDao(JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
-	}
-
-	@Override
-	public List<Lesson> getAllLessons() {
-		final String sql = "SELECT * FROM lesson l LEFT JOIN subject s ON l.id_subject=s.id_subject";
-		return getJdbcTemplate().query(sql, new LessonRowMapperImpl());
 	}
 
 	@Override
@@ -101,9 +89,6 @@ public class LessonDao extends DAO implements ILessonDAO {
 		return getJdbcTemplate().queryForObject(sql, new LessonRowMapperImpl(), subject.getId());
 	}
 
-	/**
-	 * Helping class for mapping rows from database to Lesson objects
-	 */
 	private class LessonRowMapperImpl implements RowMapper<Lesson> {
 		@Override
 		public Lesson mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -113,7 +98,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 			lesson.setDuration(rs.getInt("duration"));
 			lesson.setLocation(rs.getString("location"));
 			lesson.setType("lecture".equalsIgnoreCase(rs.getString("type")) ? LessonType.LECTURE : LessonType.PRACTICE);
-			lesson.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
+			lesson.setSubject(DaoFactory.INSTANCE.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
 			return lesson;
 		}
 	}

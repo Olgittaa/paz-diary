@@ -16,7 +16,7 @@ import sk.upjs.paz.diary.persistence.ISubjectDAO;
 
 class SubjectDaoTest {
 
-	private ISubjectDAO dao = DaoFactory.getSubjectDao(true);
+	private ISubjectDAO dao = DaoFactory.INSTANCE.getSubjectDao(true);
 
 	@BeforeEach
 	void setUp() throws Exception {

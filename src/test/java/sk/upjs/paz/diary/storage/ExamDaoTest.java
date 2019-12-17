@@ -16,8 +16,8 @@ import sk.upjs.paz.diary.persistence.ISubjectDAO;
 
 class ExamDaoTest {
 
-	private IExamDAO dao = DaoFactory.getExamDao(true);
-	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao(true);
+	private IExamDAO dao = DaoFactory.INSTANCE.getExamDao(true);
+	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao(true);
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -31,19 +31,5 @@ class ExamDaoTest {
 	void testGetAllExams() {
 		assertNotNull(dao.getAllExams());
 		assertFalse(dao.getAllExams().isEmpty());
-	}
-
-	@Test
-	void testGetExamsBySubjectId() {
-		if (subjectDao.getAllSubjects().size() != 0) {
-			Long id = subjectDao.getAllSubjects().get(0).getId();
-			List<Exam> exams = new ArrayList<Exam>();
-			for (Exam exam : dao.getAllExams()) {
-				if (exam.getSubject().getId() == id) {
-					exams.add(exam);
-				}
-			}
-			assertEquals(exams, dao.getExamsBySubjectId(id));
-		}
 	}
 }

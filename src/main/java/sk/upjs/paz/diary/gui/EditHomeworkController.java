@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.gui.adapters.HomeworkFxModel;
+import sk.upjs.paz.diary.gui.models.HomeworkFxModel;
 import sk.upjs.paz.diary.persistence.DaoFactory;
 import sk.upjs.paz.diary.persistence.IHomeworkDAO;
 
@@ -36,7 +36,7 @@ public class EditHomeworkController extends Controller {
 	@FXML
 	private JFXButton removeHomeworkButton;
 
-	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
+	private IHomeworkDAO homeworkDao = DaoFactory.INSTANCE.getHomeworkDao();
 
 	/**
 	 * Adapter between jfoenix components and database
@@ -67,7 +67,7 @@ public class EditHomeworkController extends Controller {
 
 	@FXML
 	void initialize() {
-		subjectsModel = FXCollections.observableArrayList(DaoFactory.getSubjectDao().getAllSubjects());
+		subjectsModel = FXCollections.observableArrayList(DaoFactory.INSTANCE.getSubjectDao().getAllSubjects());
 		subjectComboBox.setItems(subjectsModel);
 
 		if (selectedHomework == null) { // if creating homework

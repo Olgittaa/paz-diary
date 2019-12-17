@@ -51,21 +51,10 @@ public class Controller {
 		return modalStage;
 	}
 
-	/**
-	 * Initializes window using fxml file
-	 * 
-	 * @param xmlFileName - name of a fxml file which will be loaded
-	 * @param windowTitle - title of a window(stage)
-	 */
 	protected Stage loadWindow(String fxmlFileName, String windowTitle) {
 		return loadWindow(fxmlFileName, windowTitle, null, Double.MIN_VALUE, Double.MIN_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
 	}
 
-	/**
-	 * Closes a window where the node is deployed
-	 * 
-	 * @param node - deployed node
-	 */
 	protected void closeWindow(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide();
 	}

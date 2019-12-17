@@ -22,8 +22,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Lesson.LessonType;
-import sk.upjs.paz.diary.gui.adapters.LessonFxModel;
-import sk.upjs.paz.diary.gui.adapters.SubjectFxModel;
+import sk.upjs.paz.diary.gui.models.LessonFxModel;
+import sk.upjs.paz.diary.gui.models.SubjectFxModel;
 import sk.upjs.paz.diary.persistence.DaoFactory;
 import sk.upjs.paz.diary.persistence.ILessonDAO;
 import sk.upjs.paz.diary.persistence.ISubjectDAO;
@@ -68,8 +68,8 @@ public class EditSubjectController extends Controller {
 	@FXML
 	private JFXListView<Lesson> lessonsListView;
 
-	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
-	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
+	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao();
+	private ILessonDAO lessonDao = DaoFactory.INSTANCE.getLessonDao();
 
 	private SubjectFxModel editedSubject;
 	private LessonFxModel lessonFxModel;
@@ -124,7 +124,6 @@ public class EditSubjectController extends Controller {
 		});
 	}
 
-	// TODO дизэйбл кнопки эдд лессон
 	private void showLessonsOfSubjectWritingName() {
 		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 			String subjectName = nameTextField.getText();

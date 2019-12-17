@@ -17,7 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.gui.adapters.SubjectFxModel;
+import sk.upjs.paz.diary.gui.models.SubjectFxModel;
 import sk.upjs.paz.diary.persistence.DaoFactory;
 
 public class SubjectDescriptionController extends Controller {
@@ -51,7 +51,7 @@ public class SubjectDescriptionController extends Controller {
 		siteTextField.textProperty().bind(subjectFxModel.getSiteProperty());
 
 		lessonsListView.setItems(
-				FXCollections.observableArrayList(DaoFactory.getLessonDao().getLessonsBySubjectId(subject.getId())));
+				FXCollections.observableArrayList(DaoFactory.INSTANCE.getLessonDao().getLessonsBySubjectId(subject.getId())));
 	}
 
 	@FXML

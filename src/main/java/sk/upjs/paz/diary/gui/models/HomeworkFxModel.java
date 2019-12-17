@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.gui.adapters;
+package sk.upjs.paz.diary.gui.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,28 +23,16 @@ public class HomeworkFxModel {
 	private ObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<>();
 
-	/**
-	 * Casts HomeworkFXModel to Homework
-	 * 
-	 * @param idSubject - homeworks's subject's id
-	 * @return homework
-	 */
 	public Homework getHomework(Long idSubject) {
 		Homework hw = new Homework();
 		hw.setDeadline(LocalDateTime.of(getDate(), getTime()));
 		hw.setDescription(getDescription());
 		hw.setStatus(getStatus());
-		hw.setSubject(DaoFactory.getSubjectDao().getSubjectById(idSubject));
+		hw.setSubject(DaoFactory.INSTANCE.getSubjectDao().getSubjectById(idSubject));
 		hw.setId(id);
 		return hw;
 	}
 
-	/**
-	 * Casts Homework to HomeworkFXModel
-	 * 
-	 * @param homework - homework to cast
-	 * @return homewworkFXModel
-	 */
 	public void load(Homework homework) {
 		setDate(homework.getDeadline().toLocalDate());
 		setTime(homework.getDeadline().toLocalTime());

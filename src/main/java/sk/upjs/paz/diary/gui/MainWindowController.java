@@ -58,8 +58,8 @@ public class MainWindowController extends Controller {
 	@FXML
 	private JFXButton addExamButton;
 
-	private IHomeworkDAO homeworkDao = DaoFactory.getHomeworkDao();
-	private IExamDAO examDao = DaoFactory.getExamDao();
+	private IHomeworkDAO homeworkDao = DaoFactory.INSTANCE.getHomeworkDao();
+	private IExamDAO examDao = DaoFactory.INSTANCE.getExamDao();
 
 	@FXML
 	void initialize() {

@@ -1,7 +1,6 @@
 package sk.upjs.paz.diary.entity;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Exam {
@@ -20,10 +19,6 @@ public class Exam {
 
 	public LocalDateTime getDateTime() {
 		return dateTime;
-	}
-
-	public String getStringDateTime() {
-		return getDateTime().format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
 
 	public void setDateTime(LocalDateTime dateTime) {

@@ -25,22 +25,10 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	}
 
 	@Override
-	public List<Homework> getAllHomeworkSorted() {
-		String sql = "SELECT * FROM homework ORDER BY deadline";
-		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl());
-	}
-
-	@Override
 	public List<Homework> getHomeworkOnWeekSorted() {
 		String sql = "SELECT * FROM homework WHERE id_homework NOT IN (SELECT id_homework FROM homework "
 				+ "WHERE DATEDIFF(deadline, NOW()) < -7 AND status = 1) ORDER BY deadline";
 		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl());
-	}
-
-	@Override
-	public List<Homework> getHomeworkBySubjectId(Long id) {
-		String sql = "SELECT * FROM homework hw LEFT JOIN subject s ON hw.id_subject=s.id_subject WHERE s.id_subject = ?";
-		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl(), id);
 	}
 
 	@Override
@@ -82,7 +70,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 			hw.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
 			hw.setDescription(rs.getString("description"));
 			hw.setStatus(rs.getBoolean("status"));
-			hw.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
+			hw.setSubject(DaoFactory.INSTANCE.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
 			return hw;
 		}
 	}

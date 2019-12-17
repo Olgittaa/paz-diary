@@ -57,8 +57,8 @@ public class ScheduleController extends Controller {
 	@FXML
 	private JFXButton editSubjectButton;
 
-	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
-	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
+	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao();
+	private ILessonDAO lessonDao = DaoFactory.INSTANCE.getLessonDao();
 
 	@FXML
 	void initialize() {

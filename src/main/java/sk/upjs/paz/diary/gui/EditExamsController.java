@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.gui.adapters.ExamFxModel;
+import sk.upjs.paz.diary.gui.models.ExamFxModel;
 import sk.upjs.paz.diary.persistence.DaoFactory;
 import sk.upjs.paz.diary.persistence.IExamDAO;
 
@@ -41,7 +41,7 @@ public class EditExamsController extends Controller {
 	@FXML
 	private JFXButton saveExamButton;
 
-	private IExamDAO examDao = DaoFactory.getExamDao();
+	private IExamDAO examDao = DaoFactory.INSTANCE.getExamDao();
 
 	private ExamFxModel fxmodel;
 	private Exam selectedExam;
@@ -59,7 +59,7 @@ public class EditExamsController extends Controller {
 
 	@FXML
 	void initialize() {
-		subjectModel = FXCollections.observableArrayList(DaoFactory.getSubjectDao().getAllSubjects());
+		subjectModel = FXCollections.observableArrayList(DaoFactory.INSTANCE.getSubjectDao().getAllSubjects());
 		subjectComboBox.setItems(subjectModel);
 
 		if (selectedExam == null) { // if creating exam

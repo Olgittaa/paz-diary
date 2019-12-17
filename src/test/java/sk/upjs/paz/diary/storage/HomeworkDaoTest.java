@@ -19,8 +19,8 @@ import sk.upjs.paz.diary.persistence.ISubjectDAO;
 
 class HomeworkDaoTest {
 
-	private IHomeworkDAO dao = DaoFactory.getHomeworkDao(true);
-	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao(true);
+	private IHomeworkDAO dao = DaoFactory.INSTANCE.getHomeworkDao(true);
+	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao(true);
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -37,43 +37,9 @@ class HomeworkDaoTest {
 	}
 
 	@Test
-	void testGetAllHomeworkSorted() {
-		assertNotNull(dao.getAllHomeworkSorted());
-		assertFalse(dao.getAllHomeworkSorted().isEmpty());
-
-		List<LocalDateTime> homeworksSorted = new ArrayList<LocalDateTime>();
-		for (Homework homework : dao.getAllHomeworkSorted()) {
-			homeworksSorted.add(homework.getDeadline());
-		}
-
-		List<LocalDateTime> homeworks = new ArrayList<LocalDateTime>();
-		for (Homework homework : dao.getAllHomework()) {
-			homeworks.add(homework.getDeadline());
-		}
-
-		Collections.sort(homeworks);
-
-		assertEquals(homeworks, homeworksSorted);
-	}
-
-	@Test
 	void testGetHomeworkSortedOnWeekSorted() {
 		assertNotNull(dao.getHomeworkOnWeekSorted());
 		assertFalse(dao.getHomeworkOnWeekSorted().isEmpty());
-	}
-
-	@Test
-	void testGetHomeworkBySubjectId() {
-		if (subjectDao.getAllSubjects().size() != 0) {
-			Long id = subjectDao.getAllSubjects().get(0).getId();
-			List<Homework> homeworks = new ArrayList<Homework>();
-			for (Homework homework : dao.getAllHomework()) {
-				if (homework.getSubject().getId() == id) {
-					homeworks.add(homework);
-				}
-			}
-			assertEquals(homeworks, dao.getHomeworkBySubjectId(id));
-		}
 	}
 	
 	@Test

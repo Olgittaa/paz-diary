@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.gui.adapters;
+package sk.upjs.paz.diary.gui.models;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package sk.upjs.paz.diary.gui.adapters;
+package sk.upjs.paz.diary.gui.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -88,7 +88,7 @@ public class ExamFxModel {
 		exam.setDateTime(LocalDateTime.of(getDate(), getTime()));
 		exam.setLocation(getLocation());
 		exam.setSubject(getSubject());
-		exam.setSubject(DaoFactory.getSubjectDao().getSubjectById(idSubject));
+		exam.setSubject(DaoFactory.INSTANCE.getSubjectDao().getSubjectById(idSubject));
 		exam.setId(id);
 		return exam;
 	}

@@ -23,8 +23,8 @@ import sk.upjs.paz.diary.entity.Subject;
 
 class LessonDaoTest {
 
-	private ILessonDAO dao = DaoFactory.getLessonDao(true);
-	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao(true);
+	private ILessonDAO dao = DaoFactory.INSTANCE.getLessonDao(true);
+	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao(true);
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -32,12 +32,6 @@ class LessonDaoTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
-	}
-
-	@Test
-	void testGetAllLessons() {
-		assertNotNull(dao.getAllLessons());
-		assertFalse(dao.getAllLessons().isEmpty());
 	}
 
 	@Test

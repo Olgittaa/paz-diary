@@ -48,7 +48,7 @@ public class SchedulePdfWriter implements sk.upjs.paz.diary.pdf.PdfWriter{
 	public SchedulePdfWriter(String fileName) {
 		LOGGER = LoggerFactory.getLogger(SchedulePdfWriter.class);
 		DOCUMENT = initDocument(fileName);
-		LESSONS = DaoFactory.getLessonDao().getWeekSchedule();
+		LESSONS = DaoFactory.INSTANCE.getLessonDao().getWeekSchedule();
 	}
 
 	/**

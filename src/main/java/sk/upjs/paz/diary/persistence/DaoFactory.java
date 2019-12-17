@@ -4,63 +4,61 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-public class DaoFactory {
-	private static ISubjectDAO subjectDao;
-	private static IExamDAO examDao;
-	private static IHomeworkDAO homeworkDao;
-	private static ILessonDAO lessonDao;
+public enum DaoFactory {
+	INSTANCE;
 
-	private static JdbcTemplate jdbcTemplate;
+	private ISubjectDAO subjectDao;
+	private IExamDAO examDao;
+	private IHomeworkDAO homeworkDao;
+	private ILessonDAO lessonDao;
 
-	private DaoFactory() {
-		throw new IllegalAccessError("Non instantiating class");
-	}
+	private JdbcTemplate jdbcTemplate;
 
-	public static ISubjectDAO getSubjectDao() {
+	public ISubjectDAO getSubjectDao() {
 		return getSubjectDao(false);
 	}
 
-	public static ISubjectDAO getSubjectDao(boolean isTestingDao) {
+	public ISubjectDAO getSubjectDao(boolean isTestingDao) {
 		if (subjectDao == null) {
 			subjectDao = new SubjectDao(initializeJdbcTemplate(isTestingDao));
 		}
 		return subjectDao;
 	}
 
-	public static IExamDAO getExamDao() {
+	public IExamDAO getExamDao() {
 		return getExamDao(false);
 	}
 
-	public static IExamDAO getExamDao(boolean isTestingDao) {
+	public IExamDAO getExamDao(boolean isTestingDao) {
 		if (examDao == null) {
 			examDao = new ExamDao(initializeJdbcTemplate(isTestingDao));
 		}
 		return examDao;
 	}
 
-	public static ILessonDAO getLessonDao() {
+	public ILessonDAO getLessonDao() {
 		return getLessonDao(false);
 	}
 
-	public static ILessonDAO getLessonDao(boolean isTestingDao) {
+	public ILessonDAO getLessonDao(boolean isTestingDao) {
 		if (lessonDao == null) {
 			lessonDao = new LessonDao(initializeJdbcTemplate(isTestingDao));
 		}
 		return lessonDao;
 	}
 
-	public static IHomeworkDAO getHomeworkDao() {
+	public IHomeworkDAO getHomeworkDao() {
 		return getHomeworkDao(false);
 	}
 
-	public static IHomeworkDAO getHomeworkDao(boolean isTestingDao) {
+	public IHomeworkDAO getHomeworkDao(boolean isTestingDao) {
 		if (homeworkDao == null) {
 			homeworkDao = new HomeworkDao(initializeJdbcTemplate(isTestingDao));
 		}
 		return homeworkDao;
 	}
 
-	private static JdbcTemplate initializeJdbcTemplate(boolean isTestTemplate) {
+	private JdbcTemplate initializeJdbcTemplate(boolean isTestTemplate) {
 		if (jdbcTemplate == null) {
 			MysqlDataSource dataSource = new MysqlDataSource();
 			dataSource.setUser("super-student");
