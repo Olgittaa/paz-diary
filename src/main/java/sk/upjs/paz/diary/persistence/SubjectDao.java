@@ -39,12 +39,6 @@ public class SubjectDao extends DAO implements ISubjectDAO {
 	}
 
 	@Override
-	public String getNameById(Long id) {
-		String sql = "SELECT name FROM subject WHERE id_subject=?";
-		return getJdbcTemplate().queryForObject(sql, String.class, id);
-	}
-
-	@Override
 	public Subject getSubjectById(Long id) {
 		String sql = "SELECT * FROM subject WHERE id_subject=" + id;
 		return getJdbcTemplate().queryForObject(sql, new SubjectRowMapper());

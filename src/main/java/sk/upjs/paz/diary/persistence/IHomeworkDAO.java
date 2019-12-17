@@ -4,16 +4,8 @@ import java.util.List;
 
 import sk.upjs.paz.diary.entity.Homework;
 
-/**
- * Interface for
- * 
- * @author Yevhenii Kozhevin
- * @author Olga Charna
- */
 public interface IHomeworkDAO {
 	List<Homework> getAllHomework();
-
-	List<Homework> getAllHomeworkSorted();
 
 	List<Homework> getHomeworkBySubjectId(Long id);
 
