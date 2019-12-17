@@ -1,15 +1,12 @@
 package sk.upjs.paz.diary.storage;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.persistence.DaoFactory;
 import sk.upjs.paz.diary.persistence.IExamDAO;
 import sk.upjs.paz.diary.persistence.ISubjectDAO;

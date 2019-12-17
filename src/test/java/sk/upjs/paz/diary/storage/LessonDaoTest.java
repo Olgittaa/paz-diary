@@ -35,6 +35,38 @@ class LessonDaoTest {
 	}
 
 	@Test
+	void testSave() {
+		Lesson lesson = new Lesson();
+		lesson.setSubject(new Subject());
+		lesson.setType(LessonType.PRACTICE);
+		lesson.setDuration(2);
+		lesson.setLocation("sa1c03");
+		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
+		
+		
+		Subject subject = new Subject();
+//		subject.setEmail("email@upjs.sk");
+//		subject.setName("exampleName");
+//		subject.setSite("www.example.com");
+//		Long subjectId = subjectDao.save(subject).getId();
+//		subject.setId(subjectId);
+		Lesson lesson = new Lesson();
+		lesson.setSubject(subject);
+		lesson.setType(LessonType.PRACTICE);
+		lesson.setDuration(2);
+		lesson.setLocation("sa1c03");
+		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
+		int beforeSave = dao.getAllLessons().size();
+		Long id = dao.save(lesson).getId();
+		lesson.setId(id);
+		int afterSave = dao.getAllLessons().size();
+		assertTrue(afterSave == beforeSave + 1);
+		dao.remove(lesson);
+		int afterDelete = dao.getAllLessons().size();
+		assertTrue(afterDelete == afterSave - 1);
+	}
+	
+	@Test
 	void testGetLessonsBySubjectId() {
 		if (subjectDao.getAllSubjects().size() != 0) {
 			Long id = subjectDao.getAllSubjects().get(0).getId();

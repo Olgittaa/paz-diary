@@ -1,11 +1,10 @@
 package sk.upjs.paz.diary.storage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +40,7 @@ class HomeworkDaoTest {
 		assertNotNull(dao.getHomeworkOnWeekSorted());
 		assertFalse(dao.getHomeworkOnWeekSorted().isEmpty());
 	}
-	
+
 	@Test
 	void testSaveAndRemove() {
 		Subject subject = new Subject();

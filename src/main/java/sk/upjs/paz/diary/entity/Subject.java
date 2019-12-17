@@ -10,7 +10,7 @@ public class Subject {
 
 	public Subject() {
 	}
-
+	
 	public Subject(Long id, String name, String site, String email) {
 		this.id = id;
 		this.name = name;
