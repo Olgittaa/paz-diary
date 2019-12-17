@@ -34,13 +34,13 @@ class ExamDaoTest {
 	void testGetExamsBySubjectId() {
 		if (subjectDao.getAllSubjects().size() != 0) {
 			Long id = subjectDao.getAllSubjects().get(0).getId();
-			List<Exam> Exams = new ArrayList<Exam>();
-			for (Exam Exam : dao.getAllExams()) {
-				if (Exam.getSubject().getId() == id) {
-					Exams.add(Exam);
+			List<Exam> exams = new ArrayList<Exam>();
+			for (Exam exam : dao.getAllExams()) {
+				if (exam.getSubject().getId() == id) {
+					exams.add(exam);
 				}
 			}
-			assertEquals(Exams, dao.getExamsBySubjectId(id));
+			assertEquals(exams, dao.getExamsBySubjectId(id));
 		}
 	}
 }

@@ -20,6 +20,13 @@ public class LessonFxModel {
 	private ObjectProperty<LessonType> typeProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
 
+	public LessonFxModel() {
+	}
+
+	public LessonFxModel(Lesson lesson) {
+		load(lesson);
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -108,7 +115,7 @@ public class LessonFxModel {
 		this.subjectProperty = subjectProperty;
 	}
 
-	public void load(Lesson lesson) {
+	public final void load(Lesson lesson) {
 		setId(lesson.getId());
 		setDateTime(lesson.getDateTime());
 		setLocation(lesson.getLocation());
@@ -134,5 +141,5 @@ public class LessonFxModel {
 				+ locationProperty + ", durationProperty=" + durationProperty + ", typeProperty=" + typeProperty
 				+ ", subjectProperty=" + subjectProperty + "]";
 	}
-	
+
 }

@@ -77,6 +77,12 @@ public class SubjectFxModel {
 		return id;
 	}
 
+	public void clearValuesWithoutName() {
+		setId(null);
+		setSite("");
+		setEmail("");		
+	}
+	
 	public final void load(Subject subject) {
 		setId(subject.getId());
 		setName(subject.getName());

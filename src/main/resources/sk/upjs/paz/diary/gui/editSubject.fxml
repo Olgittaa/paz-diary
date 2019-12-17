@@ -57,8 +57,8 @@
             <JFXTextField fx:id="locationTextField" focusColor="#4d66cc" layoutX="3.0" layoutY="163.0" prefHeight="26.0" prefWidth="182.0" promptText="Location" />
             <JFXTextField fx:id="durationTextField" focusColor="#4d66cc" layoutX="3.0" layoutY="128.0" prefHeight="26.0" prefWidth="182.0" promptText="Duration" />
             <JFXComboBox fx:id="typeOfLessonComboBox" focusColor="#4d66cc" layoutX="3.0" layoutY="24.0" prefHeight="26.0" prefWidth="182.0" promptText="Type Of Lesson" />
-            <JFXButton fx:id="removeLessonButton" layoutX="192.0" layoutY="228.0" onAction="#removeLessonButtonClick" prefHeight="26.0" prefWidth="96.0" text="Remove" />
-            <JFXButton fx:id="addLessonButton" layoutX="316.0" layoutY="228.0" onAction="#addLessonButtonClick" prefHeight="26.0" prefWidth="96.0" text="Add" />
+            <JFXButton fx:id="removeLessonButton" disable="true" layoutX="192.0" layoutY="228.0" onAction="#removeLessonButtonClick" prefHeight="26.0" prefWidth="96.0" style="-jfx-button-type: RAISED; -fx-background-color: rgb(255,205,100); -fx-text-fill: rgb(254,254,254);" text="Remove" />
+            <JFXButton fx:id="addLessonButton" disable="true" layoutX="316.0" layoutY="228.0" onAction="#addLessonButtonClick" prefHeight="26.0" prefWidth="96.0" style="-jfx-button-type: RAISED; -fx-background-color: rgb(255,205,100); -fx-text-fill: rgb(254,254,254);" text="Add" />
          </children>
       </AnchorPane>
    </children>

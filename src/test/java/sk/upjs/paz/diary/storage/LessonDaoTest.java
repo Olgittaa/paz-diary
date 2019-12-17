@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz.diary.entity.Lesson;
+import sk.upjs.paz.diary.entity.Lesson.LessonType;
 import sk.upjs.paz.diary.entity.Subject;
 
 class LessonDaoTest {
@@ -87,7 +88,7 @@ class LessonDaoTest {
 		subject.setId(subjectId);
 		Lesson lesson = new Lesson();
 		lesson.setSubject(subject);
-		lesson.setType("Practice");
+		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
 		lesson.setLocation("sa1c03");
 		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));

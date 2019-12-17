@@ -104,24 +104,60 @@ public class EditSubjectController extends Controller {
 		}
 		lessonStartTimePicker.set24HourView(true);
 
+		showLessonInfoClick();
+		showLessonsOfSubjectWritingName();
+	}
+
+	private void showLessonInfoClick() {
 		lessonsListView.setOnMouseClicked(e -> {
 			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
 			if (selectedItem != null) {
 				lessonFxModel.load(selectedItem);
 				lessonStartTimePicker.setValue(lessonFxModel.getDateTime().toLocalTime());
 				dayOfWeekComboBox.setValue(DayOfWeek.from(lessonFxModel.getDateTime()));
-				lastLessonDatePicker.setValue(lessonDao.getLastLessonOfSubject(selectedItem.getSubject()).getDateTime().toLocalDate());
+				lastLessonDatePicker.setValue(
+						lessonDao.getLastLessonOfSubject(selectedItem.getSubject()).getDateTime().toLocalDate());
+				removeLessonButton.setDisable(false);
+			} else {
+				removeLessonButton.setDisable(true);				
 			}
 		});
+	}
 
+	// TODO дизэйбл кнопки эдд лессон
+	private void showLessonsOfSubjectWritingName() {
 		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (nameTextField.getText() != null && !newValue.trim().isEmpty()) {
+			String subjectName = nameTextField.getText();
+
+			if (subjectName != null && !newValue.trim().isEmpty()) {
 				Subject subject = subjectDao.getSubjectByName(newValue);
-				if (subject != null) {
+				if (subject != null) {// if subject exists
+					addLessonButton.setDisable(false);
+					removeSubjectButton.setDisable(false);
+
 					lessonsModel.setAll(lessonDao.getWeekScheduleBySubjectId(subject.getId()));
+					editedSubject.load(subject);
+				} else {
+					editedSubject.clearValuesWithoutName();
+					clearLessonFields();
+
+					addLessonButton.setDisable(true);
+					removeLessonButton.setDisable(true);
+					removeSubjectButton.setDisable(true);
 				}
 			}
 		});
+	}
+
+	private void clearLessonFields() {
+		lessonsListView.getItems().clear();
+		durationTextField.setText(null);
+		lastLessonDatePicker.setValue(null);
+		lessonStartTimePicker.setValue(null);
+		locationTextField.setText(null);
+		dayOfWeekComboBox.setValue(null);
+		typeOfLessonComboBox.setValue(null);
+		lastLessonDatePicker.setValue(null);
 	}
 
 	private void initComboBoxes() {
@@ -132,7 +168,7 @@ public class EditSubjectController extends Controller {
 
 	private void addInputValidators() {
 		durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.isEmpty())
+			if (newValue == null || newValue.isEmpty())
 				return;
 			if (newValue.matches("\\D*")) {
 				durationTextField.setText(newValue.replaceAll("\\D", ""));
@@ -167,8 +203,11 @@ public class EditSubjectController extends Controller {
 
 	@FXML
 	void addLessonButtonClick(ActionEvent event) {
-		if (dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null && lessonStartTimePicker.getValue() != null
-				&& lastLessonDatePicker.getValue() != null && durationTextField.getText() != null) {
+		final boolean allNeccesaryFieldsAreFilled = dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null
+				&& lessonStartTimePicker.getValue() != null && lastLessonDatePicker.getValue() != null
+				&& durationTextField.getText() != null;
+
+		if (allNeccesaryFieldsAreFilled) {
 			lessonFxModel.setSubject(editedSubject.getSubject());
 
 			LocalDate end = lastLessonDatePicker.getValue();
@@ -221,11 +260,9 @@ public class EditSubjectController extends Controller {
 
 	@FXML
 	void saveSubjectButtonClick(ActionEvent event) {
-//		if (subjectDao.getAllSubjects().contains(o)) {
-//			subject = subjectDao.save(editedSubject.getSubject());
-//			editedSubject.load(subject);
-//			showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
-//		}
+		Subject subject = subjectDao.save(editedSubject.getSubject());
+		editedSubject.load(subject);
+		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
 	}
 
 	@FXML
