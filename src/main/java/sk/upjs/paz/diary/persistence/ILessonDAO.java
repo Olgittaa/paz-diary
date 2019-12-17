@@ -21,4 +21,6 @@ public interface ILessonDAO {
 
 	Lesson getLastLessonOfSubject(Subject subject);
 
+	List<Lesson> getAllLessons();
+
 }

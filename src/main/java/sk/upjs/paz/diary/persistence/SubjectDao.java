@@ -27,7 +27,7 @@ public class SubjectDao extends DAO implements ISubjectDAO {
 
 	@Override
 	public List<Subject> getAllSubjects() {
-		String query = "SELECT * FROM subject;";
+		String query = "SELECT * FROM subject";
 		return getJdbcTemplate().query(query, new SubjectRowMapper());
 	}
 

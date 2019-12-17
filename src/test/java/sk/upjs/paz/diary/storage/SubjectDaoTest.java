@@ -53,16 +53,6 @@ class SubjectDaoTest {
 	}
 
 	@Test
-	void testGetNameById() {
-		if (dao.getAllSubjects().size() != 0) {
-			Subject subject = dao.getAllSubjects().get(0);
-			String name = subject.getName();
-			Long id = subject.getId();
-			assertEquals(name, dao.getNameById(id));
-		}
-	}
-
-	@Test
 	void testGetSubjectById() {
 		if (dao.getAllSubjects().size() != 0) {
 			Subject subject = dao.getAllSubjects().get(0);
@@ -70,7 +60,7 @@ class SubjectDaoTest {
 			assertEquals(subject, dao.getSubjectById(id));
 		}
 	}
-	
+
 	@Test
 	void testGetSubjectByName() {
 		if (dao.getAllSubjects().size() != 0) {
@@ -79,21 +69,27 @@ class SubjectDaoTest {
 			assertEquals(subject, dao.getSubjectByName(name));
 		}
 	}
-	
+
 	@Test
-	void testSaveAndRemove() {
-			Subject subject = new Subject();
-			subject.setEmail("email@upjs.sk");
-			subject.setName("example");
-			subject.setSite("example.com");
-			int beforeSave = dao.getAllSubjects().size();
-			Long id = dao.save(subject).getId();
-			subject.setId(id);
-			int afterSave = dao.getAllSubjects().size();
-			assertTrue(beforeSave == afterSave - 1);
-			
-			dao.remove(subject);
-			int afterDelete = dao.getAllSubjects().size();
-			assertTrue(afterDelete == afterSave - 1);
+	void testSave() {
+		Subject subject = new Subject();
+		subject.setName("example");
+		int beforeSave = dao.getAllSubjects().size();
+		Long id = dao.save(subject).getId();
+		subject.setId(id);
+		int afterSave = dao.getAllSubjects().size();
+		assertTrue(beforeSave == afterSave - 1);
+	}
+
+	@Test
+	void testRemove() {
+		Subject subject = new Subject();
+		subject.setName("example");
+		Long id = dao.save(subject).getId();
+		subject.setId(id);
+		int afterSave = dao.getAllSubjects().size();
+		dao.remove(subject);
+		int afterDelete = dao.getAllSubjects().size();
+		assertTrue(afterDelete == afterSave - 1);
 	}
 }
