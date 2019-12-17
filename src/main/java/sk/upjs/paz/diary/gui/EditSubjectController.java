@@ -233,7 +233,7 @@ public class EditSubjectController extends Controller {
 				clearInputs();
 			}
 		} else {
-			showAlert(AlertType.ERROR, "Warning", "Failed!", "Please fill all neccessary fields");
+			showAlert(AlertType.ERROR, "Warning", "Fail!", "Please fill all neccessary fields");
 		}
 	}
 
@@ -250,7 +250,7 @@ public class EditSubjectController extends Controller {
 	void removeLessonButtonClick(ActionEvent event) {
 		Lesson selectedLesson = lessonsListView.getSelectionModel().getSelectedItem();
 		if (selectedLesson == null) {
-			showAlert(AlertType.ERROR, "Error", "Failed!", "Select lesson first");
+			showAlert(AlertType.ERROR, "Error", "Fail!", "Select lesson first");
 			return;
 		}
 		lessonsModel.remove(selectedLesson);
@@ -261,7 +261,7 @@ public class EditSubjectController extends Controller {
 	void saveSubjectButtonClick(ActionEvent event) {
 		Subject subject = subjectDao.save(editedSubject.getSubject());
 		editedSubject.load(subject);
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
+		showAlert(AlertType.INFORMATION, "Information", "Success!", "Subject was edited");
 		addLessonButton.setDisable(false);
 		removeLessonButton.setDisable(false);
 	}
@@ -270,10 +270,10 @@ public class EditSubjectController extends Controller {
 	void removeSubjectButtonClick(ActionEvent event) {
 		if (subjectDao.getAllSubjects().contains(editedSubject.getSubject())) {
 			subjectDao.remove(subjectDao.getSubjectByName(editedSubject.getSubject().getName()));
-			showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was deleted");
+			showAlert(AlertType.INFORMATION, "Information", "Success!", "Subject was deleted");
 			closeWindow(event);
 		} else {
-			showAlert(AlertType.ERROR, "Error", "Failed!", "Subject does not exists");
+			showAlert(AlertType.ERROR, "Error", "Fail!", "Subject does not exists");
 		}
 	}
 }

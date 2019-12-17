@@ -98,7 +98,7 @@ public class EditHomeworkController extends Controller {
 		homeworkDao.save(homework);
 		wereChanges = true;
 		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Homework was added");
+		showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was added");
 	}
 
 	@FXML
@@ -107,6 +107,6 @@ public class EditHomeworkController extends Controller {
 		homeworkDao.remove(homework);
 		wereChanges = true;
 		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Homework was removed");
+		showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was removed");
 	}
 }

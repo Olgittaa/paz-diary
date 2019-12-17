@@ -89,7 +89,7 @@ public class EditExamsController extends Controller {
 		Exam exam = fxmodel.getExam(fxmodel.getSubject().getId());
 		examDao.remove(exam);
 		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Exam was removed");
+		showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was removed");
 	}
 
 	@FXML
@@ -98,6 +98,6 @@ public class EditExamsController extends Controller {
 		Exam exam = fxmodel.getExam(selectedSubject.getId());
 		examDao.save(exam);
 		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Exam was added");
+		showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was added");
 	}
 }
