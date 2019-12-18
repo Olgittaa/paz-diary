@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
 import javafx.scene.Node;
@@ -65,8 +66,8 @@ public class Controller {
 	 * 
 	 * @param node - deployed node
 	 */
-	protected void closeWindow(Node node) {
-		node.getScene().getWindow().hide();
+	protected void closeWindow(ActionEvent event) {
+		((Node)event.getSource()).getScene().getWindow().hide();
 	}
 
 	protected void showAlert(AlertType type, String title, String header, String content) {

@@ -38,7 +38,7 @@ public class SubjectDao implements ISubjectDAO {
 		List<Subject> list = jdbcTemplate.query(query, new SubjectRowMapper());
 		return list;
 	}
-	
+
 	@Override
 	public String getNameById(Long id) {
 		String sql = "SELECT name FROM subject WHERE id_subject=?";
@@ -63,35 +63,43 @@ public class SubjectDao implements ISubjectDAO {
 	}
 
 	@Override
-	public void save(Subject subject) {
+	public Subject getSubjectByName(String name) {
+		String sql = "SELECT * FROM subject WHERE name=?";
+		return jdbcTemplate.queryForObject(sql, new SubjectRowMapper(), name);
+	}
+	
+	@Override
+	public Subject save(Subject subject) {
 		if (subject == null)
-			return;
+			return null;
 
 		// INSERT
 		if (subject.getId() == null) {
 			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("subject")
 					.usingGeneratedKeyColumns("subject_id");
 			jdbcInsert.usingColumns("name", "site", "email");
-			
+
 			final Map<String, Object> values = new HashMap<>(4);
 			values.put("name", subject.getName());
 			values.put("site", subject.getSite());
 			values.put("email", subject.getEmail());
-			
+
 			long id = jdbcInsert.executeAndReturnKey(values).longValue();
 			subject.setId(id);
-			
+
 		}
 		// UPDATE
 		else {
-			String sql = "UPDATE subject SET name=?, site=?, email=? WHERE id = " + subject.getId();
-			jdbcTemplate.update(sql, subject.getName(), subject.getSite(), subject.getEmail());
+			String sql = "UPDATE subject SET name=?, site=?, email=? WHERE id_subject=?";
+			jdbcTemplate.update(sql, subject.getName(), subject.getSite(), subject.getEmail(), subject.getId());
 		}
+		return subject;
 	}
 
 	@Override
 	public void remove(Subject subject) {
-		String sql = "DELETE FROM subject WHERE id_subject="+subject.getId();
+		String sql = "DELETE FROM subject WHERE id_subject=" + subject.getId();
 		jdbcTemplate.execute(sql);
 	}
+
 }

@@ -63,7 +63,7 @@ public class ScheduleController extends Controller {
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
-	private Subject currentSubject /* = new Subject() */;
+	private Subject currentSubject;
 
 	@FXML
 	void initialize() {
@@ -181,16 +181,7 @@ public class ScheduleController extends Controller {
 			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject), 515, 680, 515,
 					680);
 		}
-
 		setItemsToSubjectsListView();
-	}
-
-	@FXML
-	void removeSubjectButtonClick(ActionEvent event) {
-		Subject sbj = subjectListView.getSelectionModel().getSelectedItem();
-		subjectListView.getItems().remove(sbj);
-		subjectDao.remove(sbj);
-		setOrRefreshItemsToLessonsListViews();
 	}
 
 }

@@ -1,46 +1,43 @@
 package sk.upjs.paz.diary.gui;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.LessonFXModel;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.ILessonDAO;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 //FIXME бай дифолт устанавливаются значения 0
 public class EditSubjectController extends Controller {
 	@FXML
-	private JFXButton cancelSubjectButton;
-
+	private JFXButton removeSubjectButton;
 	@FXML
 	private JFXButton saveSubjectButton;
-
 	@FXML
-	private JFXButton removePracticeButton;
-
+	private JFXButton removeLessonButton;
 	@FXML
-	private JFXButton removeLectureButton;
-
-	@FXML
-	private JFXButton addPracticeButton;
-
-	@FXML
-	private JFXButton addLectureButton;
+	private JFXButton addLessonButton;
 
 	@FXML
 	private JFXTextField siteTextField;
@@ -52,55 +49,44 @@ public class EditSubjectController extends Controller {
 	private JFXTextField nameTextField;
 
 	@FXML
-	private JFXComboBox<DayOfWeek> dayOfWeekLectureComboBox;
+	private JFXComboBox<DayOfWeek> dayOfWeekComboBox;
 
 	@FXML
-	private JFXComboBox<DayOfWeek> dayOfWeekPracticeComboBox;
+	private JFXTimePicker lessonStartTimePicker;
 
 	@FXML
-	private JFXTimePicker timeLectureTimePicker;
+	private JFXDatePicker lastLessonDateTextField;
 
 	@FXML
-	private JFXTimePicker timePracticeTimePicker;
+	private JFXTextField locationTextField;
 
 	@FXML
-	private JFXTextField quantityLectureTextField;
+	private JFXTextField durationTextField;
 
 	@FXML
-	private JFXTextField quantityPracticeTextField;
+	private JFXComboBox<String> typeOfLessonComboBox;
 
 	@FXML
-	private JFXListView<Lesson> lecturesListView;
-
-	@FXML
-	private JFXListView<Lesson> practicesListView;
-
-	@FXML
-	private JFXTextField lectureDurationTextField;
-
-	@FXML
-	private JFXTextField practiceDurationTextField;
-
-	@FXML
-	private JFXTextField lectureAudienceTextField;
-
-	@FXML
-	private JFXTextField practiceAudienceTextField;
+	private JFXListView<Lesson> lessonsListView;
 
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
+	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
 	private SubjectFXModel editedSubject;
-	private LessonFXModel practiceFxModel;
-	private LessonFXModel lectureFxModel;
+	private LessonFXModel lessonFxModel;
+	private ObservableList<Lesson> lessonsModel;
 
 	public EditSubjectController() {
 		editedSubject = new SubjectFXModel();
-		practiceFxModel = new LessonFXModel();
-		lectureFxModel = new LessonFXModel();
+		lessonFxModel = new LessonFXModel();
+		lessonsModel = FXCollections.observableArrayList();
 	}
 
 	public EditSubjectController(Subject subject) {
+		this();
 		editedSubject.load(subject);
+		lessonFxModel = new LessonFXModel();
+		lessonsModel = FXCollections.observableArrayList(lessonDao.getWeekScheduleBySubjectId(editedSubject.getId()));
 	}
 
 	@FXML
@@ -112,77 +98,45 @@ public class EditSubjectController extends Controller {
 
 		addValidators();
 
-		nameTextField.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue != null && newValue.trim().length() > 0) {
-					saveSubjectButton.setDisable(false);
-					addLectureButton.setDisable(false);
-					addPracticeButton.setDisable(false);
-					removeLectureButton.setDisable(false);
-					removePracticeButton.setDisable(false);
-				} else {
-					saveSubjectButton.setDisable(true);
-					addLectureButton.setDisable(true);
-					addPracticeButton.setDisable(true);
-					removeLectureButton.setDisable(true);
-					removePracticeButton.setDisable(true);					
-				}
+		if (nameTextField.getText() == null || nameTextField.getText().trim().length() == 0) {
+			saveSubjectButton.setDisable(true);
+			removeSubjectButton.setDisable(true);
+		}
+		lessonsListView.setItems(lessonsModel);
+		lessonStartTimePicker.set24HourView(true);
+		
+		lessonsListView.setOnMouseClicked(e -> {
+			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
+			if (selectedItem != null) {				
+				lessonFxModel.load(selectedItem);
 			}
 		});
 	}
 
 	private void initComboBoxes() {
-		ObservableList<DayOfWeek> observableArrayList = FXCollections.observableArrayList(DayOfWeek.MONDAY,
-				DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY);
-		dayOfWeekLectureComboBox.setItems(observableArrayList);
-		dayOfWeekPracticeComboBox.setItems(observableArrayList);
+		dayOfWeekComboBox.setItems(FXCollections.observableArrayList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
+				DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY));
+		typeOfLessonComboBox.setItems(FXCollections.observableArrayList("Lecture", "Practice"));
 	}
 
 	private void addValidators() {
-		// validators(ChangeListeners) for durations textfield
-
-		// we wanna see only numbers from 0 to 300
-		lectureDurationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+		durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.isEmpty())
 				return;
-			if (!newValue.matches("\\d*")) {
-				lectureDurationTextField.setText(newValue.replaceAll("\\D", ""));
+			if (newValue.matches("\\D*")) {
+				durationTextField.setText(newValue.replaceAll("\\D", ""));
 			} else if (Integer.parseInt(newValue) > 300) {
-				lectureDurationTextField.setText(newValue.substring(0, newValue.length() - 1));
-			}
-		});
-		practiceDurationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.isEmpty())
-				return;
-			if (!newValue.matches("\\d*")) {
-				practiceDurationTextField.setText(newValue.replaceAll("\\D", ""));
-			} else if (Integer.parseInt(newValue) > 300) {
-				practiceDurationTextField.setText(newValue.substring(0, newValue.length() - 1));
+				durationTextField.setText(newValue.substring(0, newValue.length() - 1));
 			}
 		});
 
-		// we wanna see only numbers from 0 to 30
-		quantityLectureTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.isEmpty())
-				return;
-			if (!newValue.matches("\\d*")) {
-				quantityLectureTextField.setText(newValue.replaceAll("\\D", ""));
-			} else if (Integer.parseInt(newValue) < 1) {
-				quantityLectureTextField.setText("1");
-			} else if (Integer.parseInt(newValue) > 30) {
-				quantityLectureTextField.setText(newValue.substring(0, newValue.length() - 1));
-			}
-		});
-		quantityPracticeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.isEmpty())
-				return;
-			if (!newValue.matches("\\d*")) {
-				quantityPracticeTextField.setText(newValue.replaceAll("\\D", ""));
-			} else if (Integer.parseInt(newValue) < 1) {
-				quantityPracticeTextField.setText("1");
-			} else if (Integer.parseInt(newValue) > 30) {
-				quantityPracticeTextField.setText(newValue.substring(0, newValue.length() - 1));
+		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (nameTextField != null && nameTextField.getText().trim().length() > 0) {
+				saveSubjectButton.setDisable(false);
+				removeSubjectButton.setDisable(false);
+			} else {
+				saveSubjectButton.setDisable(true);
+				removeSubjectButton.setDisable(true);
 			}
 		});
 	}
@@ -194,59 +148,77 @@ public class EditSubjectController extends Controller {
 	}
 
 	private void bindBiderectionalWithLessonFXModel() {
-		lectureAudienceTextField.textProperty().bindBidirectional(lectureFxModel.getLocationProperty());
-		lectureDurationTextField.textProperty().bindBidirectional(lectureFxModel.getDurationProperty(),
+		locationTextField.textProperty().bindBidirectional(lessonFxModel.getLocationProperty());
+		durationTextField.textProperty().bindBidirectional(lessonFxModel.getDurationProperty(),
 				new NumberStringConverter());
+		typeOfLessonComboBox.valueProperty().bindBidirectional(lessonFxModel.getTypeProperty());
+	}
 
-		practiceAudienceTextField.textProperty().bindBidirectional(practiceFxModel.getLocationProperty());
-		practiceAudienceTextField.textProperty().bindBidirectional(practiceFxModel.getDurationProperty(),
-				new NumberStringConverter());
+	@FXML
+	void addLessonButtonClick(ActionEvent event) {
+		if (dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null && lessonStartTimePicker.getValue() != null
+				&& lastLessonDateTextField.getValue() != null && durationTextField.getText() != null) {
+			lessonFxModel.setSubject(editedSubject.getSubject());
 
+			LocalDate end = lastLessonDateTextField.getValue();
+			LocalDate now = LocalDate.now();
+
+			long countOfWeeks = ChronoUnit.WEEKS.between(now, end);
+
+			DayOfWeek dayOfWeek = dayOfWeekComboBox.getValue();
+
+			LocalTime time = lessonStartTimePicker.getValue();
+			LocalDate date = now.with(TemporalAdjusters.next(dayOfWeek));
+
+			Lesson lesson = null;
+			for (int i = 0; i < countOfWeeks; i++) {
+				lessonFxModel.setDateTime(LocalDateTime.of(date, time));
+
+				lesson = lessonFxModel.getLesson();
+				lessonDao.save(lesson);
+
+				date = date.plusWeeks(1);
+			}
+			if (lesson != null) {
+				lessonsModel.add(lesson);
+				clearInputs();
+			}
+		} else {
+			showAlert(AlertType.ERROR, "Warning!", "Failed", "Please fill all neccessary fields");
+		}
+	}
+
+	private void clearInputs() {
+		dayOfWeekComboBox.getSelectionModel().clearSelection();
+		lessonStartTimePicker.setValue(null);
+		lastLessonDateTextField.setValue(null);
+		locationTextField.clear();
+		durationTextField.clear();
+		typeOfLessonComboBox.getSelectionModel().clearSelection();
+	}
+
+	@FXML
+	void removeLessonButtonClick(ActionEvent event) {
+		Lesson selectedLesson = lessonsListView.getSelectionModel().getSelectedItem();
+		lessonsModel.remove(selectedLesson);
+		lessonDao.remove(selectedLesson);
 	}
 
 	@FXML
 	void saveSubjectButtonClick(ActionEvent event) {
-		Subject subject = editedSubject.getSubject();
-		subjectDao.save(subject);
-		closeWindow(saveSubjectButton);
+		Subject subject = subjectDao.save(editedSubject.getSubject());
+		editedSubject.load(subject);
+		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
 	}
 
 	@FXML
-	void cancelSubjectButtonClick(ActionEvent event) {
-		closeWindow(cancelSubjectButton);
-	}
-
-	@FXML
-	void addLecture(ActionEvent event) {
-		// for (int i = 0; i < Integer.parseInt(quantityLectureTextField.getText());
-		// i++) {
-		//lectureFxModel.setDa
-		//Lesson lesson = lectureFxModel.getLesson();
-		//lesson.setType("Lecture");
-		//lesson.set
-		//lecturesListView.getItems().add(lesson);
-		// обновить фх модел
-		// добавить в лист
-		// }
-	}
-
-	@FXML
-	void addPractice(ActionEvent event) {
-		for (int i = 0; i < Integer.parseInt(quantityPracticeTextField.getText()); i++) {
-			Lesson lesson = lectureFxModel.getLesson();
-			lesson.setType("Practice");
-			practicesListView.getItems().add(lesson);
-
+	void removeSubjectButtonClick(ActionEvent event) {
+		if (subjectDao.getAllSubjects().contains(editedSubject.getSubject())) {
+			subjectDao.remove(subjectDao.getSubjectByName(editedSubject.getSubject().getName()));
+			showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was deleted");
+			closeWindow(event);
+		} else {
+			showAlert(AlertType.ERROR, "Error", "Failed!", "Subject does not exists");
 		}
-	}
-
-	@FXML
-	void removeLecture(ActionEvent event) {
-		lecturesListView.getItems().remove(lecturesListView.getSelectionModel().getSelectedIndex());
-	}
-
-	@FXML
-	void removePractice(ActionEvent event) {
-		practicesListView.getItems().remove(practicesListView.getSelectionModel().getSelectedIndex());
 	}
 }

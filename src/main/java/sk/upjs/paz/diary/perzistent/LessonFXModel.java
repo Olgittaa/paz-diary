@@ -13,7 +13,7 @@ import sk.upjs.paz.diary.entity.Subject;
 
 public class LessonFXModel {
 	private Long id;
-	private ObjectProperty<LocalDateTime> dateProperty = new SimpleObjectProperty<>();
+	private ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
 	private StringProperty locationProperty = new SimpleStringProperty();
 	private IntegerProperty durationProperty = new SimpleIntegerProperty();
 	private StringProperty typeProperty = new SimpleStringProperty();
@@ -28,11 +28,11 @@ public class LessonFXModel {
 	}
 
 	public LocalDateTime getDateTime() {
-		return dateProperty.get();
+		return dateTimeProperty.get();
 	}
 
-	public void setDate(LocalDateTime dateTime) {
-		dateProperty.set(dateTime);
+	public void setDateTime(LocalDateTime dateTime) {
+		dateTimeProperty.set(dateTime);
 	}
 
 	public String getLocation() {
@@ -68,11 +68,11 @@ public class LessonFXModel {
 	}
 
 	public ObjectProperty<LocalDateTime> getDateProperty() {
-		return dateProperty;
+		return dateTimeProperty;
 	}
 
-	public void setDateProperty(ObjectProperty<LocalDateTime> dateProperty) {
-		this.dateProperty = dateProperty;
+	public void setDateTimeProperty(ObjectProperty<LocalDateTime> dateTimeProperty) {
+		this.dateTimeProperty = dateTimeProperty;
 	}
 
 	public StringProperty getLocationProperty() {
@@ -105,6 +105,15 @@ public class LessonFXModel {
 
 	public void setSubjectProperty(ObjectProperty<Subject> subjectProperty) {
 		this.subjectProperty = subjectProperty;
+	}
+
+	public void load(Lesson lesson) {
+		setId(lesson.getId());
+		setDateTime(lesson.getDateTime());
+		setLocation(lesson.getLocation());
+		setDuration(lesson.getDuration());
+		setType(lesson.getType());
+		setSubject(lesson.getSubject());
 	}
 
 	public Lesson getLesson() {

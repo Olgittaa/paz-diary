@@ -16,9 +16,12 @@ public interface ISubjectDAO {
 
 	Subject getSubjectById(Long id);
 
-	void save(Subject subject);
+	Subject save(Subject subject);
 	
 	void remove(Subject subject);
 
 	List<Subject> getAllSubjectsSorted();
+
+	Subject getSubjectByName(String name);
+
 }
