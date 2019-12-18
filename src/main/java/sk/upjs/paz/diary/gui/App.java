@@ -30,7 +30,7 @@ public class App extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setMinHeight(575);
-			primaryStage.setMinWidth(800);
+			primaryStage.setMinWidth(825);
 		} catch (IOException e) {
 			LOGGER.error("Cant load fxml file: \"" + fileName + "\"", e);
 		}

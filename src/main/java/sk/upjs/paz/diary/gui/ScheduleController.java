@@ -50,7 +50,7 @@ public class ScheduleController extends Controller {
 	private Label thursdayDateLabel;
 	@FXML
 	private Label fridayDateLabel;
-	
+
 	@FXML
 	private JFXButton removeSubjectButton;
 
@@ -115,37 +115,12 @@ public class ScheduleController extends Controller {
 			return;
 		}
 		monthLabel.setText(month.toString());
-		if (monday != 0) {
-			modayDateLabel.setText(String.valueOf(monday));
-			tuesdayDateLabel.setText(String.valueOf(monday + 1));
-			wednesdayDateLabel.setText(String.valueOf(monday + 2));
-			thursdayDateLabel.setText(String.valueOf(monday + 3));
-			fridayDateLabel.setText(String.valueOf(monday + 4));
-		} else if (tuesday != 0) {
-			modayDateLabel.setText(String.valueOf(tuesday - 2));
-			tuesdayDateLabel.setText(String.valueOf(tuesday));
-			wednesdayDateLabel.setText(String.valueOf(tuesday + 1));
-			thursdayDateLabel.setText(String.valueOf(tuesday + 2));
-			fridayDateLabel.setText(String.valueOf(tuesday + 3));
-		} else if (wednesday != 0) {
-			modayDateLabel.setText(String.valueOf(wednesday - 2));
-			tuesdayDateLabel.setText(String.valueOf(wednesday - 1));
-			wednesdayDateLabel.setText(String.valueOf(wednesday));
-			thursdayDateLabel.setText(String.valueOf(wednesday + 1));
-			fridayDateLabel.setText(String.valueOf(wednesday + 2));
-		} else if (thursday != 0) {
-			modayDateLabel.setText(String.valueOf(thursday - 3));
-			tuesdayDateLabel.setText(String.valueOf(thursday - 2));
-			wednesdayDateLabel.setText(String.valueOf(thursday - 1));
-			thursdayDateLabel.setText(String.valueOf(thursday));
-			fridayDateLabel.setText(String.valueOf(thursday + 1));
-		} else if (friday != 0) {
-			modayDateLabel.setText(String.valueOf(friday - 4));
-			tuesdayDateLabel.setText(String.valueOf(friday - 3));
-			wednesdayDateLabel.setText(String.valueOf(friday - 2));
-			thursdayDateLabel.setText(String.valueOf(friday - 1));
-			fridayDateLabel.setText(String.valueOf(friday));
-		}
+		modayDateLabel.setText(String.valueOf(monday));
+		tuesdayDateLabel.setText(String.valueOf(tuesday));
+		wednesdayDateLabel.setText(String.valueOf(wednesday));
+		thursdayDateLabel.setText(String.valueOf(thursday));
+		fridayDateLabel.setText(String.valueOf(thursday + 1));
+		fridayDateLabel.setText(String.valueOf(friday));
 	}
 
 	/**
@@ -166,10 +141,10 @@ public class ScheduleController extends Controller {
 	void editSubjectButtonClick(ActionEvent event) {
 		Subject currentSubject = subjectListView.getSelectionModel().getSelectedItem();
 		if (currentSubject == null) {
-			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(), 515, 680, 515, 680);
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(), 520, 700, 520, 700);
 		} else {
-			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject), 515, 680, 515,
-					680);
+			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(currentSubject), 520, 700, 520,
+					700);
 		}
 		setItemsToSubjectsListView();
 		setOrRefreshItemsToLessonsListViews();

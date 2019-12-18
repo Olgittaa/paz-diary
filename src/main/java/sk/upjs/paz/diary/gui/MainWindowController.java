@@ -42,10 +42,13 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	private TableView<Exam> examsTableView;
+
 	@FXML
 	private TableColumn<Exam, Subject> subjectTableColumn;
+
 	@FXML
 	private TableColumn<Exam, LocalDate> dateTimeTableColumn;
+
 	@FXML
 	private TableColumn<Exam, String> audienceTableColumn;
 
@@ -89,12 +92,11 @@ public class MainWindowController extends Controller {
 
 			checkBox.setOnMouseClicked(event -> {
 				if (event.getButton() == MouseButton.SECONDARY) {
-					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 305,
-							420, 305);
+					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 302,
+							420, 302);
 					refreshHomework();
 				}
 			});
-
 		}
 	}
 
@@ -109,8 +111,8 @@ public class MainWindowController extends Controller {
 		examsTableView.setOnMouseClicked(event -> {
 			if (event.getButton() == MouseButton.SECONDARY) {
 				loadWindow("editExam.fxml", "Edit exam",
-						new EditExamsController(examsTableView.getSelectionModel().getSelectedItem()), 420, 305, 420,
-						305);
+						new EditExamsController(examsTableView.getSelectionModel().getSelectedItem()), 420, 302, 420,
+						302);
 				refreshExams();
 			}
 		});
@@ -118,13 +120,13 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void addExamButtonClick(ActionEvent event) {
-		loadWindow("editExam.fxml", "Edit exam", new EditExamsController(), 420, 305, 420, 305);
+		loadWindow("editExam.fxml", "Edit exam", new EditExamsController(), 420, 302, 420, 302);
 		refreshExams();
 	}
 
 	@FXML
 	void addHomeWorkButtonClick(ActionEvent event) {
-		loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(), 420, 305, 420, 305);
+		loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(), 420, 302, 420, 302);
 		refreshHomework();
 	}
 
@@ -151,5 +153,4 @@ public class MainWindowController extends Controller {
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
 		loadWindow("fileChooser.fxml", "FileChooser");
 	}
-
 }
