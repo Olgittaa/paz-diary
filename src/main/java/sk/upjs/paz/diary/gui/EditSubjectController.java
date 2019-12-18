@@ -18,7 +18,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz.diary.entity.Lesson;
@@ -105,6 +104,13 @@ public class EditSubjectController extends Controller {
 		}
 		lessonsListView.setItems(lessonsModel);
 		lessonStartTimePicker.set24HourView(true);
+		
+		lessonsListView.setOnMouseClicked(e -> {
+			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
+			if (selectedItem != null) {				
+				lessonFxModel.load(selectedItem);
+			}
+		});
 	}
 
 	private void initComboBoxes() {
@@ -153,7 +159,7 @@ public class EditSubjectController extends Controller {
 		if (dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null && lessonStartTimePicker.getValue() != null
 				&& lastLessonDateTextField.getValue() != null && durationTextField.getText() != null) {
 			lessonFxModel.setSubject(editedSubject.getSubject());
-			
+
 			LocalDate end = lastLessonDateTextField.getValue();
 			LocalDate now = LocalDate.now();
 
@@ -167,7 +173,7 @@ public class EditSubjectController extends Controller {
 			Lesson lesson = null;
 			for (int i = 0; i < countOfWeeks; i++) {
 				lessonFxModel.setDateTime(LocalDateTime.of(date, time));
-				
+
 				lesson = lessonFxModel.getLesson();
 				lessonDao.save(lesson);
 
@@ -175,14 +181,14 @@ public class EditSubjectController extends Controller {
 			}
 			if (lesson != null) {
 				lessonsModel.add(lesson);
-				clearInputFields();
+				clearInputs();
 			}
 		} else {
 			showAlert(AlertType.ERROR, "Warning!", "Failed", "Please fill all neccessary fields");
 		}
 	}
 
-	private void clearInputFields() {
+	private void clearInputs() {
 		dayOfWeekComboBox.getSelectionModel().clearSelection();
 		lessonStartTimePicker.setValue(null);
 		lastLessonDateTextField.setValue(null);
@@ -208,9 +214,9 @@ public class EditSubjectController extends Controller {
 	@FXML
 	void removeSubjectButtonClick(ActionEvent event) {
 		if (subjectDao.getAllSubjects().contains(editedSubject.getSubject())) {
-			subjectDao.remove(editedSubject.getSubject());
+			subjectDao.remove(subjectDao.getSubjectByName(editedSubject.getSubject().getName()));
 			showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was deleted");
-			closeWindow((Node) event.getSource());			
+			closeWindow(event);
 		} else {
 			showAlert(AlertType.ERROR, "Error", "Failed!", "Subject does not exists");
 		}

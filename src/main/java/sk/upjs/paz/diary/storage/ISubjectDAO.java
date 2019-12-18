@@ -22,4 +22,6 @@ public interface ISubjectDAO {
 
 	List<Subject> getAllSubjectsSorted();
 
+	Subject getSubjectByName(String name);
+
 }

@@ -75,7 +75,7 @@ public class LessonFXModel {
 		this.dateTimeProperty = dateTimeProperty;
 	}
 
- 	public StringProperty getLocationProperty() {
+	public StringProperty getLocationProperty() {
 		return locationProperty;
 	}
 
@@ -106,8 +106,17 @@ public class LessonFXModel {
 	public void setSubjectProperty(ObjectProperty<Subject> subjectProperty) {
 		this.subjectProperty = subjectProperty;
 	}
-	
- 	public Lesson getLesson() {
+
+	public void load(Lesson lesson) {
+		setId(lesson.getId());
+		setDateTime(lesson.getDateTime());
+		setLocation(lesson.getLocation());
+		setDuration(lesson.getDuration());
+		setType(lesson.getType());
+		setSubject(lesson.getSubject());
+	}
+
+	public Lesson getLesson() {
 		Lesson lesson = new Lesson();
 		lesson.setId(getId());
 		lesson.setDateTime(getDateTime());

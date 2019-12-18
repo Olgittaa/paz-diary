@@ -99,7 +99,7 @@ public class EditHomeworkController extends Controller {
 		Homework homework = fxmodel.getHomework(selectedSubject.getId());
 		homeworkDao.save(homework);
 		wereChanges = true;
-		closeWindow(saveHomeworkButton);
+		closeWindow(event);
 	}
 
 	@FXML
@@ -107,6 +107,6 @@ public class EditHomeworkController extends Controller {
 		Homework homework = fxmodel.getHomework(fxmodel.getSubject().getId());
 		homeworkDao.remove(homework);
 		wereChanges = true;
-		closeWindow(removeHomeworkButton);
+		closeWindow(event);
 	}
 }

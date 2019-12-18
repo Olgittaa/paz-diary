@@ -63,6 +63,12 @@ public class SubjectDao implements ISubjectDAO {
 	}
 
 	@Override
+	public Subject getSubjectByName(String name) {
+		String sql = "SELECT * FROM subject WHERE name=?";
+		return jdbcTemplate.queryForObject(sql, new SubjectRowMapper(), name);
+	}
+	
+	@Override
 	public Subject save(Subject subject) {
 		if (subject == null)
 			return null;
