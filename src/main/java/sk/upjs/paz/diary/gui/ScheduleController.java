@@ -90,36 +90,41 @@ public class ScheduleController extends Controller {
 		Month month = null;
 		int monday = 0, tuesday = 0, wednesday = 0, thursday = 0, friday = 0;
 
+		monthLabel.setText(null);
+		modayDateLabel.setText(null);
+		tuesdayDateLabel.setText(null);
+		wednesdayDateLabel.setText(null);
+		thursdayDateLabel.setText(null);
+		fridayDateLabel.setText(null);
+
 		if (!mondayListView.getItems().isEmpty()) {
 			month = mondayListView.getItems().get(0).getDateTime().getMonth();
 			monday = mondayListView.getItems().get(0).getDateTime().getDayOfMonth();
-		} else if (!tuesdayListView.getItems().isEmpty()) {
+			modayDateLabel.setText(String.valueOf(monday));
+		}
+		if (!tuesdayListView.getItems().isEmpty()) {
 			month = tuesdayListView.getItems().get(0).getDateTime().getMonth();
 			tuesday = tuesdayListView.getItems().get(0).getDateTime().getDayOfMonth();
-		} else if (!wednesdayListView.getItems().isEmpty()) {
+			tuesdayDateLabel.setText(String.valueOf(tuesday));
+		}
+		if (!wednesdayListView.getItems().isEmpty()) {
 			month = wednesdayListView.getItems().get(0).getDateTime().getMonth();
 			wednesday = wednesdayListView.getItems().get(0).getDateTime().getDayOfMonth();
-		} else if (!thursdayListView.getItems().isEmpty()) {
+			wednesdayDateLabel.setText(String.valueOf(wednesday));
+		}
+		if (!thursdayListView.getItems().isEmpty()) {
 			month = thursdayListView.getItems().get(0).getDateTime().getMonth();
 			thursday = thursdayListView.getItems().get(0).getDateTime().getDayOfMonth();
-		} else if (!fridayListView.getItems().isEmpty()) {
+			thursdayDateLabel.setText(String.valueOf(thursday));
+		}
+		if (!fridayListView.getItems().isEmpty()) {
 			month = fridayListView.getItems().get(0).getDateTime().getMonth();
 			friday = fridayListView.getItems().get(0).getDateTime().getDayOfMonth();
-		} else {
-			monthLabel.setText(null);
-			modayDateLabel.setText(null);
-			tuesdayDateLabel.setText(null);
-			wednesdayDateLabel.setText(null);
-			thursdayDateLabel.setText(null);
-			fridayDateLabel.setText(null);
-			return;
+			fridayDateLabel.setText(String.valueOf(friday));
 		}
-		monthLabel.setText(month.toString());
-		modayDateLabel.setText(String.valueOf(monday));
-		tuesdayDateLabel.setText(String.valueOf(tuesday));
-		wednesdayDateLabel.setText(String.valueOf(wednesday));
-		thursdayDateLabel.setText(String.valueOf(thursday));
-		fridayDateLabel.setText(String.valueOf(friday));
+		if (month != null) {
+			monthLabel.setText(month.toString());
+		}
 	}
 
 	/**

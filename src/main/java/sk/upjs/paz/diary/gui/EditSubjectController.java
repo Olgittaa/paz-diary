@@ -202,11 +202,11 @@ public class EditSubjectController extends Controller {
 
 	@FXML
 	void addLessonButtonClick(ActionEvent event) {
-		final boolean allNeccesaryFieldsAreFilled = dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null
+		final boolean allNecessaryFieldsAreFilled = dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null
 				&& lessonStartTimePicker.getValue() != null && lastLessonDatePicker.getValue() != null
 				&& durationTextField.getText() != null;
 
-		if (allNeccesaryFieldsAreFilled) {
+		if (allNecessaryFieldsAreFilled) {
 			lessonFxModel.setSubject(editedSubject.getSubject());
 
 			LocalDate end = lastLessonDatePicker.getValue();

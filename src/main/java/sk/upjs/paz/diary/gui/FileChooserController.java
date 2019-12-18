@@ -16,7 +16,7 @@ public class FileChooserController extends Controller {
 
 	private final FileChooser FILE_CHOOSER;
 	private PdfWriter pdfWriter;
-	
+
 	public FileChooserController() {
 		FILE_CHOOSER = new FileChooser();
 		FILE_CHOOSER.setTitle("Choose or create file");
