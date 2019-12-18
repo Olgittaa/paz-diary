@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -33,12 +34,13 @@ class LessonDaoTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
+
 	@Test
 	void testGetAllLessons() {
 		assertNotNull(dao.getAllLessons());
 		assertFalse(dao.getAllLessons().isEmpty());
 	}
-	
+
 	@Test
 	void testGetLessonsBySubjectId() {
 		if (subjectDao.getAllSubjects().size() != 0) {
@@ -55,9 +57,9 @@ class LessonDaoTest {
 
 	@Test
 	void testGetWeekSchedule() {
-		
-			List<Lesson> lessons = dao.getWeekSchedule();
-			if (lessons.size() != 0) {
+
+		List<Lesson> lessons = dao.getWeekSchedule();
+		if (lessons.size() != 0) {
 			Date date = Date.from(lessons.get(0).getDateTime().atZone(ZoneId.systemDefault()).toInstant());
 			Calendar calendar = new GregorianCalendar();
 			calendar.setTime(date);
@@ -72,10 +74,30 @@ class LessonDaoTest {
 	}
 
 	@Test
+	void testGetWeekScheduleBySubjectId() {
+		if (subjectDao.getAllSubjects().size() != 0) {
+			Long id = subjectDao.getAllSubjects().get(0).getId();
+			List<Lesson> lessons = dao.getWeekScheduleBySubjectId(id);
+			if (lessons.size() != 0) {
+				Date date = Date.from(lessons.get(0).getDateTime().atZone(ZoneId.systemDefault()).toInstant());
+				Calendar calendar = new GregorianCalendar();
+				calendar.setTime(date);
+				int week = calendar.get(Calendar.WEEK_OF_YEAR);
+				for (int i = 1; i < lessons.size(); i++) {
+					Date newDate = Date.from(lessons.get(i).getDateTime().atZone(ZoneId.systemDefault()).toInstant());
+					Calendar newCalendar = new GregorianCalendar();
+					newCalendar.setTime(newDate);
+					assertEquals(week, newCalendar.get(Calendar.WEEK_OF_YEAR));
+					assertEquals(id, lessons.get(i).getSubject().getId());
+				}
+			}
+		}
+	}
+
+	@Test
 	void testGetDaySchedule() {
 		for (int i = 2; i < 7; i++) {
 			for (Lesson lesson : dao.getDaySchedule(i)) {
-				System.out.println(i + " " + (lesson.getDateTime().getDayOfWeek().getValue() + 1));
 				assertEquals((lesson.getDateTime().getDayOfWeek().getValue() + 1), i);
 			}
 		}
@@ -87,35 +109,35 @@ class LessonDaoTest {
 		subject.setName("example");
 		Long subjectId = subjectDao.save(subject).getId();
 		subject.setId(subjectId);
-		
+
 		Lesson lesson = new Lesson();
 		lesson.setSubject(subject);
 		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
 		lesson.setLocation("sa1c03");
 		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
-		
+
 		int beforeSave = dao.getAllLessons().size();
 		Long id = dao.save(lesson).getId();
 		lesson.setId(id);
 		int afterSave = dao.getAllLessons().size();
 		assertTrue(afterSave == beforeSave + 1);
 	}
-	
+
 	@Test
 	void testRemove() {
 		Subject subject = new Subject();
 		subject.setName("example");
 		Long subjectId = subjectDao.save(subject).getId();
 		subject.setId(subjectId);
-		
+
 		Lesson lesson = new Lesson();
 		lesson.setSubject(subject);
 		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
 		lesson.setLocation("sa1c03");
 		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
-		
+
 		Long id = dao.save(lesson).getId();
 		lesson.setId(id);
 		int afterSave = dao.getAllLessons().size();
@@ -123,5 +145,18 @@ class LessonDaoTest {
 		dao.remove(lesson);
 		int afterDelete = dao.getAllLessons().size();
 		assertTrue(afterDelete == afterSave - 1);
+	}
+
+	@Test
+	void testGetLastLessonOfSubject() {
+		if (subjectDao.getAllSubjects().size() != 0) {
+			Subject subject = subjectDao.getAllSubjects().get(0);
+			List<LocalDateTime> allLessons = new ArrayList<LocalDateTime>();
+			for (Lesson lesson : dao.getLessonsBySubjectId(subject.getId())) {
+				allLessons.add(lesson.getDateTime());
+			}
+			Collections.sort(allLessons);
+			assertEquals(dao.getLastLessonOfSubject(subject).getDateTime(), allLessons.get(allLessons.size() - 1));
+		}
 	}
 }
