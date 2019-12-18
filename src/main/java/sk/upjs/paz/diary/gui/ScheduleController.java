@@ -63,7 +63,7 @@ public class ScheduleController extends Controller {
 	@FXML
 	void initialize() {
 		setOrRefreshItemsToLessonsListViews();
-		initMonthLabel();
+		initMonthAndDaysLabel();
 		setItemsToSubjectsListView();
 	}
 
@@ -84,9 +84,9 @@ public class ScheduleController extends Controller {
 	}
 
 	/**
-	 * Initializes label according to month of the first lesson in a week
+	 * Initializes label according to month and dates of the first lesson in a week
 	 */
-	private void initMonthLabel() {
+	private void initMonthAndDaysLabel() {
 		Month month = null;
 		int monday = 0, tuesday = 0, wednesday = 0, thursday = 0, friday = 0;
 
@@ -119,7 +119,6 @@ public class ScheduleController extends Controller {
 		tuesdayDateLabel.setText(String.valueOf(tuesday));
 		wednesdayDateLabel.setText(String.valueOf(wednesday));
 		thursdayDateLabel.setText(String.valueOf(thursday));
-		fridayDateLabel.setText(String.valueOf(thursday + 1));
 		fridayDateLabel.setText(String.valueOf(friday));
 	}
 
