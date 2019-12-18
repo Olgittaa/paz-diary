@@ -4,30 +4,28 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="280.0" minWidth="420.0" prefHeight="688.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="280.0" minWidth="420.0" prefHeight="650.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="712.0" fitWidth="552.0" layoutX="-18.0" layoutY="-24.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="680.0" fitWidth="538.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Subjects-bg.jpg" />
          </image>
       </ImageView>
-      <JFXButton fx:id="removeSubjectButton" layoutX="51.0" layoutY="225.0" onAction="#removeSubjectButtonClick" prefHeight="33.0" prefWidth="193.0" text="Remove">
+      <JFXButton fx:id="removeSubjectButton" layoutX="51.0" layoutY="225.0" onAction="#removeSubjectButtonClick" prefHeight="33.0" prefWidth="193.0" style="-jfx-button-type: RAISED; -fx-background-color: rgb(77,102,204); -fx-text-fill: WHITE;" text="Remove">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="saveSubjectButton" layoutX="271.0" layoutY="225.0" onAction="#saveSubjectButtonClick" prefHeight="33.0" prefWidth="193.0" text="Save">
+      <JFXButton fx:id="saveSubjectButton" layoutX="271.0" layoutY="225.0" onAction="#saveSubjectButtonClick" prefHeight="33.0" prefWidth="193.0" style="-jfx-button-type: RAISED; -fx-background-color: rgb(77,102,204); -fx-text-fill: WHITE;" text="Save">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
@@ -50,36 +48,18 @@
          </font>
       </Label>
       <Line endX="291.5" layoutX="174.0" layoutY="270.0" startX="-125.79998779296875" stroke="#4b4b4b" strokeWidth="3.0" />
-      <JFXTabPane layoutX="47.0" layoutY="295.0" prefHeight="276.0" prefWidth="420.0">
-         <tabs>
-            <Tab text="By Week">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="943.0">
-                     <children>
-                        <JFXListView fx:id="lessonsListView" layoutX="210.0" layoutY="14.0" prefHeight="137.0" prefWidth="200.0" />
-                        <JFXComboBox fx:id="dayOfWeekComboBox" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="182.0" promptText="Day Of Week" />
-                        <JFXTimePicker fx:id="lessonStartTimePicker" layoutX="14.0" layoutY="40.0" prefHeight="26.0" prefWidth="182.0" promptText="Time Of Lesson Start" />
-                        <JFXDatePicker fx:id="lastLessonDateTextField" layoutX="14.0" layoutY="68.0" prefHeight="26.0" prefWidth="182.0" promptText="Until date" />
-                        <JFXTextField fx:id="locationTextField" layoutX="14.0" layoutY="96.0" prefHeight="26.0" prefWidth="182.0" promptText="Location" />
-                        <JFXTextField fx:id="durationTextField" layoutX="14.0" layoutY="122.0" prefHeight="26.0" prefWidth="182.0" promptText="Duration" />
-                        <JFXComboBox fx:id="typeOfLessonComboBox" layoutX="14.0" layoutY="151.0" prefHeight="26.0" prefWidth="182.0" promptText="Type Of Lesson" />
-                        <JFXButton layoutX="210.0" layoutY="152.0" onAction="#removeLessonButtonClick" prefHeight="26.0" prefWidth="96.0" text="Remove" />
-                        <JFXButton layoutX="314.0" layoutY="152.0" onAction="#addLessonButtonClick" prefHeight="26.0" prefWidth="96.0" text="Add" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="By Date">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <JFXListView layoutX="206.0" layoutY="102.0" prefHeight="121.0" prefWidth="200.0" />
-                        <JFXTextField layoutX="101.0" layoutY="23.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-         </tabs>
-      </JFXTabPane>
+      <AnchorPane layoutX="48.0" layoutY="309.0" prefHeight="305.0" prefWidth="420.0">
+         <children>
+            <JFXListView fx:id="lessonsListView" layoutX="192.0" layoutY="13.0" prefHeight="215.0" prefWidth="219.0" />
+            <JFXComboBox fx:id="dayOfWeekComboBox" focusColor="#4d66cc" layoutX="3.0" layoutY="59.0" prefHeight="26.0" prefWidth="182.0" promptText="Day Of Week" style="-jfx-focus-color: rgb(77,102,204);" />
+            <JFXTimePicker fx:id="lessonStartTimePicker" defaultColor="#4d66cc" layoutX="3.0" layoutY="94.0" prefHeight="26.0" prefWidth="182.0" promptText="Time Of Lesson Start" />
+            <JFXDatePicker fx:id="lastLessonDateTextField" defaultColor="#4d66cc" layoutX="3.0" layoutY="197.0" prefHeight="26.0" prefWidth="182.0" promptText="Until date" />
+            <JFXTextField fx:id="locationTextField" focusColor="#4d66cc" layoutX="3.0" layoutY="163.0" prefHeight="26.0" prefWidth="182.0" promptText="Location" />
+            <JFXTextField fx:id="durationTextField" focusColor="#4d66cc" layoutX="3.0" layoutY="128.0" prefHeight="26.0" prefWidth="182.0" promptText="Duration" />
+            <JFXComboBox fx:id="typeOfLessonComboBox" focusColor="#4d66cc" layoutX="3.0" layoutY="24.0" prefHeight="26.0" prefWidth="182.0" promptText="Type Of Lesson" />
+            <JFXButton fx:id="removeLessonButton" layoutX="192.0" layoutY="228.0" onAction="#removeLessonButtonClick" prefHeight="26.0" prefWidth="96.0" text="Remove" />
+            <JFXButton fx:id="addLessonButton" layoutX="316.0" layoutY="228.0" onAction="#addLessonButtonClick" prefHeight="26.0" prefWidth="96.0" text="Add" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

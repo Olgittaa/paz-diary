@@ -1,6 +1,11 @@
 package sk.upjs.paz.diary.gui;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -21,15 +26,19 @@ import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.perzistent.LessonFXModel;
 import sk.upjs.paz.diary.perzistent.SubjectFXModel;
 import sk.upjs.paz.diary.storage.DaoFactory;
+import sk.upjs.paz.diary.storage.ILessonDAO;
 import sk.upjs.paz.diary.storage.ISubjectDAO;
 
 //FIXME бай дифолт устанавливаются значения 0
 public class EditSubjectController extends Controller {
 	@FXML
 	private JFXButton removeSubjectButton;
-
 	@FXML
 	private JFXButton saveSubjectButton;
+	@FXML
+	private JFXButton removeLessonButton;
+	@FXML
+	private JFXButton addLessonButton;
 
 	@FXML
 	private JFXTextField siteTextField;
@@ -62,21 +71,23 @@ public class EditSubjectController extends Controller {
 	private JFXListView<Lesson> lessonsListView;
 
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
+	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
 	private SubjectFXModel editedSubject;
 	private LessonFXModel lessonFxModel;
 	private ObservableList<Lesson> lessonsModel;
-	private ObservableList<Subject> subjectsModel;
 
 	public EditSubjectController() {
 		editedSubject = new SubjectFXModel();
 		lessonFxModel = new LessonFXModel();
+		lessonsModel = FXCollections.observableArrayList();
 	}
 
 	public EditSubjectController(Subject subject) {
 		this();
 		editedSubject.load(subject);
 		lessonFxModel = new LessonFXModel();
+		lessonsModel = FXCollections.observableArrayList(lessonDao.getWeekScheduleBySubjectId(editedSubject.getId()));
 	}
 
 	@FXML
@@ -87,6 +98,13 @@ public class EditSubjectController extends Controller {
 		bindBiderectionalWithLessonFXModel();
 
 		addValidators();
+
+		if (nameTextField.getText() == null || nameTextField.getText().trim().length() == 0) {
+			saveSubjectButton.setDisable(true);
+			removeSubjectButton.setDisable(true);
+		}
+		lessonsListView.setItems(lessonsModel);
+		lessonStartTimePicker.set24HourView(true);
 	}
 
 	private void initComboBoxes() {
@@ -96,7 +114,6 @@ public class EditSubjectController extends Controller {
 	}
 
 	private void addValidators() {
-		// we wanna see only numbers from 0 to 300
 		durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.isEmpty())
 				return;
@@ -104,6 +121,16 @@ public class EditSubjectController extends Controller {
 				durationTextField.setText(newValue.replaceAll("\\D", ""));
 			} else if (Integer.parseInt(newValue) > 300) {
 				durationTextField.setText(newValue.substring(0, newValue.length() - 1));
+			}
+		});
+
+		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (nameTextField != null && nameTextField.getText().trim().length() > 0) {
+				saveSubjectButton.setDisable(false);
+				removeSubjectButton.setDisable(false);
+			} else {
+				saveSubjectButton.setDisable(true);
+				removeSubjectButton.setDisable(true);
 			}
 		});
 	}
@@ -121,31 +148,71 @@ public class EditSubjectController extends Controller {
 		typeOfLessonComboBox.valueProperty().bindBidirectional(lessonFxModel.getTypeProperty());
 	}
 
-	
 	@FXML
 	void addLessonButtonClick(ActionEvent event) {
+		if (dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null && lessonStartTimePicker.getValue() != null
+				&& lastLessonDateTextField.getValue() != null && durationTextField.getText() != null) {
+			lessonFxModel.setSubject(editedSubject.getSubject());
+			
+			LocalDate end = lastLessonDateTextField.getValue();
+			LocalDate now = LocalDate.now();
 
+			long countOfWeeks = ChronoUnit.WEEKS.between(now, end);
+
+			DayOfWeek dayOfWeek = dayOfWeekComboBox.getValue();
+
+			LocalTime time = lessonStartTimePicker.getValue();
+			LocalDate date = now.with(TemporalAdjusters.next(dayOfWeek));
+
+			Lesson lesson = null;
+			for (int i = 0; i < countOfWeeks; i++) {
+				lessonFxModel.setDateTime(LocalDateTime.of(date, time));
+				
+				lesson = lessonFxModel.getLesson();
+				lessonDao.save(lesson);
+
+				date = date.plusWeeks(1);
+			}
+			if (lesson != null) {
+				lessonsModel.add(lesson);
+				clearInputFields();
+			}
+		} else {
+			showAlert(AlertType.ERROR, "Warning!", "Failed", "Please fill all neccessary fields");
+		}
+	}
+
+	private void clearInputFields() {
+		dayOfWeekComboBox.getSelectionModel().clearSelection();
+		lessonStartTimePicker.setValue(null);
+		lastLessonDateTextField.setValue(null);
+		locationTextField.clear();
+		durationTextField.clear();
+		typeOfLessonComboBox.getSelectionModel().clearSelection();
 	}
 
 	@FXML
 	void removeLessonButtonClick(ActionEvent event) {
-		lessonsListView.getItems().remove(lessonsListView.getSelectionModel().getSelectedIndex());
+		Lesson selectedLesson = lessonsListView.getSelectionModel().getSelectedItem();
+		lessonsModel.remove(selectedLesson);
+		lessonDao.remove(selectedLesson);
 	}
 
 	@FXML
 	void saveSubjectButtonClick(ActionEvent event) {
-		subjectDao.save(editedSubject.getSubject());
+		Subject subject = subjectDao.save(editedSubject.getSubject());
+		editedSubject.load(subject);
 		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was edited");
 	}
 
 	@FXML
 	void removeSubjectButtonClick(ActionEvent event) {
-		subjectDao.remove(editedSubject.getSubject());
-		showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was deleted");
-		closeWindow((Node) event.getSource());
-	}
-	
-	private void refreshSubjectsListView() {
-		
+		if (subjectDao.getAllSubjects().contains(editedSubject.getSubject())) {
+			subjectDao.remove(editedSubject.getSubject());
+			showAlert(AlertType.INFORMATION, "Information", "Succesfully!", "Subject was deleted");
+			closeWindow((Node) event.getSource());			
+		} else {
+			showAlert(AlertType.ERROR, "Error", "Failed!", "Subject does not exists");
+		}
 	}
 }

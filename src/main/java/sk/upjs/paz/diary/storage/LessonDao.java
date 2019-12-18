@@ -3,10 +3,13 @@ package sk.upjs.paz.diary.storage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.paz.diary.entity.Lesson;
 
@@ -41,12 +44,52 @@ public class LessonDao extends DAO implements ILessonDAO {
 	}
 
 	@Override
+	public List<Lesson> getWeekScheduleBySubjectId(Long id) {
+		final String sql = "SELECT * FROM lesson WHERE id_subject = ? GROUP BY DAYOFWEEK(date) ORDER BY date";
+		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), id);
+	}
+
+	@Override
 	public List<Lesson> getDaySchedule(int day) {
 		if (day < 2 || day > 6) {
 			return Collections.emptyList();
 		}
 		final String sql = "SELECT * FROM lesson WHERE dayofweek(date) =? AND week(date, 1) = week(current_date(), 1) ORDER BY date";
 		return jdbcTemplate.query(sql, new LessonRowMapperImpl(), day);
+	}
+
+	@Override
+	public void remove(Lesson lesson) {
+		final String sql = "DELETE FROM lesson WHERE id_lesson=" + lesson.getId();
+		jdbcTemplate.execute(sql);
+	}
+
+	@Override
+	public void save(Lesson lesson) {
+		if (lesson == null)
+			return;
+
+		// INSERT
+		if (lesson.getId() == null) {
+			SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("lesson")
+					.usingGeneratedKeyColumns("id_lesson");
+
+			final Map<String, Object> values = new HashMap<>(6);
+			values.put("date", lesson.getDateTime());
+			values.put("location", lesson.getLocation());
+			values.put("duration", lesson.getDuration());
+			values.put("type", lesson.getType());
+			values.put("id_subject", lesson.getSubject().getId());
+
+			long id = jdbcInsert.executeAndReturnKey(values).longValue();
+			lesson.setId(id);
+		}
+		// UPDATE
+		else {
+			String sql = "UPDATE lesson SET date=?, location=?, duration=?, type=?, id_subject=? WHERE id_lesson=?";
+			jdbcTemplate.update(sql, lesson.getDateTime(), lesson.getLocation(), lesson.getDuration(), lesson.getType(),
+					lesson.getSubject().getId(), lesson.getId());
+		}
 	}
 
 	/**
@@ -60,7 +103,7 @@ public class LessonDao extends DAO implements ILessonDAO {
 			lesson.setDateTime(rs.getTimestamp("date").toLocalDateTime());
 			lesson.setDuration(rs.getInt("duration"));
 			lesson.setLocation(rs.getString("location"));
-			lesson.setType("lecture".equals(rs.getString("type")) ? "lecture" : "practice");
+			lesson.setType("lecture".equalsIgnoreCase(rs.getString("type")) ? "lecture" : "practice");
 			lesson.setSubject(DaoFactory.getSubjectDao().getSubjectById(rs.getLong("id_subject")));
 			return lesson;
 		}

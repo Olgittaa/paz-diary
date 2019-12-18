@@ -42,4 +42,10 @@ public interface ILessonDAO {
 	 */
 	List<Lesson> getDaySchedule(int day);
 
+	List<Lesson> getWeekScheduleBySubjectId(Long id);
+
+	void remove(Lesson lesson);
+
+	void save(Lesson lesson);
+
 }
