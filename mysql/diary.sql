@@ -126,3 +126,5 @@ SELECT * FROM `exam`;
 SELECT * FROM `homework`;
 SELECT * FROM `lesson`;
 SELECT * FROM `subject`;
+
+select * from lesson where id_subject = 1 group by dayofweek(date);

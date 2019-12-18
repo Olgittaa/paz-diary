@@ -70,6 +70,10 @@ public class ScheduleController extends Controller {
 		setOrRefreshItemsToLessonsListViews();
 		initMonthLabel();
 		setItemsToSubjectsListView();
+		subjectListView.setOnMouseClicked(e -> {
+			currentSubject = subjectListView.getSelectionModel().getSelectedItem();
+			System.err.println(currentSubject);
+		});
 	}
 
 	/**
@@ -156,7 +160,6 @@ public class ScheduleController extends Controller {
 			thursdayDateLabel.setText(String.valueOf(friday - 1));
 			fridayDateLabel.setText(String.valueOf(friday));
 		}
-
 	}
 
 	/**
@@ -183,5 +186,4 @@ public class ScheduleController extends Controller {
 		}
 		setItemsToSubjectsListView();
 	}
-
 }

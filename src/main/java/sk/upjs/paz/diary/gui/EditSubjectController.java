@@ -86,28 +86,29 @@ public class EditSubjectController extends Controller {
 		this();
 		editedSubject.load(subject);
 		lessonFxModel = new LessonFXModel();
-		lessonsModel = FXCollections.observableArrayList(lessonDao.getWeekScheduleBySubjectId(editedSubject.getId()));
+		lessonsModel.addAll(lessonDao.getWeekScheduleBySubjectId(editedSubject.getId()));
 	}
 
 	@FXML
 	void initialize() {
-		initComboBoxes();
-
 		bindBiderectionalWithSubjectFXModel();
 		bindBiderectionalWithLessonFXModel();
 
+		lessonsListView.setItems(lessonsModel);
+		initComboBoxes();
+
 		addValidators();
 
+		// FIXME if
 		if (nameTextField.getText() == null || nameTextField.getText().trim().length() == 0) {
 			saveSubjectButton.setDisable(true);
 			removeSubjectButton.setDisable(true);
 		}
-		lessonsListView.setItems(lessonsModel);
 		lessonStartTimePicker.set24HourView(true);
-		
+
 		lessonsListView.setOnMouseClicked(e -> {
 			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
-			if (selectedItem != null) {				
+			if (selectedItem != null) {
 				lessonFxModel.load(selectedItem);
 			}
 		});
@@ -184,7 +185,7 @@ public class EditSubjectController extends Controller {
 				clearInputs();
 			}
 		} else {
-			showAlert(AlertType.ERROR, "Warning!", "Failed", "Please fill all neccessary fields");
+			showAlert(AlertType.ERROR, "Warning", "Failed!", "Please fill all neccessary fields");
 		}
 	}
 
