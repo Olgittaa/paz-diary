@@ -68,9 +68,7 @@ public class EditExamsController extends Controller {
 			subjectComboBox.getSelectionModel().select(selectedExam.getSubject());
 		}
 
-		datePicker.valueProperty().bindBidirectional(fxmodel.getDateProperty());
-		timePicker.valueProperty().bindBidirectional(fxmodel.getTimeProperty());
-		locationTextField.textProperty().bindBidirectional(fxmodel.getLocationProperty());
+		bindBidirectionalWithExamFxModel();
 
 		datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
@@ -82,6 +80,12 @@ public class EditExamsController extends Controller {
 				}
 			}
 		});
+	}
+
+	private void bindBidirectionalWithExamFxModel() {
+		datePicker.valueProperty().bindBidirectional(fxmodel.getDateProperty());
+		timePicker.valueProperty().bindBidirectional(fxmodel.getTimeProperty());
+		locationTextField.textProperty().bindBidirectional(fxmodel.getLocationProperty());
 	}
 
 	@FXML

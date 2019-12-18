@@ -49,11 +49,6 @@ public class EditHomeworkController extends Controller {
 	private Homework selectedHomework;
 
 	private ObservableList<Subject> subjectsModel;
-	private boolean wereChanges;
-
-	public boolean wereChanges() {
-		return wereChanges;
-	}
 
 	public EditHomeworkController() {
 		fxmodel = new HomeworkFxModel();
@@ -96,7 +91,6 @@ public class EditHomeworkController extends Controller {
 		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
 		Homework homework = fxmodel.getHomework(selectedSubject.getId());
 		homeworkDao.save(homework);
-		wereChanges = true;
 		closeWindow(event);
 		showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was added");
 	}
@@ -105,7 +99,6 @@ public class EditHomeworkController extends Controller {
 	void removeHomework(ActionEvent event) {
 		Homework homework = fxmodel.getHomework(fxmodel.getSubject().getId());
 		homeworkDao.remove(homework);
-		wereChanges = true;
 		closeWindow(event);
 		showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was removed");
 	}
