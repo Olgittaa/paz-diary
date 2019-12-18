@@ -19,17 +19,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz.diary.entity.Lesson;
 import sk.upjs.paz.diary.entity.Lesson.LessonType;
+import sk.upjs.paz.diary.entity.Subject;
 import sk.upjs.paz.diary.gui.models.LessonFxModel;
 import sk.upjs.paz.diary.gui.models.SubjectFxModel;
 import sk.upjs.paz.diary.persistence.DaoFactory;
 import sk.upjs.paz.diary.persistence.ILessonDAO;
 import sk.upjs.paz.diary.persistence.ISubjectDAO;
-import sk.upjs.paz.diary.entity.Subject;
 
-//FIXME бай дифолт устанавливаются значения 0
 public class EditSubjectController extends Controller {
 	@FXML
 	private JFXButton removeSubjectButton;
@@ -108,6 +106,24 @@ public class EditSubjectController extends Controller {
 		showLessonsOfSubjectWritingName();
 	}
 
+	private void bindBiderectionalWithSubjectFXModel() {
+		nameTextField.textProperty().bindBidirectional(editedSubject.getNameProperty());
+		siteTextField.textProperty().bindBidirectional(editedSubject.getSiteProperty());
+		emailTextField.textProperty().bindBidirectional(editedSubject.getEmailProperty());
+	}
+
+	private void bindBiderectionalWithLessonFXModel() {
+		locationTextField.textProperty().bindBidirectional(lessonFxModel.getLocationProperty());
+		durationTextField.textProperty().bindBidirectional(lessonFxModel.getDurationProperty());
+		typeOfLessonComboBox.valueProperty().bindBidirectional(lessonFxModel.getTypeProperty());
+	}
+
+	private void initComboBoxes() {
+		dayOfWeekComboBox.setItems(FXCollections.observableArrayList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
+				DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY));
+		typeOfLessonComboBox.setItems(FXCollections.observableArrayList(LessonType.LECTURE, LessonType.PRACTICE));
+	}
+
 	private void showLessonInfoClick() {
 		lessonsListView.setOnMouseClicked(e -> {
 			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
@@ -119,7 +135,7 @@ public class EditSubjectController extends Controller {
 						lessonDao.getLastLessonOfSubject(selectedItem.getSubject()).getDateTime().toLocalDate());
 				removeLessonButton.setDisable(false);
 			} else {
-				removeLessonButton.setDisable(true);				
+				removeLessonButton.setDisable(true);
 			}
 		});
 	}
@@ -159,18 +175,15 @@ public class EditSubjectController extends Controller {
 		lastLessonDatePicker.setValue(null);
 	}
 
-	private void initComboBoxes() {
-		dayOfWeekComboBox.setItems(FXCollections.observableArrayList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
-				DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY));
-		typeOfLessonComboBox.setItems(FXCollections.observableArrayList(LessonType.LECTURE, LessonType.PRACTICE));
-	}
-
+	// How to make a numeric TextField in JavaFX?
+	// https://stackoverflow.com/questions/7555564/what-is-the-recommended-way-to-make-a-numeric-textfield-in-javafx
 	private void addInputValidators() {
 		durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue == null || newValue.isEmpty())
+			if (newValue == null || newValue.trim().isEmpty()) {
 				return;
-			if (newValue.matches("\\D*")) {
-				durationTextField.setText(newValue.replaceAll("\\D", ""));
+			}
+			if (newValue.chars().anyMatch(ch -> ch < 48 || ch > 57) || newValue.charAt(0) == '0') {
+				durationTextField.setText(oldValue);
 			} else if (Integer.parseInt(newValue) > 300) {
 				durationTextField.setText(newValue.substring(0, newValue.length() - 1));
 			}
@@ -185,19 +198,6 @@ public class EditSubjectController extends Controller {
 				removeSubjectButton.setDisable(true);
 			}
 		});
-	}
-
-	private void bindBiderectionalWithSubjectFXModel() {
-		nameTextField.textProperty().bindBidirectional(editedSubject.getNameProperty());
-		siteTextField.textProperty().bindBidirectional(editedSubject.getSiteProperty());
-		emailTextField.textProperty().bindBidirectional(editedSubject.getEmailProperty());
-	}
-
-	private void bindBiderectionalWithLessonFXModel() {
-		locationTextField.textProperty().bindBidirectional(lessonFxModel.getLocationProperty());
-		durationTextField.textProperty().bindBidirectional(lessonFxModel.getDurationProperty(),
-				new NumberStringConverter());
-		typeOfLessonComboBox.valueProperty().bindBidirectional(lessonFxModel.getTypeProperty());
 	}
 
 	@FXML

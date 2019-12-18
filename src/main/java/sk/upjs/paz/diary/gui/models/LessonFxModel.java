@@ -2,9 +2,7 @@ package sk.upjs.paz.diary.gui.models;
 
 import java.time.LocalDateTime;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -16,7 +14,7 @@ public class LessonFxModel {
 	private Long id;
 	private ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
 	private StringProperty locationProperty = new SimpleStringProperty();
-	private IntegerProperty durationProperty = new SimpleIntegerProperty();
+	private StringProperty durationProperty = new SimpleStringProperty();
 	private ObjectProperty<LessonType> typeProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
 
@@ -52,11 +50,11 @@ public class LessonFxModel {
 	}
 
 	public Integer getDuration() {
-		return durationProperty.get();
+		return Integer.parseInt(durationProperty.get());
 	}
 
 	public void setDuration(Integer duration) {
-		durationProperty.set(duration);
+		durationProperty.set(String.valueOf(duration));
 	}
 
 	public LessonType getType() {
@@ -91,11 +89,11 @@ public class LessonFxModel {
 		this.locationProperty = locationProperty;
 	}
 
-	public IntegerProperty getDurationProperty() {
+	public StringProperty getDurationProperty() {
 		return durationProperty;
 	}
 
-	public void setDurationProperty(IntegerProperty durationProperty) {
+	public void setDurationProperty(StringProperty durationProperty) {
 		this.durationProperty = durationProperty;
 	}
 

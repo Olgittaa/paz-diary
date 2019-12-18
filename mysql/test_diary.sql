@@ -5,15 +5,10 @@ use test_diary;
 drop table if exists `subject`;
 CREATE TABLE IF NOT EXISTS `subject`
 (
-   `id_subject` BIGINT NOT NULL AUTO_INCREMENT,
-   `name` VARCHAR (50) NOT NULL,
+   `id_subject` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+   `name` VARCHAR (50) UNIQUE NOT NULL,
    `site` VARCHAR (100),
    `email` VARCHAR (50),
-   PRIMARY KEY
-   (
-      `id_subject`,
-      `name`
-   )
 );
 
 drop table if exists `lesson`;

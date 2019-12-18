@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -22,8 +21,6 @@ class HomeworkDaoTest {
 
 	private IHomeworkDAO homeworkDao = DaoFactory.INSTANCE.getHomeworkDao(true);
 	private ISubjectDAO subjectDao = DaoFactory.INSTANCE.getSubjectDao(true);
-
-	private List<Homework> list = new ArrayList<>();
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -44,7 +41,6 @@ class HomeworkDaoTest {
 	void testGetHomeworkOnWeekSorted() {
 		assertNotNull(homeworkDao.getHomeworkOnWeekSorted());
 		assertFalse(homeworkDao.getHomeworkOnWeekSorted().isEmpty());
-		List<Homework> list = homeworkDao.getHomeworkOnWeekSorted();
 	}
 
 	@Test
