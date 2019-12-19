@@ -99,7 +99,6 @@ public class EditSubjectController extends Controller {
 
 		addValidators();
 
-		// FIXME if
 		if (nameTextField.getText() == null || nameTextField.getText().trim().length() == 0) {
 			saveSubjectButton.setDisable(true);
 			removeSubjectButton.setDisable(true);
@@ -110,6 +109,9 @@ public class EditSubjectController extends Controller {
 			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
 			if (selectedItem != null) {
 				lessonFxModel.load(selectedItem);
+				lessonStartTimePicker.setValue(lessonFxModel.getDateTime().toLocalTime());
+				dayOfWeekComboBox.setValue(DayOfWeek.from(lessonFxModel.getDateTime()));
+				// TODO until date
 			}
 		});
 	}
@@ -117,7 +119,7 @@ public class EditSubjectController extends Controller {
 	private void initComboBoxes() {
 		dayOfWeekComboBox.setItems(FXCollections.observableArrayList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
 				DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY));
-		typeOfLessonComboBox.setItems(FXCollections.observableArrayList("Lecture", "Practice"));
+		typeOfLessonComboBox.setItems(FXCollections.observableArrayList("lecture", "practice"));
 	}
 
 	private void addValidators() {

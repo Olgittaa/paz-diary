@@ -63,17 +63,11 @@ public class ScheduleController extends Controller {
 	private ISubjectDAO subjectDao = DaoFactory.getSubjectDao();
 	private ILessonDAO lessonDao = DaoFactory.getLessonDao();
 
-	private Subject currentSubject;
-
 	@FXML
 	void initialize() {
 		setOrRefreshItemsToLessonsListViews();
 		initMonthLabel();
 		setItemsToSubjectsListView();
-		subjectListView.setOnMouseClicked(e -> {
-			currentSubject = subjectListView.getSelectionModel().getSelectedItem();
-			System.err.println(currentSubject);
-		});
 	}
 
 	/**
@@ -97,16 +91,11 @@ public class ScheduleController extends Controller {
 	 */
 	private void initMonthLabel() {
 		Month month = null;
-		int monday = 0;
-		int tuesday = 0;
-		int wednesday = 0;
-		int thursday = 0;
-		int friday = 0;
-		int week = 0;
+		int monday = 0, tuesday = 0, wednesday = 0, thursday = 0, friday = 0;
+
 		if (!mondayListView.getItems().isEmpty()) {
 			month = mondayListView.getItems().get(0).getDateTime().getMonth();
 			monday = mondayListView.getItems().get(0).getDateTime().getDayOfMonth();
-			week = mondayListView.getItems().get(0).getDateTime().getDayOfMonth();
 		} else if (!tuesdayListView.getItems().isEmpty()) {
 			month = tuesdayListView.getItems().get(0).getDateTime().getMonth();
 			tuesday = tuesdayListView.getItems().get(0).getDateTime().getDayOfMonth();
@@ -178,6 +167,7 @@ public class ScheduleController extends Controller {
 
 	@FXML
 	void editSubjectButtonClick(ActionEvent event) {
+		Subject currentSubject = subjectListView.getSelectionModel().getSelectedItem();
 		if (currentSubject == null) {
 			loadWindow("editSubject.fxml", "Edit subject", new EditSubjectController(), 515, 680, 515, 680);
 		} else {

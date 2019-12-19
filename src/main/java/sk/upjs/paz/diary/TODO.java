@@ -1,7 +1,5 @@
 package sk.upjs.paz.diary;
 
-import javafx.scene.Node;
-
 public final class TODO {
 
 	// ==================
@@ -33,8 +31,6 @@ public final class TODO {
 	 * 1. Поискать баги в хм. Напр: поиск добавление дубликатов и тд....
 	 * 
 	 * 3. Сделать закрытие через (Node)event.getSource()
-	 * 
-	 * 4. Не используем MVC
 	 *
 	 * 5. Сделать превенцию против сохранениея удаления предмета если филды пустые
 	 */
@@ -44,7 +40,5 @@ public final class TODO {
 
 	// ResultSetExtructor - nacitava celu tabulky a vracia list cohosi
 	// RawMapper - nacitava po jednemu riadku s tabulky a vracia jeden riadok
-
-	//
 
 }
