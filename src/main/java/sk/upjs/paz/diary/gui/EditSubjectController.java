@@ -2,10 +2,6 @@ package sk.upjs.paz.diary.gui;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -47,21 +43,18 @@ public class EditSubjectController extends Controller {
 
 	@FXML
 	private JFXComboBox<DayOfWeek> dayOfWeekComboBox;
+	@FXML
+	private JFXComboBox<LessonType> typeOfLessonComboBox;
 
 	@FXML
 	private JFXTimePicker lessonStartTimePicker;
-
 	@FXML
-	private JFXDatePicker lastLessonDatePicker;
+	private JFXDatePicker untilDatePicker;
 
 	@FXML
 	private JFXTextField locationTextField;
-
 	@FXML
 	private JFXTextField durationTextField;
-
-	@FXML
-	private JFXComboBox<LessonType> typeOfLessonComboBox;
 
 	@FXML
 	private JFXListView<Lesson> lessonsListView;
@@ -83,18 +76,17 @@ public class EditSubjectController extends Controller {
 		this();
 		editedSubject.load(subject);
 		lessonFxModel = new LessonFxModel();
-		lessonsModel.addAll(lessonDao.getWeekScheduleBySubjectId(editedSubject.getId()));
+
 	}
 
 	@FXML
 	void initialize() {
 		bindBiderectionalWithSubjectFXModel();
 		bindBiderectionalWithLessonFXModel();
-
-		lessonsListView.setItems(lessonsModel);
+		initLessonsListView();
 		initComboBoxes();
-
-		addInputValidators();
+		addDurationTextFieldValidator();
+		disableSaveRemoveButtonsIfNameIsAbsent();
 
 		if (nameTextField.getText() == null || nameTextField.getText().trim().length() == 0) {
 			saveSubjectButton.setDisable(true);
@@ -102,7 +94,7 @@ public class EditSubjectController extends Controller {
 		}
 		lessonStartTimePicker.set24HourView(true);
 
-		showLessonInfoClick();
+		fillFieldsByClick();
 		showLessonsOfSubjectWritingName();
 	}
 
@@ -113,9 +105,18 @@ public class EditSubjectController extends Controller {
 	}
 
 	private void bindBiderectionalWithLessonFXModel() {
+		dayOfWeekComboBox.valueProperty().bindBidirectional(lessonFxModel.getDayOfWeekProperty());
+		untilDatePicker.valueProperty().bindBidirectional(lessonFxModel.getTillDateProperty());
+		lessonStartTimePicker.valueProperty().bindBidirectional(lessonFxModel.getTimeProperty());
 		locationTextField.textProperty().bindBidirectional(lessonFxModel.getLocationProperty());
 		durationTextField.textProperty().bindBidirectional(lessonFxModel.getDurationProperty());
 		typeOfLessonComboBox.valueProperty().bindBidirectional(lessonFxModel.getTypeProperty());
+	}
+
+	private void initLessonsListView() {
+		lessonsModel.clear();
+		lessonsModel.addAll(lessonDao.getLessonsBySubjectId(editedSubject.getId()));
+		lessonsListView.setItems(lessonsModel);
 	}
 
 	private void initComboBoxes() {
@@ -124,15 +125,40 @@ public class EditSubjectController extends Controller {
 		typeOfLessonComboBox.setItems(FXCollections.observableArrayList(LessonType.LECTURE, LessonType.PRACTICE));
 	}
 
-	private void showLessonInfoClick() {
+	private void addDurationTextFieldValidator() {
+		// only numbers are allowed
+		durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue == null || newValue.trim().isEmpty()) {
+				return;
+			}
+			if (newValue.chars().anyMatch(ch -> ch < 48 || ch > 57) || newValue.charAt(0) == '0') {
+				durationTextField.setText(oldValue);
+			} else if (Integer.parseInt(newValue) > 300) {
+				durationTextField.setText(newValue.substring(0, newValue.length() - 1));
+			}
+		});
+	}
+
+	private void disableSaveRemoveButtonsIfNameIsAbsent() {
+		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (nameTextField != null && nameTextField.getText().trim().length() > 0) {
+				saveSubjectButton.setDisable(false);
+				removeSubjectButton.setDisable(false);
+			} else {
+				saveSubjectButton.setDisable(true);
+				removeSubjectButton.setDisable(true);
+			}
+		});
+	}
+
+	private void fillFieldsByClick() {
 		lessonsListView.setOnMouseClicked(e -> {
 			Lesson selectedItem = lessonsListView.getSelectionModel().getSelectedItem();
 			if (selectedItem != null) {
 				lessonFxModel.load(selectedItem);
-				lessonStartTimePicker.setValue(lessonFxModel.getDateTime().toLocalTime());
-				dayOfWeekComboBox.setValue(DayOfWeek.from(lessonFxModel.getDateTime()));
-				lastLessonDatePicker.setValue(
-						lessonDao.getLastLessonOfSubject(selectedItem.getSubject()).getDateTime().toLocalDate());
+				lessonStartTimePicker.setValue(lessonFxModel.getTime());
+				dayOfWeekComboBox.setValue(lessonFxModel.getDayOfWeek());
+				untilDatePicker.setValue(lessonFxModel.getTillDate());
 				removeLessonButton.setDisable(false);
 			} else {
 				removeLessonButton.setDisable(true);
@@ -141,6 +167,10 @@ public class EditSubjectController extends Controller {
 	}
 
 	private void showLessonsOfSubjectWritingName() {
+		if(nameTextField.getText() != null && nameTextField.getText().trim().length() > 0) {
+			addLessonButton.setDisable(false);
+		}
+		
 		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 			String subjectName = nameTextField.getText();
 
@@ -150,10 +180,10 @@ public class EditSubjectController extends Controller {
 					addLessonButton.setDisable(false);
 					removeSubjectButton.setDisable(false);
 
-					lessonsModel.setAll(lessonDao.getWeekScheduleBySubjectId(subject.getId()));
+					lessonsModel.setAll(lessonDao.getLessonsBySubjectId(subject.getId()));
 					editedSubject.load(subject);
 				} else {
-					editedSubject.clearValuesWithoutName();
+					editedSubject.clearValuesBesidesName();
 					clearLessonFields();
 
 					addLessonButton.setDisable(true);
@@ -167,83 +197,35 @@ public class EditSubjectController extends Controller {
 	private void clearLessonFields() {
 		lessonsListView.getItems().clear();
 		durationTextField.setText(null);
-		lastLessonDatePicker.setValue(null);
+		untilDatePicker.setValue(null);
 		lessonStartTimePicker.setValue(null);
 		locationTextField.setText(null);
 		dayOfWeekComboBox.setValue(null);
 		typeOfLessonComboBox.setValue(null);
-		lastLessonDatePicker.setValue(null);
-	}
-
-	// How to make a numeric TextField in JavaFX?
-	// https://stackoverflow.com/questions/7555564/what-is-the-recommended-way-to-make-a-numeric-textfield-in-javafx
-	private void addInputValidators() {
-		durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue == null || newValue.trim().isEmpty()) {
-				return;
-			}
-			if (newValue.chars().anyMatch(ch -> ch < 48 || ch > 57) || newValue.charAt(0) == '0') {
-				durationTextField.setText(oldValue);
-			} else if (Integer.parseInt(newValue) > 300) {
-				durationTextField.setText(newValue.substring(0, newValue.length() - 1));
-			}
-		});
-
-		nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (nameTextField != null && nameTextField.getText().trim().length() > 0) {
-				saveSubjectButton.setDisable(false);
-				removeSubjectButton.setDisable(false);
-			} else {
-				saveSubjectButton.setDisable(true);
-				removeSubjectButton.setDisable(true);
-			}
-		});
+		untilDatePicker.setValue(null);
 	}
 
 	@FXML
 	void addLessonButtonClick(ActionEvent event) {
 		final boolean allNecessaryFieldsAreFilled = dayOfWeekComboBox.getSelectionModel().getSelectedItem() != null
-				&& lessonStartTimePicker.getValue() != null && lastLessonDatePicker.getValue() != null
+				&& lessonStartTimePicker.getValue() != null && untilDatePicker.getValue() != null
 				&& durationTextField.getText() != null;
 
 		if (allNecessaryFieldsAreFilled) {
 			lessonFxModel.setSubject(editedSubject.getSubject());
 
-			LocalDate end = lastLessonDatePicker.getValue();
+			LocalDate end = untilDatePicker.getValue();
 			LocalDate now = LocalDate.now();
-
-			long countOfWeeks = ChronoUnit.WEEKS.between(now, end);
-
-			DayOfWeek dayOfWeek = dayOfWeekComboBox.getValue();
-
-			LocalTime time = lessonStartTimePicker.getValue();
-			LocalDate date = now.with(TemporalAdjusters.next(dayOfWeek));
-
-			Lesson lesson = null;
-			for (int i = 0; i < countOfWeeks; i++) {
-				lessonFxModel.setDateTime(LocalDateTime.of(date, time));
-
-				lesson = lessonFxModel.getLesson();
-				lessonDao.save(lesson);
-
-				date = date.plusWeeks(1);
+			if (now.isAfter(end)) {
+				clearLessonFields();
+				showAlert(AlertType.ERROR, "Error", "Fail!", "Please fill right date");
+				return;
 			}
-			if (lesson != null) {
-				lessonsModel.add(lesson);
-				clearInputs();
-			}
+			lessonDao.save(lessonFxModel.getLesson());
+			initLessonsListView();
 		} else {
-			showAlert(AlertType.ERROR, "Warning", "Fail!", "Please fill all neccessary fields");
+			showAlert(AlertType.ERROR, "Error", "Fail!", "Please fill all neccessary fields");
 		}
-	}
-
-	private void clearInputs() {
-		dayOfWeekComboBox.getSelectionModel().clearSelection();
-		lessonStartTimePicker.setValue(null);
-		lastLessonDatePicker.setValue(null);
-		locationTextField.clear();
-		durationTextField.clear();
-		typeOfLessonComboBox.getSelectionModel().clearSelection();
 	}
 
 	@FXML

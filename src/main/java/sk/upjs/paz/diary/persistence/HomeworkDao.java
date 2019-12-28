@@ -30,7 +30,7 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 				+ "WHERE DATEDIFF(deadline, NOW()) < -7 AND status = 1) ORDER BY deadline";
 		return getJdbcTemplate().query(sql, new HomeworkRowMapperImpl());
 	}
-
+	
 	@Override
 	public Homework save(Homework homework) {
 		if (homework == null) {
@@ -57,9 +57,9 @@ public class HomeworkDao extends DAO implements IHomeworkDAO {
 	}
 
 	@Override
-	public void remove(Homework homework) {
-		String sql = "DELETE FROM homework WHERE id_homework=" + homework.getId();
-		getJdbcTemplate().execute(sql);
+	public int remove(Homework homework) {
+		String sql = "DELETE FROM homework WHERE deadline=? AND description=? AND id_subject=?;";
+		return getJdbcTemplate().update(sql, homework.getDeadline(), homework.getDescription(), homework.getSubject().getId());
 	}
 
 	private class HomeworkRowMapperImpl implements RowMapper<Homework> {

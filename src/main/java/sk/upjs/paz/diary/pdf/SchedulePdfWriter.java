@@ -1,7 +1,10 @@
 package sk.upjs.paz.diary.pdf;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,11 +30,8 @@ import sk.upjs.paz.diary.persistence.DaoFactory;
 /**
  * Class writes 5 tables to pdf file, representing day of week, with a daily
  * schedule
- * 
- * @author Yevhenii Kozhevin
- * @author Olga Charna
  */
-public class SchedulePdfWriter implements sk.upjs.paz.diary.pdf.PdfWriter{
+public class SchedulePdfWriter implements sk.upjs.paz.diary.pdf.PdfWriter {
 	/** Logger */
 	private final Logger LOGGER;
 
@@ -45,9 +45,12 @@ public class SchedulePdfWriter implements sk.upjs.paz.diary.pdf.PdfWriter{
 	 */
 	private final List<Lesson> LESSONS;
 
-	public SchedulePdfWriter(String fileName) {
+	public SchedulePdfWriter(Path directory) throws IOException {
 		LOGGER = LoggerFactory.getLogger(SchedulePdfWriter.class);
-		DOCUMENT = initDocument(fileName);
+		String path = directory.toString() + "/schdedule.pdf";
+		File file = new File(path);
+		file.createNewFile();
+		DOCUMENT = initDocument(file.getAbsolutePath());
 		LESSONS = DaoFactory.INSTANCE.getLessonDao().getWeekSchedule();
 	}
 
@@ -172,7 +175,7 @@ public class SchedulePdfWriter implements sk.upjs.paz.diary.pdf.PdfWriter{
 	 * @return list of lesson in a current day
 	 */
 	private List<Lesson> listLessonsByDay(String day) {
-		return LESSONS.stream().filter(l -> l.getDateTime().getDayOfWeek() == DayOfWeek.valueOf(day.toUpperCase()))
+		return LESSONS.stream().filter(l -> l.getDayOfWeek() == DayOfWeek.valueOf(day.toUpperCase()))
 				.collect(Collectors.toList());
 	}
 

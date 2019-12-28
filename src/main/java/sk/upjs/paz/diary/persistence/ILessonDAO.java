@@ -1,9 +1,9 @@
 package sk.upjs.paz.diary.persistence;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 import sk.upjs.paz.diary.entity.Lesson;
-import sk.upjs.paz.diary.entity.Subject;
 
 public interface ILessonDAO {
 
@@ -11,15 +11,11 @@ public interface ILessonDAO {
 
 	List<Lesson> getWeekSchedule();
 
-	List<Lesson> getDaySchedule(int day);
-
-	List<Lesson> getWeekScheduleBySubjectId(Long id);
+	List<Lesson> getDaySchedule(DayOfWeek dayOfWeek);
 
 	void remove(Lesson lesson);
 
 	Lesson save(Lesson lesson);
-
-	Lesson getLastLessonOfSubject(Subject subject);
 
 	List<Lesson> getAllLessons();
 

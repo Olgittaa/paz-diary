@@ -1,15 +1,11 @@
 package sk.upjs.paz.diary.gui;
 
-import java.time.LocalDate;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,6 +58,8 @@ public class EditExamsController extends Controller {
 		subjectModel = FXCollections.observableArrayList(DaoFactory.INSTANCE.getSubjectDao().getAllSubjects());
 		subjectComboBox.setItems(subjectModel);
 
+		timePicker.set24HourView(true);
+
 		if (selectedExam == null) { // if creating exam
 			subjectComboBox.getSelectionModel().selectFirst();
 		} else { // if editing exam
@@ -70,14 +68,14 @@ public class EditExamsController extends Controller {
 
 		bindBidirectionalWithExamFxModel();
 
-		datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
-			@Override
-			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
-				if (timePicker.valueProperty() != null && datePicker.valueProperty() != null) {
-					saveExamButton.setDisable(false);
-				} else {
-					saveExamButton.setDisable(true);
-				}
+		datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+			Subject selectedItem = subjectComboBox.getSelectionModel().getSelectedItem();
+			if (selectedItem == null) {
+				saveExamButton.setDisable(true);
+			} else if (timePicker.valueProperty() != null && datePicker.valueProperty() != null) {
+				saveExamButton.setDisable(false);
+			} else {
+				saveExamButton.setDisable(true);
 			}
 		});
 	}
@@ -86,21 +84,28 @@ public class EditExamsController extends Controller {
 		datePicker.valueProperty().bindBidirectional(fxmodel.getDateProperty());
 		timePicker.valueProperty().bindBidirectional(fxmodel.getTimeProperty());
 		locationTextField.textProperty().bindBidirectional(fxmodel.getLocationProperty());
+		subjectComboBox.valueProperty().bindBidirectional(fxmodel.getSubjectProperty());
 	}
 
 	@FXML
 	void removeExam(ActionEvent event) {
-		Exam exam = fxmodel.getExam(fxmodel.getSubject().getId());
-		examDao.remove(exam);
-		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was removed");
+		final boolean allFieldsAreFilled = datePicker.getValue() != null && timePicker.getValue() != null
+				&& locationTextField.getText() != null && subjectComboBox.getSelectionModel().getSelectedItem() != null;
+		if (allFieldsAreFilled) {
+			if(examDao.remove(fxmodel.getExam()) != 0) {
+				closeWindow(event);
+				showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was removed");				
+			} else {
+				showAlert(AlertType.INFORMATION, "Information", "Failed!", "No such exam");
+			}
+		} else {
+			showAlert(AlertType.ERROR, "Error", "Failed!", "Fill all necessary fields");
+		}
 	}
 
 	@FXML
 	void saveExam(ActionEvent event) {
-		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
-		Exam exam = fxmodel.getExam(selectedSubject.getId());
-		examDao.save(exam);
+		examDao.save(fxmodel.getExam());
 		closeWindow(event);
 		showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was added");
 	}

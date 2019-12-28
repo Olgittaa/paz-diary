@@ -1,6 +1,9 @@
 package sk.upjs.paz.diary.gui.models;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -12,7 +15,9 @@ import sk.upjs.paz.diary.entity.Subject;
 
 public class LessonFxModel {
 	private Long id;
-	private ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
+	private ObjectProperty<LocalTime> startTimeProperty = new SimpleObjectProperty<>();
+	private ObjectProperty<LocalDate> tillDateProperty = new SimpleObjectProperty<>();
+	private ObjectProperty<DayOfWeek> dayOfWeekProperty = new SimpleObjectProperty<>();
 	private StringProperty locationProperty = new SimpleStringProperty();
 	private StringProperty durationProperty = new SimpleStringProperty();
 	private ObjectProperty<LessonType> typeProperty = new SimpleObjectProperty<>();
@@ -25,6 +30,22 @@ public class LessonFxModel {
 		load(lesson);
 	}
 
+	public ObjectProperty<DayOfWeek> getDayOfWeekProperty() {
+		return dayOfWeekProperty;
+	}
+
+	public void setDayOfWeekProperty(ObjectProperty<DayOfWeek> dayOfWeekProperty) {
+		this.dayOfWeekProperty = dayOfWeekProperty;
+	}
+
+	public DayOfWeek getDayOfWeek() {
+		return dayOfWeekProperty.get();
+	}
+
+	public void setDayOfWeek(DayOfWeek dayOfWeek) {
+		dayOfWeekProperty.set(dayOfWeek);
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -33,12 +54,20 @@ public class LessonFxModel {
 		this.id = id;
 	}
 
-	public LocalDateTime getDateTime() {
-		return dateTimeProperty.get();
+	public LocalTime getTime() {
+		return startTimeProperty.get();
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
-		dateTimeProperty.set(dateTime);
+	public void setTime(LocalTime time) {
+		startTimeProperty.set(time);
+	}
+
+	public LocalDate getTillDate() {
+		return tillDateProperty.get();
+	}
+
+	public void setTillDate(LocalDate dateTime) {
+		tillDateProperty.set(dateTime);
 	}
 
 	public String getLocation() {
@@ -73,12 +102,20 @@ public class LessonFxModel {
 		subjectProperty.set(subject);
 	}
 
-	public ObjectProperty<LocalDateTime> getDateProperty() {
-		return dateTimeProperty;
+	public ObjectProperty<LocalDate> getTillDateProperty() {
+		return tillDateProperty;
 	}
 
-	public void setDateTimeProperty(ObjectProperty<LocalDateTime> dateTimeProperty) {
-		this.dateTimeProperty = dateTimeProperty;
+	public void setTillDateTimeProperty(ObjectProperty<LocalDate> dateProperty) {
+		this.tillDateProperty = dateProperty;
+	}
+
+	public ObjectProperty<LocalTime> getTimeProperty() {
+		return startTimeProperty;
+	}
+
+	public void setTimeProperty(ObjectProperty<LocalTime> timeProperty) {
+		this.startTimeProperty = timeProperty;
 	}
 
 	public StringProperty getLocationProperty() {
@@ -115,27 +152,32 @@ public class LessonFxModel {
 
 	public final void load(Lesson lesson) {
 		setId(lesson.getId());
-		setDateTime(lesson.getDateTime());
+		setTillDate(lesson.getTillDate().toLocalDate());
 		setLocation(lesson.getLocation());
 		setDuration(lesson.getDuration());
+		setDayOfWeek(lesson.getDayOfWeek());
 		setType(lesson.getType());
+		setTime(lesson.getStartTime());
 		setSubject(lesson.getSubject());
 	}
 
 	public Lesson getLesson() {
 		Lesson lesson = new Lesson();
 		lesson.setId(getId());
-		lesson.setDateTime(getDateTime());
+		lesson.setTillDate(LocalDateTime.of(getTillDate(), getTime()));
 		lesson.setLocation(getLocation());
 		lesson.setDuration(getDuration());
 		lesson.setType(getType());
+		lesson.setDayOfWeek(getDayOfWeek());
+		lesson.setStartTime(getTime());
 		lesson.setSubject(getSubject());
 		return lesson;
 	}
 
 	@Override
 	public String toString() {
-		return "LessonFXModel [id=" + id + ", dateTimeProperty=" + dateTimeProperty + ", locationProperty="
+		return "LessonFxModel [id=" + id + ", startTimeProperty=" + startTimeProperty + ", tillDateProperty="
+				+ tillDateProperty + ", dayOfWeekProperty=" + dayOfWeekProperty + ", locationProperty="
 				+ locationProperty + ", durationProperty=" + durationProperty + ", typeProperty=" + typeProperty
 				+ ", subjectProperty=" + subjectProperty + "]";
 	}

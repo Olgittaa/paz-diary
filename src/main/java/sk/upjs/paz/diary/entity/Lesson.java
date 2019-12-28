@@ -1,12 +1,15 @@
 package sk.upjs.paz.diary.entity;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
 public class Lesson {
 	private Long id;
-	private LocalDateTime dateTime;
+	private LocalTime startTime;
+	private DayOfWeek dayOfWeek;
+	private LocalDateTime tillDate;
 	private String location;
 	private int duration;
 	private LessonType type;
@@ -22,23 +25,36 @@ public class Lesson {
 	}
 
 	public Lesson() {
-		location = new String();
+		
 	}
 
-	public Lesson(Long id, LocalDateTime date, String location, int duration, LessonType type) {
+	public Lesson(Long id, LocalDateTime fromDate, LocalDateTime tillDate, String location, int duration,
+			LessonType type) {
 		this.id = id;
-		this.dateTime = date;
+		this.tillDate = tillDate;
 		this.location = location;
 		this.duration = duration;
 		this.type = type;
 	}
 
-	public LocalDateTime getDateTime() {
-		return dateTime;
+	public DayOfWeek getDayOfWeek() {
+		return dayOfWeek;
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
-		this.dateTime = dateTime;
+	public void setDayOfWeek(DayOfWeek dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
+	}
+
+	public void setStartTime(LocalTime startTime) {
+		this.startTime = startTime;
+	}
+
+	public LocalDateTime getTillDate() {
+		return tillDate;
+	}
+
+	public void setTillDate(LocalDateTime tillDate) {
+		this.tillDate = tillDate;
 	}
 
 	public String getLocation() {
@@ -82,11 +98,11 @@ public class Lesson {
 	}
 
 	public LocalTime getStartTime() {
-		return dateTime.toLocalTime();
+		return startTime;
 	}
 
 	public LocalTime getEndTime() {
-		return dateTime.toLocalTime().plusMinutes(duration);
+		return startTime.plusMinutes(duration);
 	}
 
 	@Override
@@ -96,13 +112,16 @@ public class Lesson {
 		if (type != null) {
 			sb.append(Character.toUpperCase(type.toString().charAt(0))).append(" ");
 		}
-		sb.append(getStartTime()).append("-").append(getEndTime()).append(" ").append(location);
+		sb.append(getStartTime()).append("-").append(getEndTime()).append(" ");
+		if(location != null) {
+			sb.append(location);
+		}
 		return sb.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dateTime, duration, location, subject, type);
+		return Objects.hash(dayOfWeek, duration, location, startTime, subject);
 	}
 
 	@Override
@@ -114,8 +133,7 @@ public class Lesson {
 		if (getClass() != obj.getClass())
 			return false;
 		Lesson other = (Lesson) obj;
-		return Objects.equals(dateTime, other.dateTime) && duration == other.duration
-				&& Objects.equals(location, other.location) && Objects.equals(subject, other.subject)
-				&& type == other.type;
+		return dayOfWeek == other.dayOfWeek && duration == other.duration && Objects.equals(location, other.location)
+				&& Objects.equals(startTime, other.startTime) && Objects.equals(subject, other.subject);
 	}
 }

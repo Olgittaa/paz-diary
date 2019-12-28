@@ -12,10 +12,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.persistence.DaoFactory;
 
 public class HomeworkFxModel {
-	private Long id;
 	private StringProperty descriptionProperty = new SimpleStringProperty();
 	private BooleanProperty statusProperty = new SimpleBooleanProperty();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
@@ -23,25 +21,6 @@ public class HomeworkFxModel {
 	private ObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
 	private ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<>();
 
-	public Homework getHomework(Long idSubject) {
-		Homework hw = new Homework();
-		hw.setDeadline(LocalDateTime.of(getDate(), getTime()));
-		hw.setDescription(getDescription());
-		hw.setStatus(getStatus());
-		hw.setSubject(DaoFactory.INSTANCE.getSubjectDao().getSubjectById(idSubject));
-		hw.setId(id);
-		return hw;
-	}
-
-	public void load(Homework homework) {
-		setDate(homework.getDeadline().toLocalDate());
-		setTime(homework.getDeadline().toLocalTime());
-		setDescription(homework.getDescription());
-		id = homework.getId();
-		setStatus(homework.getStatus());
-		setSubject(homework.getSubject());
-	}
-	
 	public void setSubject(Subject subject) {
 		subjectProperty.set(subject);
 	}
@@ -126,11 +105,28 @@ public class HomeworkFxModel {
 		return subjectProperty.get();
 	}
 
+	public Homework getHomework() {
+		Homework hw = new Homework();
+		hw.setDeadline(LocalDateTime.of(getDate(), getTime()));
+		hw.setDescription(getDescription());
+		hw.setStatus(getStatus());
+		hw.setSubject(getSubject());
+		return hw;
+	}
+
+	public void load(Homework homework) {
+		setDate(homework.getDeadline().toLocalDate());
+		setTime(homework.getDeadline().toLocalTime());
+		setDescription(homework.getDescription());
+		setStatus(homework.getStatus());
+		setSubject(homework.getSubject());
+	}
+
 	@Override
 	public String toString() {
-		return "HomeworkFXModel [id=" + id + ", descriptionProperty=" + descriptionProperty + ", statusProperty="
-				+ statusProperty + ", subjectProperty=" + subjectProperty + ", dateProperty=" + dateProperty
-				+ ", timeProperty=" + timeProperty + "]";
+		return "HomeworkFXModel [descriptionProperty=" + descriptionProperty + ", statusProperty=" + statusProperty
+				+ ", subjectProperty=" + subjectProperty + ", dateProperty=" + dateProperty + ", timeProperty="
+				+ timeProperty + "]";
 	}
-	
+
 }

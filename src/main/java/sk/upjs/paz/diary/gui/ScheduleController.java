@@ -1,5 +1,8 @@
 package sk.upjs.paz.diary.gui;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
@@ -77,9 +80,10 @@ public class ScheduleController extends Controller {
 		views.add(wednesdayListView);
 		views.add(thursdayListView);
 		views.add(fridayListView);
+		DayOfWeek[] values = DayOfWeek.values();
 		for (int i = 0; i < views.size(); i++) {
 			views.get(i).getItems().clear();
-			views.get(i).setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(i + 2)));
+			views.get(i).setItems(FXCollections.observableArrayList(lessonDao.getDaySchedule(values[i])));
 		}
 	}
 
@@ -87,44 +91,49 @@ public class ScheduleController extends Controller {
 	 * Initializes label according to month and dates of the first lesson in a week
 	 */
 	private void initMonthAndDaysLabel() {
-		Month month = null;
-		int monday = 0, tuesday = 0, wednesday = 0, thursday = 0, friday = 0;
+		LocalDate now = LocalDate.now();
+		DayOfWeek dayOfWeek = now.getDayOfWeek();
+		monthLabel.setText(Month.from(LocalDateTime.now()).toString());
+		switch (dayOfWeek) {
+		case MONDAY:
+			modayDateLabel.setText(String.valueOf(now.getDayOfMonth()));
+			tuesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 1));
+			wednesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 2));
+			thursdayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 3));
+			fridayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 4));
+			break;
+		case TUESDAY:
+			modayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 1));
+			tuesdayDateLabel.setText(String.valueOf(now.getDayOfMonth()));
+			wednesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 1));
+			thursdayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 2));
+			fridayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 3));
+			break;
+		case WEDNESDAY:
+			modayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 2));
+			tuesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 1));
+			wednesdayDateLabel.setText(String.valueOf(now.getDayOfMonth()));
+			thursdayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 1));
+			fridayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 2));
+			break;
+		case THURSDAY:
+			modayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 3));
+			tuesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 2));
+			wednesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 1));
+			thursdayDateLabel.setText(String.valueOf(now.getDayOfMonth()));
+			fridayDateLabel.setText(String.valueOf(now.getDayOfMonth() + 1));
+			break;
+		case FRIDAY:
+			modayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 4));
+			tuesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 3));
+			wednesdayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 2));
+			thursdayDateLabel.setText(String.valueOf(now.getDayOfMonth() - 1));
+			fridayDateLabel.setText(String.valueOf(now.getDayOfMonth()));
+			break;
+		default:
+			break;
+		}
 
-		monthLabel.setText(null);
-		modayDateLabel.setText(null);
-		tuesdayDateLabel.setText(null);
-		wednesdayDateLabel.setText(null);
-		thursdayDateLabel.setText(null);
-		fridayDateLabel.setText(null);
-
-		if (!mondayListView.getItems().isEmpty()) {
-			month = mondayListView.getItems().get(0).getDateTime().getMonth();
-			monday = mondayListView.getItems().get(0).getDateTime().getDayOfMonth();
-			modayDateLabel.setText(String.valueOf(monday));
-		}
-		if (!tuesdayListView.getItems().isEmpty()) {
-			month = tuesdayListView.getItems().get(0).getDateTime().getMonth();
-			tuesday = tuesdayListView.getItems().get(0).getDateTime().getDayOfMonth();
-			tuesdayDateLabel.setText(String.valueOf(tuesday));
-		}
-		if (!wednesdayListView.getItems().isEmpty()) {
-			month = wednesdayListView.getItems().get(0).getDateTime().getMonth();
-			wednesday = wednesdayListView.getItems().get(0).getDateTime().getDayOfMonth();
-			wednesdayDateLabel.setText(String.valueOf(wednesday));
-		}
-		if (!thursdayListView.getItems().isEmpty()) {
-			month = thursdayListView.getItems().get(0).getDateTime().getMonth();
-			thursday = thursdayListView.getItems().get(0).getDateTime().getDayOfMonth();
-			thursdayDateLabel.setText(String.valueOf(thursday));
-		}
-		if (!fridayListView.getItems().isEmpty()) {
-			month = fridayListView.getItems().get(0).getDateTime().getMonth();
-			friday = fridayListView.getItems().get(0).getDateTime().getDayOfMonth();
-			fridayDateLabel.setText(String.valueOf(friday));
-		}
-		if (month != null) {
-			monthLabel.setText(month.toString());
-		}
 	}
 
 	/**

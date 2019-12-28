@@ -49,9 +49,9 @@ public class ExamDao extends DAO implements IExamDAO {
 	}
 
 	@Override
-	public void remove(Exam exam) {
-		String sql = "DELETE FROM exam WHERE id_exam=" + exam.getId();
-		getJdbcTemplate().execute(sql);
+	public int remove(Exam exam) {
+		String sql = "DELETE FROM exam WHERE date=? AND location=? AND id_subject=?";
+		return getJdbcTemplate().update(sql, exam.getDateTime(), exam.getLocation(), exam.getSubject().getId());
 	}
 
 	private class ExamRowMapperImpl implements RowMapper<Exam> {

@@ -8,9 +8,9 @@ public interface IHomeworkDAO {
 	List<Homework> getAllHomework();
 
 	List<Homework> getHomeworkOnWeekSorted();
-
+	
 	Homework save(Homework homework);
 
-	void remove(Homework homework);
+	int remove(Homework homework);
 
 }

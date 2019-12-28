@@ -65,41 +65,52 @@ public class EditHomeworkController extends Controller {
 		subjectsModel = FXCollections.observableArrayList(DaoFactory.INSTANCE.getSubjectDao().getAllSubjects());
 		subjectComboBox.setItems(subjectsModel);
 
+		deadlineTimePicker.set24HourView(true);
+
 		if (selectedHomework == null) { // if creating homework
 			subjectComboBox.getSelectionModel().selectFirst();
 		} else { // if editing homework
 			subjectComboBox.getSelectionModel().select(selectedHomework.getSubject());
 		}
 		bindBidirectionalWithhomeworkFxModel();
-		descriptionTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.trim().length() != 0 && oldValue != newValue) {
-				saveHomeworkButton.setDisable(false);
-			} else {
-				saveHomeworkButton.setDisable(true);
-			}
-		});
+
 	}
 
 	private void bindBidirectionalWithhomeworkFxModel() {
 		deadlineDatePicker.valueProperty().bindBidirectional(fxmodel.getDateProperty());
 		deadlineTimePicker.valueProperty().bindBidirectional(fxmodel.getTimeProperty());
+		subjectComboBox.valueProperty().bindBidirectional(fxmodel.getSubjectProperty());
 		descriptionTextArea.textProperty().bindBidirectional(fxmodel.descriptionProperty());
 	}
 
 	@FXML
 	void saveHomework(ActionEvent event) {
-		Subject selectedSubject = subjectComboBox.getSelectionModel().getSelectedItem();
-		Homework homework = fxmodel.getHomework(selectedSubject.getId());
-		homeworkDao.save(homework);
-		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was added");
+		final boolean allFieldsAreFilled = deadlineDatePicker.getValue() != null
+				&& deadlineTimePicker.getValue() != null && descriptionTextArea.getText() != null
+				&& subjectComboBox.getSelectionModel().getSelectedItem() != null;
+		if (allFieldsAreFilled) {
+			homeworkDao.save(fxmodel.getHomework());
+			closeWindow(event);
+			showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was added");
+		} else {
+			showAlert(AlertType.ERROR, "Error", "Failed!", "Fill all necessary fields");
+		}
 	}
 
 	@FXML
 	void removeHomework(ActionEvent event) {
-		Homework homework = fxmodel.getHomework(fxmodel.getSubject().getId());
-		homeworkDao.remove(homework);
-		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was removed");
+		final boolean allFieldsAreFilled = deadlineDatePicker.getValue() != null
+				&& deadlineTimePicker.getValue() != null && descriptionTextArea.getText() != null
+				&& subjectComboBox.getSelectionModel().getSelectedItem() != null;
+		if (allFieldsAreFilled) {
+			if (homeworkDao.remove(fxmodel.getHomework()) != 0) {
+				closeWindow(event);
+				showAlert(AlertType.INFORMATION, "Information", "Success!", "Homework was removed");
+			} else {
+				showAlert(AlertType.INFORMATION, "Information", "Failed!", "No such homework");
+			}
+		} else {
+			showAlert(AlertType.ERROR, "Error", "Failed!", "Fill all necessary fields");
+		}
 	}
 }

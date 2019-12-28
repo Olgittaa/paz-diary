@@ -9,5 +9,5 @@ public interface IExamDAO {
 
 	Exam save(Exam exam);
 
-	void remove(Exam exam);
+	int remove(Exam exam);
 }

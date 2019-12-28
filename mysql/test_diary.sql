@@ -8,14 +8,13 @@ CREATE TABLE IF NOT EXISTS `subject`
    `id_subject` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
    `name` VARCHAR (50) UNIQUE NOT NULL,
    `site` VARCHAR (100),
-   `email` VARCHAR (50),
+   `email` VARCHAR (50)
 );
-
 drop table if exists `lesson`;
 CREATE TABLE IF NOT EXISTS `lesson`
 (
    `id_lesson` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-   `date` DATETIME NOT NULL,
+   `from_date` DATETIME NOT NULL,
    `location` VARCHAR (45),
    `duration` DOUBLE NOT NULL,
    `type` ENUM
@@ -23,9 +22,10 @@ CREATE TABLE IF NOT EXISTS `lesson`
       'Lecture',
       'Practice'
    ),
-   `id_subject` BIGINT NOT NULL
+   `id_subject` BIGINT NOT NULL,
+	`till_date` date not null,
+	FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE
 );
-ALTER TABLE lesson ADD CONSTRAINT fk_lesson_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE;
 drop table if exists `homework`;
 CREATE TABLE IF NOT EXISTS `homework`
 (
@@ -33,18 +33,18 @@ CREATE TABLE IF NOT EXISTS `homework`
    `deadline` DATETIME NOT NULL,
    `description` VARCHAR (255) NOT NULL,
    `status` BOOLEAN DEFAULT FALSE,
-   `id_subject` BIGINT NOT NULL
+   `id_subject` BIGINT NOT NULL,
+   FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE
 );
-ALTER TABLE homework ADD CONSTRAINT fk_homework_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE;
 drop table if exists `exam`;
 CREATE TABLE IF NOT EXISTS `exam`
 (
    `id_exam` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
    `date` DATETIME NOT NULL,
    `location` VARCHAR (45),
-   `id_subject` BIGINT NOT NULL
+   `id_subject` BIGINT NOT NULL,
+   FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE
 );
-ALTER TABLE exam ADD CONSTRAINT fk_exam_subject FOREIGN KEY (id_subject) REFERENCES subject (id_subject) ON DELETE CASCADE;
 
 -- Fill subject table
 INSERT INTO `test_diary`.`subject` (`id_subject`, `name`, `site`, `email`) VALUES ('1', 'paz1a', 'https://paz1a.ics.upjs.sk/', 'juraj.sebej@gmail.com');
@@ -129,7 +129,7 @@ INSERT INTO `test_diary`.`lesson` (`id_lesson`, `date`, `location`, `duration`, 
 
 
 -- ==================
-SELECT * FROM `exam`;
-SELECT * FROM `homework`;
-SELECT * FROM `lesson`;
-SELECT * FROM `subject`;
+#SELECT * FROM `exam`;
+#SELECT * FROM `homework`;
+#SELECT * FROM `lesson`;
+#SELECT * FROM `subject`;

@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sk.upjs.paz.diary.entity.Exam;
 import sk.upjs.paz.diary.entity.Subject;
-import sk.upjs.paz.diary.persistence.DaoFactory;
 
 public class ExamFxModel {
 	private Long id;
@@ -83,13 +82,11 @@ public class ExamFxModel {
 		this.subjectProperty = subjectProperty;
 	}
 
-	public Exam getExam(Long idSubject) {
+	public Exam getExam() {
 		Exam exam = new Exam();
 		exam.setDateTime(LocalDateTime.of(getDate(), getTime()));
 		exam.setLocation(getLocation());
 		exam.setSubject(getSubject());
-		exam.setSubject(DaoFactory.INSTANCE.getSubjectDao().getSubjectById(idSubject));
-		exam.setId(id);
 		return exam;
 	}
 

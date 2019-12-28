@@ -77,7 +77,7 @@ public class SubjectFxModel {
 		return id;
 	}
 
-	public void clearValuesWithoutName() {
+	public void clearValuesBesidesName() {
 		setId(null);
 		setSite("");
 		setEmail("");		

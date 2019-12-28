@@ -10,7 +10,7 @@ public class Homework {
 	private String description;
 	private boolean status;
 	private Subject subject;
-	
+
 	public boolean getStatus() {
 		return status;
 	}
@@ -18,10 +18,7 @@ public class Homework {
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-	public String getFormatDeadline() {
-		return deadline.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
-	}
-	
+
 	public void setDeadline(LocalDateTime deadline) {
 		this.deadline = deadline;
 	}
@@ -53,15 +50,14 @@ public class Homework {
 	public Subject getSubject() {
 		return subject;
 	}
-	
+
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
 
 	@Override
 	public String toString() {
-		return "Homework [id=" + id + ", deadline=" + deadline + ", description=" + description + ", status=" + status
-				+ ", subject=" + subject + "]";
+		return subject + ": " + deadline.format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
 	}
 
 	@Override
@@ -81,5 +77,4 @@ public class Homework {
 		return Objects.equals(id, other.id);
 	}
 
-	
 }

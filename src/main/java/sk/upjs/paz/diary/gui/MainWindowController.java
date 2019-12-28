@@ -1,22 +1,21 @@
 package sk.upjs.paz.diary.gui;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -31,8 +30,6 @@ import sk.upjs.paz.diary.persistence.IExamDAO;
 import sk.upjs.paz.diary.persistence.IHomeworkDAO;
 
 public class MainWindowController extends Controller {
-	/** Logger */
-	static final Logger LOGGER = LoggerFactory.getLogger(MainWindowController.class);
 
 	@FXML
 	private ImageView downloadImageView;
@@ -68,46 +65,7 @@ public class MainWindowController extends Controller {
 	void initialize() {
 		initHomeworkCheckBoxes();
 		initExamTableView();
-	}
-
-	private void initHomeworkCheckBoxes() {
-		List<Homework> onWeekHomework = homeworkDao.getHomeworkOnWeekSorted();
-
-		for (Homework homework : onWeekHomework) {
-			String subjectName = homework.getSubject().getName();
-
-			JFXCheckBox checkBox = new JFXCheckBox(
-					subjectName + " until " + homework.getFormatDeadline() + "\n-" + homework.getDescription());
-			checkBox.setCheckedColor(Color.valueOf("#661616"));
-			checkBox.setSelected(homework.isDone());
-			homeworkFlowPane.getChildren().add(checkBox);
-
-			checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-					homework.setStatus(newValue);
-					homeworkDao.save(homework);
-				}
-			});
-
-			checkBox.setOnMouseClicked(event -> {
-				if (event.getButton() == MouseButton.SECONDARY) {
-					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 302,
-							420, 302);
-					refreshHomework();
-				}
-			});
-		}
-	}
-
-	private void initExamTableView() {
-		ObservableList<Exam> exams = FXCollections.observableArrayList(examDao.getAllExams());
-		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
-		dateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-		audienceTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-
-		examsTableView.setItems(exams);
-
+		
 		examsTableView.setOnMouseClicked(event -> {
 			if (event.getButton() == MouseButton.SECONDARY) {
 				loadWindow("editExam.fxml", "Edit exam",
@@ -116,6 +74,70 @@ public class MainWindowController extends Controller {
 				refreshExams();
 			}
 		});
+	}
+
+	private void refreshHomework() {
+		homeworkFlowPane.getChildren().clear();
+		initHomeworkCheckBoxes();
+	}
+	
+	private void initHomeworkCheckBoxes() {
+		List<Homework> onWeekHomework = homeworkDao.getHomeworkOnWeekSorted();
+
+		for (Homework homework : onWeekHomework) {
+			JFXCheckBox checkBox = new JFXCheckBox(homework.toString());
+			checkBox.setSelected(homework.isDone());
+			checkBox.setCheckedColor(Color.valueOf("#661616"));
+
+			Duration between = Duration.between(homework.getDeadline(), LocalDateTime.now());
+			long seconds = between.getSeconds();
+			boolean left1day = seconds <= 3600 * 24 && seconds > 60;
+			if (homework.getDeadline().isBefore(LocalDateTime.now())) {
+				checkBox.setTextFill(Color.rgb(255, 0, 0));
+				// https://stackoverflow.com/questions/41459107/how-to-show-a-title-for-image-when-i-hover-over-it-in-javafx
+				Tooltip.install(checkBox, new Tooltip("Time is over"));
+			}
+			if (left1day) {
+				checkBox.setTextFill(Color.rgb(255, 255, 0));
+				// https://stackoverflow.com/questions/41459107/how-to-show-a-title-for-image-when-i-hover-over-it-in-javafx
+				Tooltip.install(checkBox, new Tooltip("1 day left"));
+			}
+
+			checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+				homework.setStatus(newValue);
+				homeworkDao.save(homework);
+			});
+			checkBox.setOnMouseClicked(event -> {
+				if (event.getButton() == MouseButton.SECONDARY) {
+					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 302,
+							420, 302);
+					refreshHomework();
+				}
+				if (event.getButton() == MouseButton.PRIMARY && event.isControlDown()) {
+					loadWindow("homeworkDescription.fxml", "Description", new HomeworkDescriptionController(homework),
+							420, 302, 420, 302);
+				}
+			});
+			homeworkFlowPane.getChildren().add(checkBox);
+		}
+	}
+
+	private void refreshExams() {
+		examsTableView.getItems().clear();
+		initExamTableView();
+	}
+	
+	private void initExamTableView() {
+		List<Exam> allExams = examDao.getAllExams().stream()
+				.filter(e -> e.getDateTime().isAfter(LocalDateTime.now()))
+				.collect(Collectors.toList());
+
+		ObservableList<Exam> exams = FXCollections.observableArrayList(allExams);
+		subjectTableColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
+		dateTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+		audienceTableColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+
+		examsTableView.setItems(exams);
 	}
 
 	@FXML
@@ -130,16 +152,6 @@ public class MainWindowController extends Controller {
 		refreshHomework();
 	}
 
-	private void refreshHomework() {
-		homeworkFlowPane.getChildren().clear();
-		initHomeworkCheckBoxes();
-	}
-
-	private void refreshExams() {
-		examsTableView.getItems().clear();
-		initExamTableView();
-	}
-
 	@FXML
 	void scheduleImageViewOnMouseClicked(MouseEvent event) {
 		if (event.getButton() == MouseButton.PRIMARY) {
@@ -151,6 +163,6 @@ public class MainWindowController extends Controller {
 
 	@FXML
 	void extractPdfImageViewOnMouseClicked(MouseEvent event) {
-		loadWindow("fileChooser.fxml", "FileChooser");
+		loadWindow("directoryChooser.fxml", "Browse directory");
 	}
 }
