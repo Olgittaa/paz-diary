@@ -93,7 +93,7 @@ public class MainWindowController extends Controller {
 			long seconds = between.getSeconds();
 			boolean left1day = seconds <= 3600 * 24 && seconds > 60;
 			if (homework.getDeadline().isBefore(LocalDateTime.now())) {
-				checkBox.setTextFill(Color.rgb(255, 0, 0));
+				checkBox.setTextFill(Color.rgb(194, 31, 31));
 				// https://stackoverflow.com/questions/41459107/how-to-show-a-title-for-image-when-i-hover-over-it-in-javafx
 				Tooltip.install(checkBox, new Tooltip("Time is over"));
 			}
@@ -109,8 +109,8 @@ public class MainWindowController extends Controller {
 			});
 			checkBox.setOnMouseClicked(event -> {
 				if (event.getButton() == MouseButton.SECONDARY) {
-					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 302,
-							420, 302);
+					loadWindow("editHomework.fxml", "Edit homework", new EditHomeworkController(homework), 420, 280,
+							420, 280);
 					refreshHomework();
 				}
 				if (event.getButton() == MouseButton.PRIMARY && event.isControlDown()) {
