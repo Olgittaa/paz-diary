@@ -59,6 +59,7 @@ class ExamDaoTest {
 		Exam exam = new Exam();
 		exam.setSubject(subject);
 		exam.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
+		exam.setLocation("location");
 		Long id = dao.save(exam).getId();
 		exam.setId(id);
 		int afterSave = dao.getAllExams().size();
@@ -66,6 +67,8 @@ class ExamDaoTest {
 		
 		dao.remove(exam);
 		int afterDelete = dao.getAllExams().size();
+		System.out.println(afterSave);
+		System.out.println(afterDelete);
 		assertTrue(afterDelete == afterSave - 1);
 	}
 }

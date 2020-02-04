@@ -2,13 +2,10 @@ package sk.upjs.paz.diary.storage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -57,27 +54,17 @@ class LessonDaoTest {
 
 	@Test
 	void testGetWeekSchedule() {
-
 		List<Lesson> lessons = dao.getWeekSchedule();
-		if (lessons.size() != 0) {
-			Date date = Date.from(lessons.get(0).getDateTime().atZone(ZoneId.systemDefault()).toInstant());
-			Calendar calendar = new GregorianCalendar();
-			calendar.setTime(date);
-			int week = calendar.get(Calendar.WEEK_OF_YEAR);
-			for (int i = 1; i < lessons.size(); i++) {
-				Date newDate = Date.from(lessons.get(i).getDateTime().atZone(ZoneId.systemDefault()).toInstant());
-				Calendar newCalendar = new GregorianCalendar();
-				newCalendar.setTime(newDate);
-				assertEquals(week, newCalendar.get(Calendar.WEEK_OF_YEAR));
-			}
+		for (Lesson lesson : lessons) {
+			assertTrue(lesson.getTillDate().isBefore(LocalDateTime.now()));
 		}
 	}
 
 	@Test
 	void testGetDaySchedule() {
-		for (int i = 2; i < 7; i++) {
-			for (Lesson lesson : dao.getDaySchedule(i)) {
-				assertEquals((lesson.getDateTime().getDayOfWeek().getValue() + 1), i);
+		for (int i = 0; i < 7; i++) {
+			for (Lesson lesson : dao.getDaySchedule(DayOfWeek.of(i))) {
+				assertEquals((lesson.getDayOfWeek().getValue()), i);
 			}
 		}
 	}
@@ -93,8 +80,10 @@ class LessonDaoTest {
 		lesson.setSubject(subject);
 		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
-		lesson.setLocation("sa1c03");
-		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
+		lesson.setLocation("location");
+		lesson.setTillDate(LocalDateTime.of(2019, 12, 15, 0, 0));
+		lesson.setDayOfWeek(DayOfWeek.of(3));
+		lesson.setStartTime(LocalTime.now());
 
 		int beforeSave = dao.getAllLessons().size();
 		Long id = dao.save(lesson).getId();
@@ -114,8 +103,10 @@ class LessonDaoTest {
 		lesson.setSubject(subject);
 		lesson.setType(LessonType.PRACTICE);
 		lesson.setDuration(2);
-		lesson.setLocation("sa1c03");
-		lesson.setDateTime(LocalDateTime.of(2019, 12, 15, 14, 20));
+		lesson.setLocation("location");
+		lesson.setTillDate(LocalDateTime.of(2019, 12, 15, 0, 0));
+		lesson.setDayOfWeek(DayOfWeek.of(3));
+		lesson.setStartTime(LocalTime.now());
 
 		Long id = dao.save(lesson).getId();
 		lesson.setId(id);
