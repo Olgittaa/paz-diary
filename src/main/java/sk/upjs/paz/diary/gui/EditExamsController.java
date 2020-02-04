@@ -67,17 +67,6 @@ public class EditExamsController extends Controller {
 		}
 
 		bindBidirectionalWithExamFxModel();
-
-		datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Subject selectedItem = subjectComboBox.getSelectionModel().getSelectedItem();
-			if (selectedItem == null) {
-				saveExamButton.setDisable(true);
-			} else if (timePicker.valueProperty() != null && datePicker.valueProperty() != null) {
-				saveExamButton.setDisable(false);
-			} else {
-				saveExamButton.setDisable(true);
-			}
-		});
 	}
 
 	private void bindBidirectionalWithExamFxModel() {
@@ -92,9 +81,9 @@ public class EditExamsController extends Controller {
 		final boolean allFieldsAreFilled = datePicker.getValue() != null && timePicker.getValue() != null
 				&& locationTextField.getText() != null && subjectComboBox.getSelectionModel().getSelectedItem() != null;
 		if (allFieldsAreFilled) {
-			if(examDao.remove(fxmodel.getExam()) != 0) {
+			if (examDao.remove(fxmodel.getExam()) != 0) {
 				closeWindow(event);
-				showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was removed");				
+				showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was removed");
 			} else {
 				showAlert(AlertType.INFORMATION, "Information", "Failed!", "No such exam");
 			}
@@ -105,8 +94,14 @@ public class EditExamsController extends Controller {
 
 	@FXML
 	void saveExam(ActionEvent event) {
-		examDao.save(fxmodel.getExam());
-		closeWindow(event);
-		showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was added");
+		final boolean allFieldsAreFilled = datePicker.getValue() != null && timePicker.getValue() != null
+				&& subjectComboBox.getSelectionModel().getSelectedItem() != null;
+		if (allFieldsAreFilled) {
+			examDao.save(fxmodel.getExam());
+			closeWindow(event);
+			showAlert(AlertType.INFORMATION, "Information", "Success!", "Exam was added");
+		} else {
+			showAlert(AlertType.ERROR, "Error", "Failed!", "Fill all necessary fields");
+		}
 	}
 }

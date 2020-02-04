@@ -14,6 +14,8 @@ import sk.upjs.paz.diary.entity.Homework;
 import sk.upjs.paz.diary.entity.Subject;
 
 public class HomeworkFxModel {
+
+	private Long id;
 	private StringProperty descriptionProperty = new SimpleStringProperty();
 	private BooleanProperty statusProperty = new SimpleBooleanProperty();
 	private ObjectProperty<Subject> subjectProperty = new SimpleObjectProperty<>();
@@ -107,6 +109,7 @@ public class HomeworkFxModel {
 
 	public Homework getHomework() {
 		Homework hw = new Homework();
+		hw.setId(id);
 		hw.setDeadline(LocalDateTime.of(getDate(), getTime()));
 		hw.setDescription(getDescription());
 		hw.setStatus(getStatus());
@@ -119,6 +122,7 @@ public class HomeworkFxModel {
 		setTime(homework.getDeadline().toLocalTime());
 		setDescription(homework.getDescription());
 		setStatus(homework.getStatus());
+		id = homework.getId();
 		setSubject(homework.getSubject());
 	}
 

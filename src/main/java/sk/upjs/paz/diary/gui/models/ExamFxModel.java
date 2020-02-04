@@ -84,6 +84,7 @@ public class ExamFxModel {
 
 	public Exam getExam() {
 		Exam exam = new Exam();
+		exam.setId(id);
 		exam.setDateTime(LocalDateTime.of(getDate(), getTime()));
 		exam.setLocation(getLocation());
 		exam.setSubject(getSubject());
